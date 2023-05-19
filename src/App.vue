@@ -1,5 +1,5 @@
 <template>
-  <div>
-    <div class="w-[100px] h-[100px] bg-red-100">epic movie quotes</div>
-  </div>
+  <router-view v-slot="{ Component }">
+    <component :is="Component"></component>
+  </router-view>
 </template>
