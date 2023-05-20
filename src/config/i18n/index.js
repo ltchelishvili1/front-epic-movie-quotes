@@ -17,13 +17,13 @@ const messages = {
     createProfile: "პროფილის შექმნა",
     startJourney: "დაიწყე შენი მოგზაურობა!",
     name: "სახელი",
-    namePlaceholder: "მინიმუმ 3 მაქსიმუმ 15 ასო",
+    namePlaceholder: "სახელი",
     email: "ელ-ფოსტა",
-    emailPlaceholder: "შეიყვანე ელ-ფოსტა",
+    emailPlaceholder: "ელ-ფოსტის მისამართი",
     password: "პაროლი",
-    passwordPlaceholder: "მინიმუმ 8 მაქსიმუმ 15 ასო",
+    passwordPlaceholder: "პაროლი",
     confirmPassword: "დაადასტურე პაროლი",
-    confirmPasswordPlaceholder: "დაადასტურე პაროლი",
+    confirmPasswordPlaceholder: "პაროლი",
   },
 };
 

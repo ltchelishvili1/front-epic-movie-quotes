@@ -24,7 +24,7 @@
 
 <script>
 import { Field, ErrorMessage } from "vee-validate";
-import { ref, watch, onMounted, computed } from "vue";
+import { ref, watch } from "vue";
 import { useSignUpStore } from "@/stores/sign-up/index";
 
 export default {
