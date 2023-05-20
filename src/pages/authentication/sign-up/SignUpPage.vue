@@ -10,10 +10,9 @@
       </h1>
       <p class="text-[#6C757D] pb-[23px]">{{ $t("startJourney") }}</p>
 
-      <sign-up-form></sign-up-form>
-
+      <sign-up-form @click-button="handleButtonClick"> </sign-up-form>
       <div class="locale-changer">
-        <select v-model="$i18n.locale">
+        <select v-model="$i18n.locale" @change="setLocale($i18n.locale)">
           <option
             v-for="locale in $i18n.availableLocales"
             :key="`locale-${locale}`"
@@ -29,16 +28,21 @@
 
 <script>
 import SignUpForm from "@/components/sign-up/Form.vue";
+import { useForm } from "vee-validate";
+import { setLocale } from "@vee-validate/i18n";
 
 export default {
   components: { SignUpForm },
   setup() {
-    const handleButtonClick = () => {
+    const { handleSubmit } = useForm();
+
+    const handleButtonClick = handleSubmit(() => {
       console.log("clicked");
-    };
+    });
 
     return {
       handleButtonClick,
+      setLocale,
     };
   },
 };
