@@ -30,14 +30,20 @@
 import SignUpForm from "@/components/sign-up/Form.vue";
 import { useForm } from "vee-validate";
 import { setLocale } from "@vee-validate/i18n";
+import { useSignUpStore } from "@/stores/sign-up/index";
 
 export default {
   components: { SignUpForm },
   setup() {
+    const signUpStore = useSignUpStore();
     const { handleSubmit } = useForm();
 
-    const handleButtonClick = handleSubmit(() => {
-      console.log("clicked");
+    const handleButtonClick = handleSubmit(async () => {
+      try {
+        await signUpStore.registerUser();
+      } catch (error) {
+        throw new Error(error.message);
+      }
     });
 
     return {

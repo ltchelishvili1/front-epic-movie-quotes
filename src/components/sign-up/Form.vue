@@ -1,5 +1,5 @@
 <template>
-  <form   @submit.prevent="submitForm">
+  <form @submit.prevent="submitForm">
     <base-input
       :title="$t('name')"
       name="username"
@@ -24,7 +24,7 @@
     ></base-input>
     <base-input
       :title="$t('confirmPassword')"
-      name="confirm_password"
+      name="repeat_password"
       :placeholder="$t('confirmPasswordPlaceholder')"
       rules="required|confirmed:password"
       type="password"
@@ -47,7 +47,6 @@ export default {
   setup(_, { emit }) {
     const handleClick = () => {
       emit("click-button");
-  
     };
 
     return {

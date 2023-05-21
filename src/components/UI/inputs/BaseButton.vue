@@ -21,8 +21,9 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const handleClick = () => {
+    const handleClick = async () => {
       emit("click-button");
+     
     };
 
     const getButtonClass = computed(() =>
