@@ -13,9 +13,13 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vee-validate/i18n": "^4.9.4",
+    "@vee-validate/rules": "^4.9.4",
+    "axios": "^1.4.0",
     "pinia": "^2.0.36",
     "vee-validate": "^4.9.4",
     "vue": "^3.3.2",
+    "vue-i18n": "^9.2.2",
     "vue-router": "^4.2.0"
   },
   "devDependencies": {
