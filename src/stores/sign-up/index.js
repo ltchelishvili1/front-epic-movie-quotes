@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+import axios from "@/config/axios/index";
 
 export const useSignUpStore = defineStore("signUp", {
   state: () => ({
@@ -13,15 +13,8 @@ export const useSignUpStore = defineStore("signUp", {
 
     async registerUser() {
       try {
-        const response = await axios.post(
-          "http://127.0.0.1:8000/api/register",
-          this.registrationData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await axios.post("register", this.registrationData, {
+        });
 
         if (response.status !== 201) {
           throw new Error("Request failed with status " + response.status);
