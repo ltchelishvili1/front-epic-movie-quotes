@@ -6,9 +6,9 @@
       class="rounded-[10px] py-[53px] w-[600px] px-[120px] flex flex-col items-center justify-center fixed left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] bg-[#222030]"
     >
       <h1 class="text-white font-medium text-[32px]">
-        {{ $t("createProfile") }}
+        {{ $t("create_profile") }}
       </h1>
-      <p class="text-[#6C757D] pb-[23px]">{{ $t("startJourney") }}</p>
+      <p class="text-[#6C757D] pb-[23px]">{{ $t("start_journey") }}</p>
 
       <sign-up-form @click-button="handleButtonClick"> </sign-up-form>
       <div class="locale-changer">

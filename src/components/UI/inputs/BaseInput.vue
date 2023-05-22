@@ -10,7 +10,7 @@
         class="w-[360px] h-[38px] bg-[#CED4DA] border border-[#232323] p-4 mt-[8px]"
         :id="name"
         :name="name"
-        :type="type || 'text'"
+        :type="type"
         :placeholder="placeholder || name"
         :rules="rules"
         v-model="inputData"
@@ -53,6 +53,7 @@ export default {
     type: {
       type: String,
       required: false,
+      default: 'text'
     },
   },
 

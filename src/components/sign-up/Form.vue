@@ -3,14 +3,14 @@
     <base-input
       :title="$t('name')"
       name="username"
-      :placeholder="$t('namePlaceholder')"
+      :placeholder="$t('name_placeholder')"
       rules="required|min:3|max:15"
     ></base-input>
 
     <base-input
       :title="$t('email')"
       name="email"
-      :placeholder="$t('emailPlaceholder')"
+      :placeholder="$t('email_placeholder')"
       rules="required|email"
       type="email"
     ></base-input>
@@ -18,14 +18,14 @@
     <base-input
       :title="$t('password')"
       name="password"
-      :placeholder="$t('passwordPlaceholder')"
+      :placeholder="$t('password_placeholder')"
       rules="required|min:8|max:15"
       type="password"
     ></base-input>
     <base-input
-      :title="$t('confirmPassword')"
+      :title="$t('confirm_password')"
       name="repeat_password"
-      :placeholder="$t('confirmPasswordPlaceholder')"
+      :placeholder="$t('confirm_password_placeholder')"
       rules="required|confirmed:password"
       type="password"
     ></base-input>
