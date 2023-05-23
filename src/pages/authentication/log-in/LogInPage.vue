@@ -1,6 +1,6 @@
 <template>
   <auth-layout>
-    <sign-up-form @click-button="handleButtonClick"> </sign-up-form>
+    <log-in-form @click-button="handleButtonClick"></log-in-form>
     <div class="locale-changer">
       <select v-model="$i18n.locale" @change="setLocale($i18n.locale)">
         <option
@@ -16,26 +16,28 @@
 </template>
 
 <script>
-import SignUpForm from "@/components/sign-up/Form.vue";
+import LogInForm from "@/components/log-in/LogInForm.vue";
 import { useForm } from "vee-validate";
 import { setLocale } from "@vee-validate/i18n";
-import { useSignUpStore } from "@/stores/sign-up/index";
+import { useLogInStore } from "@/stores/log-in/index";
 import AuthLayout from "@/components/layout/AuthLayout.vue";
 
 export default {
-  components: { SignUpForm, AuthLayout },
+  components: { LogInForm, AuthLayout },
   setup() {
-    const signUpStore = useSignUpStore();
+    const logInStore = useLogInStore();
     const { handleSubmit } = useForm();
 
     const handleButtonClick = handleSubmit(async () => {
       try {
-        await signUpStore.registerUser();
+        const response = await logInStore.logInUser();
+
+        console.log(response)
+
       } catch (error) {
         throw new Error(error.message);
       }
     });
-
 
     return {
       handleButtonClick,

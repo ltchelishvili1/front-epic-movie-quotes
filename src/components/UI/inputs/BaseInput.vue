@@ -25,7 +25,6 @@
 <script>
 import { Field, ErrorMessage } from "vee-validate";
 import { ref, watch } from "vue";
-import { useSignUpStore } from "@/stores/sign-up/index";
 
 export default {
   props: {
@@ -62,14 +61,13 @@ export default {
     ErrorMessage,
   },
 
-  setup({ name }) {
+  setup({ name }, {emit}) {
     const inputData = ref("");
-    const signUpStore = useSignUpStore();
 
     watch(inputData, (newValue) => {
       const key = name;
       const value = newValue;
-      signUpStore.setInputValue({ key, value });
+      emit('set-input-value', {key,value})
     });
 
     return {
