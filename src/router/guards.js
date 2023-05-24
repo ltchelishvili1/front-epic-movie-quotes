@@ -5,7 +5,7 @@ export const authenticateUser = async (to, from, next) => {
   const authStore = useAuthStore();
   if (authStore.authenticated === null) {
     try {
-      const response = await axios.get("me");
+      const response = await axios.get("user");
       authStore.authenticated = true;
       authStore.login(response.data.user);
     } catch (err) {
