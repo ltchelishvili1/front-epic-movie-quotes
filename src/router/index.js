@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import SignUpPage from "@/pages/authentication/sign-up/SignUpPage.vue";
 import LogInPage from "@/pages/authentication/log-in/LogInPage.vue";
-import { checkUser } from "@/router/guards";
+import { authenticateUser } from "@/router/guards";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,6 +24,6 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(checkUser);
+router.beforeEach(authenticateUser);
 
 export default router;

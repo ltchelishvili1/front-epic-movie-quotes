@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/stores/user/index";
 import axios from "@/config/axios";
 
-export const checkUser = async (to, from, next) => {
+export const authenticateUser = async (to, from, next) => {
   const authStore = useAuthStore();
   if (authStore.authenticated === null) {
     try {
