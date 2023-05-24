@@ -2,15 +2,6 @@
   <auth-layout>
     <sign-up-form @click-button="handleButtonClick"> </sign-up-form>
     <div class="locale-changer">
-      <select v-model="$i18n.locale" @change="setLocale($i18n.locale)">
-        <option
-          v-for="locale in $i18n.availableLocales"
-          :key="`locale-${locale}`"
-          :value="locale"
-        >
-          {{ locale }}
-        </option>
-      </select>
     </div>
   </auth-layout>
 </template>
@@ -18,7 +9,6 @@
 <script>
 import SignUpForm from "@/components/sign-up/Form.vue";
 import { useForm } from "vee-validate";
-import { setLocale } from "@vee-validate/i18n";
 import { useSignUpStore } from "@/stores/sign-up/index";
 import AuthLayout from "@/components/layout/AuthLayout.vue";
 
@@ -39,7 +29,7 @@ export default {
 
     return {
       handleButtonClick,
-      setLocale,
+      
     };
   },
 };
