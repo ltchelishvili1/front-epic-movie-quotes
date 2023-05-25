@@ -1,8 +1,6 @@
 <template>
   <auth-layout>
     <log-in-form @click-button="handleButtonClick"></log-in-form>
-    <div class="locale-changer">
-    </div>
   </auth-layout>
 </template>
 
@@ -18,12 +16,9 @@ export default {
     const logInStore = useLogInStore();
     const { handleSubmit } = useForm();
 
-    const handleButtonClick = handleSubmit(async () => {
-      try {
-        await logInStore.logInUser();
-      } catch (error) {
-        throw new Error(error.message);
-      }
+    const handleButtonClick = handleSubmit(async (_, actions) => {
+      await logInStore.logInUser();
+      actions.setErrors(logInStore.errors);
     });
 
     return {

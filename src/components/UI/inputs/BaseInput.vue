@@ -17,6 +17,7 @@
       />
       <div class="mt-[6px]">
         <ErrorMessage class="text-red-500 ml-4" :name="name" />
+        <p class="text-red-500 ml-4">{{ errors }}</p>
       </div>
     </div>
   </div>
@@ -24,7 +25,7 @@
 
 <script>
 import { Field, ErrorMessage } from "vee-validate";
-import { ref, watch } from "vue";
+import { ref, watch, computed, toRef, inject } from "vue";
 
 export default {
   props: {
@@ -52,7 +53,7 @@ export default {
     type: {
       type: String,
       required: false,
-      default: 'text'
+      default: "text",
     },
   },
 
@@ -61,17 +62,21 @@ export default {
     ErrorMessage,
   },
 
-  setup({ name }, {emit}) {
+  setup({ name }, { emit }) {
     const inputData = ref("");
-
     watch(inputData, (newValue) => {
       const key = name;
       const value = newValue;
-      emit('set-input-value', {key,value})
+      emit("set-input-value", { key, value });
     });
-
+    const errors = inject("getErrors");
+    const displayErrors = computed(
+      () => errors.value[name] && errors.value[name][0]
+    );
+    computed(() => errors.value[name] && errors.value[name][0]);
     return {
       inputData,
+      errors: displayErrors,
     };
   },
 };

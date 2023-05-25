@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="submitForm">
+  <Form @submit="handleClick">
     <base-input
       :title="$t('email')"
       name="username"
@@ -18,31 +18,42 @@
       @set-input-value="setInputValue"
     ></base-input>
 
-    <base-button buttonClass="primary" @click-button="handleClick"
+    <base-button buttonClass="primary"
       >Get started</base-button
     >
 
-    <base-button buttonClass="google" @click-button="handleClick">
+    <base-button buttonClass="google" displayIcon @click-button="handleClick">
       Sign up with Google</base-button
     >
-  </form>
+  </Form>
 </template>
 
 <script>
 import BaseInput from "@/components/UI/inputs/BaseInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import { useLogInStore } from "@/stores/log-in/index";
+import { Form } from "vee-validate";
+import { provide, toRef } from 'vue';
+
 export default {
-  components: { BaseInput, BaseButton },
+  components: { BaseInput, BaseButton , Form},
   setup(_, { emit }) {
-    const signUpStore = useLogInStore();
+    const logInStore = useLogInStore();
     const handleClick = () => {
       emit("click-button");
     };
 
     const setInputValue = ({ key, value }) => {
-      signUpStore.setInputValue({ key, value });
+      logInStore.setInputValue({ key, value });
     };
+
+
+    const getErrors = () => {
+      return toRef(logInStore, "errors");
+    }
+
+    provide('getErrors', getErrors());
+
 
     return {
       handleClick,
