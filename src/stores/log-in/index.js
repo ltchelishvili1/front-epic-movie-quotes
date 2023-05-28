@@ -14,7 +14,16 @@ export const useLogInStore = defineStore("logIn", {
 
     async logInUser() {
       try {
-        const response = await axios.post("login", this.logInData, {});
+        const response = await axios.post(
+          "login",
+          {
+            ...this.logInData,
+            remember_me: this.logInData.remember_me
+              ? this.logInData.remember_me
+              : false,
+          },
+          {}
+        );
 
         if (response.status !== 200) {
           throw new Error("Request failed with status " + response.status);
@@ -22,6 +31,15 @@ export const useLogInStore = defineStore("logIn", {
         return response;
       } catch (error) {
         this.errors = error.response?.data.errors;
+        throw new Error(error.message);
+      }
+    },
+
+    async logOutUser() {
+      try {
+        const response = await axios.get("logout");
+        return response;
+      } catch (error) {
         throw new Error(error.message);
       }
     },

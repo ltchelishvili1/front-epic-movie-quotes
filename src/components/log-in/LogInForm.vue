@@ -8,7 +8,6 @@
       type="email"
       @set-input-value="setInputValue"
     ></base-input>
-
     <base-input
       :title="$t('password')"
       name="password"
@@ -17,14 +16,19 @@
       type="password"
       @set-input-value="setInputValue"
     ></base-input>
-
-    <base-button buttonClass="primary"
-      >Get started</base-button
-    >
-
+    <base-check-box
+      :title="$t('remember_me')"
+      name="remember_me"
+      :placeholder="$t('password_placeholder')"
+      type="checkbox"
+      value="true"
+      @set-input-value="setInputValue"
+    ></base-check-box>
+    <base-button buttonClass="primary">{{ $t("get_started") }}</base-button>
     <base-button buttonClass="google" displayIcon @click-button="handleClick">
-      Sign up with Google</base-button
+      {{ $t("sign_up_with_google") }}</base-button
     >
+
   </Form>
 </template>
 
@@ -33,10 +37,11 @@ import BaseInput from "@/components/UI/inputs/BaseInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import { useLogInStore } from "@/stores/log-in/index";
 import { Form } from "vee-validate";
-import { provide, toRef } from 'vue';
+import { provide, toRef } from "vue";
+import BaseCheckBox from '@/components/UI/inputs/BaseCheckBox.vue';
 
 export default {
-  components: { BaseInput, BaseButton , Form},
+  components: { BaseInput, BaseButton, Form,BaseCheckBox },
   setup(_, { emit }) {
     const logInStore = useLogInStore();
     const handleClick = () => {
@@ -47,13 +52,11 @@ export default {
       logInStore.setInputValue({ key, value });
     };
 
-
     const getErrors = () => {
       return toRef(logInStore, "errors");
-    }
+    };
 
-    provide('getErrors', getErrors());
-
+    provide("getErrors", getErrors());
 
     return {
       handleClick,

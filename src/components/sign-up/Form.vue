@@ -33,9 +33,9 @@
       type="password"
       @set-input-value="setInputValue"
     ></base-input>
-    <base-button buttonClass="primary">Get started</base-button>
+    <base-button buttonClass="primary">{{ $t("get_started") }}</base-button>
     <base-button buttonClass="google" displayIcon @click-button="handleClick">
-      Sign up with Google</base-button
+      {{ $t("sign_up_with_google") }}</base-button
     >
   </Form>
 </template>
@@ -45,9 +45,10 @@ import BaseInput from "@/components/UI/inputs/BaseInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import { useSignUpStore } from "@/stores/sign-up/index";
 import { Form } from "vee-validate";
-import { provide, toRef } from 'vue';
+import { provide, toRef } from "vue";
 
 export default {
+  emits: ["click-button"],
   components: { BaseInput, BaseButton, Form },
   setup(_, { emit }) {
     const signUpStore = useSignUpStore();
@@ -61,14 +62,14 @@ export default {
 
     const getErrors = () => {
       return toRef(signUpStore, "errors");
-    }
+    };
 
-    provide('getErrors', getErrors());
+    provide("getErrors", getErrors());
 
     return {
       handleClick,
       setInputValue,
-      getErrors
+      getErrors,
     };
   },
 };

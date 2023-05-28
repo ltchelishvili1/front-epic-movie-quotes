@@ -17,20 +17,30 @@
             {{ locale }}
           </option>
         </select>
-        <base-button
-          buttonClass="primary"
-          class="w-[120px] h-[38px] mr-[15px]"
-          @click-button="openSignUpModal"
-          >{{ $t("sign_up") }}</base-button
-        >
+        <div v-if="user">
+          <base-button
+            buttonClass="primary"
+            class="w-[120px] h-[38px] mr-[15px]"
+            @click-button="logOutUser"
+            >{{ $t("log_out") }}</base-button
+          >
+        </div>
+        <div v-else class="flex items-center justify-center">
+          <base-button
+            buttonClass="primary"
+            class="w-[220px] h-[38px] mr-[15px]"
+            @click-button="openSignUpModal"
+            >{{ $t("sign_up") }}</base-button
+          >
 
-        <base-button
-          class="w-[120px] h-[38px]"
-          buttonClass="google"
-          @click-button="openLogInModal"
-        >
-          {{ $t("log_in") }}</base-button
-        >
+          <base-button
+            class="w-[120px] h-[38px]"
+            buttonClass="google"
+            @click-button="openLogInModal"
+          >
+            {{ $t("log_in") }}</base-button
+          >
+        </div>
       </div>
     </nav>
     <header class="mt-[344px] flex flex-col items-center justify-center">
@@ -41,8 +51,9 @@
         <span class="mt-[10px]">{{ $t("from_million_movies") }}</span>
       </p>
       <base-button
+      v-if="!user"
         buttonClass="primary"
-        class="w-[120px] h-[38px] mr-[15px] mt-[30px]"
+        class="w-[133px] h-[38px] mr-[15px] mt-[30px]"
         @click-button="openLogInModal"
         >{{ $t("get_started") }}</base-button
       >
@@ -61,12 +72,17 @@
 <script>
 import { setLocale } from "@vee-validate/i18n";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/user/index";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import InterstellarBackground from "@/assets/images/InterstellarBackground.jpg";
+import { useLogInStore } from "@/stores/log-in/index";
+
 
 export default {
   components: { BaseButton, InterstellarBackground },
   setup() {
+    const authStore = useAuthStore();
+    const logInStore = useLogInStore();
     const router = useRouter();
     const openSignUpModal = () => {
       router.push({ name: "sign-up" });
@@ -74,11 +90,18 @@ export default {
     const openLogInModal = () => {
       router.push({ name: "log-in" });
     };
+
+    const logOutUser = async () => {
+      await logInStore.logOutUser();
+      window.location.reload();
+    };
     return {
       setLocale,
       openSignUpModal,
       openLogInModal,
       InterstellarBackground,
+      user: authStore.$state.user,
+      logOutUser,
     };
   },
 };
