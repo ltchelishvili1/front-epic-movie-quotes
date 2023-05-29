@@ -22,7 +22,6 @@
 import AuthLayout from "@/components/layout/AuthLayout.vue";
 import IconEmailVerification from "@/components/icons/IconEmailVerification.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
-import { useSignUpStore } from "@/stores/sign-up/index";
 import { useRoute } from 'vue-router';
 
 export default {

@@ -45,9 +45,8 @@
 import BaseInput from "@/components/UI/inputs/BaseInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 
-
 import { Form } from "vee-validate";
-import {ref} from "vue";
+import { ref } from "vue";
 
 import axios from "@/config/axios/index";
 
@@ -63,7 +62,6 @@ export default {
     };
 
     const handleClick = async () => {
-      console.log(signUpData);
       try {
         const response = await axios.post(
           "register",
@@ -72,17 +70,13 @@ export default {
           },
           {}
         );
-        console.log(signUpData);
         if (response.status !== 201) {
           throw new Error("Request failed with status " + response.status);
         }
       } catch (error) {
-        setTimeout(() => {
-          console.log(error);
-          errorMessage.value = error.response.data.errors.email
-            ? error.response.data.errors.email[0]
-            : error.response.data.errors.username[0];
-        });
+        errorMessage.value = error.response.data.errors.email
+          ? error.response.data.errors.email[0]
+          : error.response.data.errors.username[0];
       }
     };
 

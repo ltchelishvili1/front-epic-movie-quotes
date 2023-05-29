@@ -17,7 +17,7 @@
             {{ locale }}
           </option>
         </select>
-        <div v-if="user">
+        <div v-if="authStore.authenticated">
           <base-button
             buttonClass="primary"
             class="w-[120px] h-[38px] mr-[15px]"
@@ -50,8 +50,9 @@
         {{ $t("find_any_quote") }} <br />
         <span class="mt-[10px]">{{ $t("from_million_movies") }}</span>
       </p>
+      <p class="text-white">{{ authStore.authenticated }}</p>
       <base-button
-        v-if="!user"
+        v-if="!authStore.authenticated"
         buttonClass="primary"
         class="w-[133px] h-[38px] mr-[15px] mt-[30px]"
         @click-button="openLogInModal"
@@ -92,17 +93,17 @@ export default {
     const logOutUser = async () => {
       try {
         await axios.get("logout");
-        window.location.reload();
+        authStore.setAuth(false);
       } catch (error) {
-        throw new Error(error.message);
-      } 
+        throw new Error(error);
+      }
     };
     return {
       setLocale,
       openSignUpModal,
       openLogInModal,
       InterstellarBackground,
-      user: authStore.$state.user,
+      authStore,
       logOutUser,
     };
   },

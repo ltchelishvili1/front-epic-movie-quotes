@@ -20,6 +20,7 @@ const router = createRouter({
       path: "/landing",
       name: "landing",
       component: LandingPage,
+      beforeEnter: authenticateUser,
       children: [
         {
           path: "/sign-up",
@@ -50,6 +51,5 @@ const router = createRouter({
     {},
   ],
 });
-router.beforeEach(authenticateUser);
 
 export default router;
