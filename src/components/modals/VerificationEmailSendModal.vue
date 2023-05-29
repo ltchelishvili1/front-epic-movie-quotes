@@ -23,6 +23,7 @@ import AuthLayout from "@/components/layout/AuthLayout.vue";
 import IconEmailVerification from "@/components/icons/IconEmailVerification.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import { useSignUpStore } from "@/stores/sign-up/index";
+import { useRoute } from 'vue-router';
 
 export default {
   components: {
@@ -31,11 +32,11 @@ export default {
     BaseButton,
   },
   setup() {
-    const signUpStore = useSignUpStore();
+    const route = useRoute()
 
     const redirectToEmail = () => {
       let domain;
-      let email = signUpStore.$state.registrationData.email;
+      let email = route.params.email;
       if (email) {
         domain = email.split("@")[1];
       } else {
@@ -44,11 +45,10 @@ export default {
 
       let redirectLink = `https://${domain}`;
 
-      window.location.href = redirectLink;
+      window.open(redirectLink, "_blank");
     };
 
     return {
-      email: signUpStore.$state.registrationData.email,
       redirectToEmail,
     };
   },

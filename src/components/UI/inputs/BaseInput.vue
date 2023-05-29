@@ -17,23 +17,17 @@
       />
       <div class="mt-[6px]">
         <ErrorMessage class="text-red-500 ml-4" :name="name" />
-        <p class="text-red-500 ml-4">{{ errors }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Field, ErrorMessage } from "vee-validate";
-import { ref, watch, computed, toRef, inject } from "vue";
+import { Field, ErrorMessage, useForm } from "vee-validate";
+import { computed, inject, onBeforeMount, onMounted, ref, watch } from "vue";
 
 export default {
   props: {
-    page: {
-      type: String,
-      required: false,
-      default: "identification",
-    },
     title: {
       type: String,
       required: false,
@@ -55,6 +49,11 @@ export default {
       required: false,
       default: "text",
     },
+
+    errors: {
+      type: Object,
+      required: false,
+    },
   },
 
   components: {
@@ -69,14 +68,9 @@ export default {
       const value = newValue;
       emit("set-input-value", { key, value });
     });
-    const errors = inject("getErrors");
-    const displayErrors = computed(
-      () => errors.value[name] && errors.value[name][0]
-    );
-    computed(() => errors.value[name] && errors.value[name][0]);
+
     return {
       inputData,
-      errors: displayErrors,
     };
   },
 };

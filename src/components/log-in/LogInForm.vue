@@ -15,7 +15,9 @@
       rules="required|min:8|max:15"
       type="password"
       @set-input-value="setInputValue"
+      :errors="errors"
     ></base-input>
+    <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
     <base-check-box
       :title="$t('remember_me')"
       name="remember_me"
@@ -28,39 +30,62 @@
     <base-button buttonClass="google" displayIcon @click-button="handleClick">
       {{ $t("sign_up_with_google") }}</base-button
     >
-
   </Form>
 </template>
 
 <script>
 import BaseInput from "@/components/UI/inputs/BaseInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
-import { useLogInStore } from "@/stores/log-in/index";
+import BaseCheckBox from "@/components/UI/inputs/BaseCheckBox.vue";
+
 import { Form } from "vee-validate";
-import { provide, toRef } from "vue";
-import BaseCheckBox from '@/components/UI/inputs/BaseCheckBox.vue';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+import axios from "@/config/axios/index";
 
 export default {
-  components: { BaseInput, BaseButton, Form,BaseCheckBox },
-  setup(_, { emit }) {
-    const logInStore = useLogInStore();
-    const handleClick = () => {
-      emit("click-button");
-    };
+  components: { BaseInput, BaseButton, Form, BaseCheckBox },
+  setup() {
+    const logInData = ref({});
 
+    const errorMessage = ref(null);
+
+    const router = useRouter();
     const setInputValue = ({ key, value }) => {
-      logInStore.setInputValue({ key, value });
+      logInData.value[key] = value;
     };
 
-    const getErrors = () => {
-      return toRef(logInStore, "errors");
-    };
+    const handleButtonClick = async () => {
+      try {
+        const response = await axios.post(
+          "login",
+          {
+            ...logInData.value,
+            remember_me: logInData.value.remember_me
+              ? logInData.value.remember_me
+              : false,
+          },
+          {}
+        );
+        if (response.status !== 200) {
+          throw new Error("Request failed with status " + response.status);
+        }
+      } catch (error) {
+        setTimeout(() => {
+          errorMessage.value = error.response.data.errors.password[0];
+        });
+      }
 
-    provide("getErrors", getErrors());
+      router.replace({ name: "landing" }).then(() => {
+        location.reload();
+      });
+    };
 
     return {
-      handleClick,
+      handleClick: handleButtonClick,
       setInputValue,
+      errors: errorMessage,
     };
   },
 };

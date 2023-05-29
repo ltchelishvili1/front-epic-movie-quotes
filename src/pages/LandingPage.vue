@@ -51,7 +51,7 @@
         <span class="mt-[10px]">{{ $t("from_million_movies") }}</span>
       </p>
       <base-button
-      v-if="!user"
+        v-if="!user"
         buttonClass="primary"
         class="w-[133px] h-[38px] mr-[15px] mt-[30px]"
         @click-button="openLogInModal"
@@ -73,16 +73,14 @@
 import { setLocale } from "@vee-validate/i18n";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/user/index";
+import axios from "@/config/axios/index";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import InterstellarBackground from "@/assets/images/InterstellarBackground.jpg";
-import { useLogInStore } from "@/stores/log-in/index";
-
 
 export default {
   components: { BaseButton, InterstellarBackground },
   setup() {
     const authStore = useAuthStore();
-    const logInStore = useLogInStore();
     const router = useRouter();
     const openSignUpModal = () => {
       router.push({ name: "sign-up" });
@@ -92,8 +90,12 @@ export default {
     };
 
     const logOutUser = async () => {
-      await logInStore.logOutUser();
-      window.location.reload();
+      try {
+        await axios.get("logout");
+        window.location.reload();
+      } catch (error) {
+        throw new Error(error.message);
+      } 
     };
     return {
       setLocale,

@@ -34,7 +34,7 @@ const router = createRouter({
           beforeEnter: Guest,
         },
         {
-          path: "/verification-email-send",
+          path: "/verification-email-send/email=:email",
           name: "verification-email-send",
           component: VerificationEmailSend,
           beforeEnter: Guest,

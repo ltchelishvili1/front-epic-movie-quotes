@@ -33,6 +33,7 @@
       type="password"
       @set-input-value="setInputValue"
     ></base-input>
+    <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
     <base-button buttonClass="primary">{{ $t("get_started") }}</base-button>
     <base-button buttonClass="google" displayIcon @click-button="handleClick">
       {{ $t("sign_up_with_google") }}</base-button
@@ -43,33 +44,52 @@
 <script>
 import BaseInput from "@/components/UI/inputs/BaseInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
-import { useSignUpStore } from "@/stores/sign-up/index";
+
+
 import { Form } from "vee-validate";
-import { provide, toRef } from "vue";
+import {ref} from "vue";
+
+import axios from "@/config/axios/index";
 
 export default {
-  emits: ["click-button"],
   components: { BaseInput, BaseButton, Form },
-  setup(_, { emit }) {
-    const signUpStore = useSignUpStore();
-    const handleClick = async () => {
-      emit("click-button");
-    };
+  setup() {
+    const signUpData = ref({});
+    const errorMessage = ref(null);
 
     const setInputValue = ({ key, value }) => {
-      signUpStore.setInputValue({ key, value });
+      errorMessage.value = null;
+      signUpData.value[key] = value;
     };
 
-    const getErrors = () => {
-      return toRef(signUpStore, "errors");
+    const handleClick = async () => {
+      console.log(signUpData);
+      try {
+        const response = await axios.post(
+          "register",
+          {
+            ...signUpData.value,
+          },
+          {}
+        );
+        console.log(signUpData);
+        if (response.status !== 201) {
+          throw new Error("Request failed with status " + response.status);
+        }
+      } catch (error) {
+        setTimeout(() => {
+          console.log(error);
+          errorMessage.value = error.response.data.errors.email
+            ? error.response.data.errors.email[0]
+            : error.response.data.errors.username[0];
+        });
+      }
     };
-
-    provide("getErrors", getErrors());
 
     return {
       handleClick,
       setInputValue,
-      getErrors,
+      error: errorMessage,
     };
   },
 };
