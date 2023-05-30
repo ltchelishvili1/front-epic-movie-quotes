@@ -1,3 +1,4 @@
+
 <template>
   <div class="w-full bg-dark-bg">
     <router-view></router-view>
@@ -17,7 +18,7 @@
             {{ locale }}
           </option>
         </select>
-        <div v-if="authStore.authenticated">
+        <div v-if="userStore.authenticated">
           <base-button
             buttonClass="primary"
             class="w-[120px] h-[38px] mr-[15px]"
@@ -50,9 +51,9 @@
         {{ $t("find_any_quote") }} <br />
         <span class="mt-[10px]">{{ $t("from_million_movies") }}</span>
       </p>
-      <p class="text-white">{{ authStore.authenticated }}</p>
+      <p class="text-white">{{ userStore.authenticated }}</p>
       <base-button
-        v-if="!authStore.authenticated"
+        v-if="!userStore.authenticated"
         buttonClass="primary"
         class="w-[133px] h-[38px] mr-[15px] mt-[30px]"
         @click-button="openLogInModal"
@@ -73,7 +74,7 @@
 <script>
 import { setLocale } from "@vee-validate/i18n";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/user/index";
+import { useUserStore } from "@/stores/user/index";
 import axios from "@/config/axios/index";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import InterstellarBackground from "@/assets/images/InterstellarBackground.jpg";
@@ -81,7 +82,7 @@ import InterstellarBackground from "@/assets/images/InterstellarBackground.jpg";
 export default {
   components: { BaseButton, InterstellarBackground },
   setup() {
-    const authStore = useAuthStore();
+    const userStore = useUserStore();
     const router = useRouter();
     const openSignUpModal = () => {
       router.push({ name: "sign-up" });
@@ -93,7 +94,7 @@ export default {
     const logOutUser = async () => {
       try {
         await axios.get("logout");
-        authStore.setAuth(false);
+        userStore.setAuth(false);
       } catch (error) {
         throw new Error(error);
       }
@@ -103,9 +104,9 @@ export default {
       openSignUpModal,
       openLogInModal,
       InterstellarBackground,
-      authStore,
+      userStore,
       logOutUser,
     };
   },
 };
-</script>
+</script> 

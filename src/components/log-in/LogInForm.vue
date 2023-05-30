@@ -41,7 +41,7 @@ import BaseCheckBox from "@/components/UI/inputs/BaseCheckBox.vue";
 import { Form } from "vee-validate";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/user/index";
+import { useUserStore } from "@/stores/user/index";
 
 import axios from "@/config/axios/index";
 
@@ -49,7 +49,7 @@ export default {
   components: { BaseInput, BaseButton, Form, BaseCheckBox },
   setup() {
     const logInData = ref({});
-    const authStore = useAuthStore();
+    const userStore = useUserStore();
     const errorMessage = ref(null);
 
     const router = useRouter();
@@ -72,7 +72,7 @@ export default {
         if (response.status !== 200) {
           throw new Error("Request failed with status " + response.status);
         }
-        authStore.setAuth(true);
+        userStore.setAuth(true);
         router.push({ name: "landing" });
       } catch (error) {
         errorMessage.value = error.response.data.errors.password[0];
@@ -86,4 +86,4 @@ export default {
     };
   },
 };
-</script>
+</script> 
