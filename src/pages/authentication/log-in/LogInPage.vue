@@ -1,34 +1,25 @@
 <template>
   <auth-layout>
-    <log-in-form @click-button="handleButtonClick"></log-in-form>
-    <div class="locale-changer">
-    </div>
+    <log-in-form
+    
+    ></log-in-form>
+    <p class="flex items-center justify-center mt-[40px]">
+      <span class="text-[#6C757D]">{{ $t("not_have_an_account") }}</span>
+      <router-link :to="{ name: 'sign-up' }" class="text-[#0D6EFD] ml-[4px]">{{
+        $t("sign_up")
+      }}</router-link>
+    </p>
   </auth-layout>
 </template>
 
 <script>
 import LogInForm from "@/components/log-in/LogInForm.vue";
-import { useForm } from "vee-validate";
-import { useLogInStore } from "@/stores/log-in/index";
+
 import AuthLayout from "@/components/layout/AuthLayout.vue";
+
 
 export default {
   components: { LogInForm, AuthLayout },
-  setup() {
-    const logInStore = useLogInStore();
-    const { handleSubmit } = useForm();
 
-    const handleButtonClick = handleSubmit(async () => {
-      try {
-        await logInStore.logInUser();
-      } catch (error) {
-        throw new Error(error.message);
-      }
-    });
-
-    return {
-      handleButtonClick,
-    };
-  },
 };
 </script>

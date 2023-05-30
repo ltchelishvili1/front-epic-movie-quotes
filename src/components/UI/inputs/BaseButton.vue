@@ -1,6 +1,8 @@
 <template>
   <button :class="getButtonClass" @click="handleClick">
-    <span v-if="isGoogle" class="mr-[8px]"><icon-google></icon-google> </span>
+    <span v-if="displayIcon" class="mr-[8px]"
+      ><icon-google></icon-google>
+    </span>
     <slot></slot>
   </button>
 </template>
@@ -19,11 +21,14 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    displayIcon: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { emit }) {
     const handleClick = async () => {
       emit("click-button");
-     
     };
 
     const getButtonClass = computed(() =>
@@ -34,15 +39,11 @@ export default defineComponent({
         : ""
     );
 
-    const isGoogle = computed(() => props.buttonClass === "google");
-
     return {
       handleClick,
       getButtonClass,
-      isGoogle,
+      displayIcon: props.displayIcon,
     };
   },
 });
 </script>
-
-<style scoped></style>

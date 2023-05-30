@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useAuthStore } from "@/stores/user";
+import { useUserStore } from "@/stores/user/index";
 import router from "@/router/index";
 
 const axiosInstance = axios.create({
@@ -17,8 +17,8 @@ axiosInstance.interceptors.response.use(
   },
   function (error) {
     if (error.response.status == 401) {
-      const authStore = useAuthStore();
-      authStore.authenticated = false;
+      const userStore = useUserStore();
+      userStore.authenticated = false;
       router.push({ name: "main" });
     }
     return Promise.reject(error);

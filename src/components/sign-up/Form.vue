@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="submitForm">
+  <Form @submit="handleClick">
     <base-input
       :title="$t('name')"
       name="username"
@@ -33,37 +33,57 @@
       type="password"
       @set-input-value="setInputValue"
     ></base-input>
-    <base-button buttonClass="primary" @click-button="handleClick"
-      >Get started</base-button
+    <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
+    <base-button buttonClass="primary">{{ $t("get_started") }}</base-button>
+    <base-button buttonClass="google" displayIcon @click-button="handleClick">
+      {{ $t("sign_up_with_google") }}</base-button
     >
-    <base-button buttonClass="google" @click-button="handleClick">
-      Sign up with Google</base-button
-    >
-  </form>
+  </Form>
 </template>
 
 <script>
 import BaseInput from "@/components/UI/inputs/BaseInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
-import { useSignUpStore } from "@/stores/sign-up/index";
+
+import { Form } from "vee-validate";
+import { ref } from "vue";
+
+import axios from "@/config/axios/index";
 
 export default {
-  components: { BaseInput, BaseButton },
-  setup(_, { emit }) {
-    const signUpStore = useSignUpStore();
-
-    const handleClick = () => {
-      emit("click-button");
-    };
-
+  components: { BaseInput, BaseButton, Form },
+  setup() {
+    const signUpData = ref({});
+    const errorMessage = ref(null);
 
     const setInputValue = ({ key, value }) => {
-      signUpStore.setInputValue({ key, value });
+      errorMessage.value = null;
+      signUpData.value[key] = value;
+    };
+
+    const handleClick = async () => {
+      try {
+        const response = await axios.post(
+          "register",
+          {
+            ...signUpData.value,
+          },
+          {}
+        );
+        if (response.status !== 201) {
+          throw new Error("Request failed with status " + response.status);
+        }
+      } catch (error) {
+        errorMessage.value = error.response.data.errors.email
+          ? error.response.data.errors.email[0]
+          : error.response.data.errors.username[0];
+      }
     };
 
     return {
       handleClick,
-      setInputValue
+      setInputValue,
+      error: errorMessage,
     };
   },
 };

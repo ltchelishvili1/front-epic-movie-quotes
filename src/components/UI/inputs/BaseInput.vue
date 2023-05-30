@@ -23,16 +23,11 @@
 </template>
 
 <script>
-import { Field, ErrorMessage } from "vee-validate";
-import { ref, watch } from "vue";
+import { Field, ErrorMessage, useForm } from "vee-validate";
+import { computed, inject, onBeforeMount, onMounted, ref, watch } from "vue";
 
 export default {
   props: {
-    page: {
-      type: String,
-      required: false,
-      default: "identification",
-    },
     title: {
       type: String,
       required: false,
@@ -52,7 +47,12 @@ export default {
     type: {
       type: String,
       required: false,
-      default: 'text'
+      default: "text",
+    },
+
+    errors: {
+      type: Object,
+      required: false,
     },
   },
 
@@ -61,13 +61,12 @@ export default {
     ErrorMessage,
   },
 
-  setup({ name }, {emit}) {
+  setup({ name }, { emit }) {
     const inputData = ref("");
-
     watch(inputData, (newValue) => {
       const key = name;
       const value = newValue;
-      emit('set-input-value', {key,value})
+      emit("set-input-value", { key, value });
     });
 
     return {
