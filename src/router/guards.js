@@ -3,15 +3,15 @@ import { useUserStore } from "@/stores/user/index";
 
 export const authenticateUser = async (to, from, next) => {
   const userStore = useUserStore();
-  // if (userStore.authenticated === null) {
-  //   try {
-  //     const response = await axios.get("user");
-  //     userStore.authenticated = true;
-  //     userStore.setUser(response.data.user);
-  //   } catch (err) {
-  //     userStore.authenticated = false;
-  //   }
-  // }
+  if (userStore.authenticated === null) {
+    try {
+      const response = await axios.get("user");
+      userStore.authenticated = true;
+      userStore.setUser(response.data.user);
+    } catch (err) {
+      userStore.authenticated = false;
+    }
+  }
   return next();
 };
 
@@ -43,9 +43,8 @@ export const checkPasswordUpdateToken = async (to, from, next) => {
     if (response.status === 200) {
       return next();
     }
-    console.log(response);
   } catch (err) {
-    console.log(err);
+    throw new Error(err)
   }
 
   return next({ name: "log-in" });

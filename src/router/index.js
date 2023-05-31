@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import SignUpPage from "@/pages/authentication/sign-up/SignUpPage.vue";
 import LogInPage from "@/pages/authentication/log-in/LogInPage.vue";
 import LandingPage from "@/pages/LandingPage.vue";
-import EmailSend from "@/components/modals/EmailSendModal.vue";
+import VerificationEmailSendModal from "@/components/modals/VerificationEmailSendModal.vue";
+import ResetPasswordEmailSentModal from "@/components/modals/reset-password/ResetPasswordEmailSentModal.vue";
 import AccountActivated from "@/components/modals/AccountActivatedModal.vue";
 import ResetPasswordRequest from "@/components/modals/reset-password/ResetPasswordRequestModal.vue";
 import UpdatePassword from "@/components/modals/reset-password/UpdatePasswordModal.vue";
@@ -44,11 +45,7 @@ const router = createRouter({
         {
           path: "/verification-email-send/email=:email",
           name: "verification-email-send",
-          component: EmailSend,
-          props: {
-            description:
-              "Please check your email and follow the instructions to activate your account",
-          },
+          component: VerificationEmailSendModal,
           beforeEnter: Guest,
         },
         {
@@ -78,11 +75,8 @@ const router = createRouter({
           path: "/reset-password-email-send/email=:email",
           name: "reset-password-email-send",
           beforeEnter: Guest,
-          component: EmailSend,
-          props: {
-            description:
-              "We have sent a password recover instructions to your email",
-          },
+          component: ResetPasswordEmailSentModal,
+        
         },
       ],
     },
