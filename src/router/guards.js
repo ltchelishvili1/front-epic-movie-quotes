@@ -32,3 +32,20 @@ export const Guest = (to, from, next) => {
     return next();
   }
 };
+
+export const checkPasswordUpdateToken = async (to, from, next) => {
+  const { token, email } = to.params;
+  try {
+    const response = await axios.post("check-token", {
+      token,
+      email,
+    });
+    if (response.status === 200) {
+      return next();
+    }
+  } catch (err) {
+    throw new Error(err)
+  }
+
+  return next({ name: "log-in" });
+};

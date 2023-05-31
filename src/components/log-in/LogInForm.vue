@@ -18,14 +18,21 @@
       :errors="errors"
     ></base-input>
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
-    <base-check-box
-      :title="$t('remember_me')"
-      name="remember_me"
-      :placeholder="$t('password_placeholder')"
-      type="checkbox"
-      value="true"
-      @set-input-value="setInputValue"
-    ></base-check-box>
+    <div class="flex items-center justify-between">
+      <base-check-box
+        :title="$t('remember_me')"
+        name="remember_me"
+        :placeholder="$t('password_placeholder')"
+        type="checkbox"
+        value="true"
+        @set-input-value="setInputValue"
+      ></base-check-box>
+      <router-link :to="{ name: 'reset-password-request' }">
+        <p class="text-[#0D6EFD] underline">
+          {{ $t("forgot_password") }}
+        </p></router-link
+      >
+    </div>
     <base-button buttonClass="primary">{{ $t("get_started") }}</base-button>
     <base-button buttonClass="google" displayIcon @click-button="handleClick">
       {{ $t("sign_up_with_google") }}</base-button
@@ -59,19 +66,19 @@ export default {
 
     const handleButtonClick = async () => {
       try {
-        const response = await axios.post(
-          "login",
-          {
-            ...logInData.value,
-            remember_me: logInData.value.remember_me
-              ? logInData.value.remember_me
-              : false,
-          },
-          {}
-        );
+        await axios.get("sanctum/csrf-cookie");
+
+        const response = await axios.post("login", {
+          ...logInData.value,
+          remember_me: logInData.value.remember_me
+            ? logInData.value.remember_me
+            : false,
+        });
+
         if (response.status !== 200) {
           throw new Error("Request failed with status " + response.status);
         }
+
         userStore.setAuth(true);
         router.push({ name: "landing" });
       } catch (error) {
@@ -86,4 +93,4 @@ export default {
     };
   },
 };
-</script> 
+</script>

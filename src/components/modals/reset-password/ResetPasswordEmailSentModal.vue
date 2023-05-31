@@ -5,7 +5,7 @@
         Check your email
       </h1>
       <p class="text-white text-[17px] font-medium mt-[30px] text-center">
-        "Please check your email and follow the instructions to activate your account",
+        "We have sent a password recover instructions to your email",
       </p>
       <base-button
         class="mt-[40px]"

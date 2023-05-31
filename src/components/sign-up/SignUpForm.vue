@@ -29,7 +29,7 @@
       :title="$t('confirm_password')"
       name="repeat_password"
       :placeholder="$t('confirm_password_placeholder')"
-      rules="required|confirmed:password"
+      :rules="passwordConfirmationRules"
       type="password"
       @set-input-value="setInputValue"
     ></base-input>
@@ -46,21 +46,26 @@ import BaseInput from "@/components/UI/inputs/BaseInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 
 import { Form } from "vee-validate";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 import axios from "@/config/axios/index";
+import { useRouter } from "vue-router";
 
 export default {
   components: { BaseInput, BaseButton, Form },
   setup() {
     const signUpData = ref({});
     const errorMessage = ref(null);
+    const router = useRouter();
 
     const setInputValue = ({ key, value }) => {
       errorMessage.value = null;
       signUpData.value[key] = value;
     };
 
+    const passwordConfirmationRules = computed(() => {
+      return "required|confirmed:" + signUpData.value.password;
+    });
     const handleClick = async () => {
       try {
         const response = await axios.post(
@@ -73,6 +78,10 @@ export default {
         if (response.status !== 201) {
           throw new Error("Request failed with status " + response.status);
         }
+        router.push({
+          name: "verification-email-send",
+          params: { email: signUpData.value.email },
+        });
       } catch (error) {
         errorMessage.value = error.response.data.errors.email
           ? error.response.data.errors.email[0]
@@ -84,6 +93,7 @@ export default {
       handleClick,
       setInputValue,
       error: errorMessage,
+      passwordConfirmationRules,
     };
   },
 };
