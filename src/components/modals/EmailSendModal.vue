@@ -5,8 +5,7 @@
       Check your email
     </h1>
     <p class="text-white text-[17px] font-medium mt-[30px] text-center">
-      Please check your email and follow the instructions to activate your
-      account.
+      {{ description }}
     </p>
     <base-button
       class="mt-[40px]"
@@ -25,6 +24,12 @@ import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import { useRoute } from 'vue-router';
 
 export default {
+  props:{
+    description:{
+      type: String,
+      required: true
+    }
+  },
   components: {
     AuthLayout,
     IconEmailVerification,

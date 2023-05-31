@@ -12,7 +12,7 @@ const messages = {
     password_placeholder: "At least 8 & max.15 lower case characters",
     confirm_password: "Confirm password",
     confirm_password_placeholder: "Confirm password",
-    remember_me: 'Rememeber me',
+    remember_me: "Rememeber me",
     // landing
     movie_quotes: "Movie Quotes",
     sign_up: "Sign Up",
@@ -22,9 +22,29 @@ const messages = {
     find_any_quote: "Find any quote in",
     from_million_movies: "millions of movie lines",
     log_out: "Log out",
-    already_have_an_account: 'Already have an account?',
-    not_have_an_account: 'Do not have an account?'
-
+    already_have_an_account: "Already have an account?",
+    not_have_an_account: "Do not have an account?",
+    forgot_password: "Forgot Password?",
+    // reset-password-request-modal
+    enter_email:
+      "Enter the email and we’ll send an email with instructions to reset your password",
+    send_insturctions: "Send instructions",
+    back_to_login: "Back to log in",
+    //update-password-modal
+    create_new_password: "Create new password",
+    password_must_be_different:
+      "Your new password must be different from previous used passwords",
+    reset_password: "Reset Password",
+    // UpdatePasswordSuccessModal
+    success: "Success!",
+    password_changed_successfully: "Your Password changed successfully",
+    //AccountActivatedModal
+    thank_you: "Thank you!",
+    activated: "Your account has been activated.",
+    go_to_news_feed: "  Go to my news feed",
+    // EmailSendModal
+    check_you_email: "  Check your email",
+    go_to_email: " Go to my email",
   },
   ka: {
     create_profile: "პროფილის შექმნა",
@@ -37,7 +57,7 @@ const messages = {
     password_placeholder: "პაროლი",
     confirm_password: "დაადასტურე პაროლი",
     confirm_password_placeholder: "პაროლი",
-    remember_me: 'დამახსოვრება',
+    remember_me: "დამახსოვრება",
     // landing
     movie_quotes: "ფრაზები ფილმებიდან",
     sign_up: "რეგისტრაცია",
@@ -47,8 +67,28 @@ const messages = {
     find_any_quote: "იპოვე ნებისმიერი ფრაზა",
     from_million_movies: "უამრავი ფილმიდან",
     log_out: "გასვლა",
-    already_have_an_account: 'უკვე გაქვს ანგარიში?',
-    not_have_an_account: 'უკვე გაქვს ანგარიში?',
+    already_have_an_account: "უკვე გაქვს ანგარიში?",
+    not_have_an_account: "უკვე გაქვს ანგარიში?",
+    forgot_password: "დაგავიწყდა პაროლი?",
+    // reset-password-request-modal
+    enter_email: "შეიყვანე ელ-ფოსტა და გამოგიგზავნით ინსტრუქციებს",
+    send_insturctions: "ინსტრუქციების მიღება",
+    back_to_login: "ლოგინის გვერდზე დაბრუნება",
+    //update-password-modal
+    create_new_password: "შეიყვანე ახალი პაროლი",
+    password_must_be_different:
+      "ახალი პაროლი განსხვავებული უნდა იყოს აქამდე გამოყენებული პაროლებისგან",
+    reset_password: "პაროლის შეცვლა",
+    // UpdatePasswordSuccessModal
+    success: "გილოცავ!",
+    password_changed_successfully: "პაროლი წარმატებით შეიცვალა",
+    //AccountActivatedModal
+    thank_you: "მადლობა!",
+    activated: "ექაუნთი გააქტიურებულია.",
+    go_to_news_feed: "გადასვლა მთავარზე",
+    // EmailSendModal
+    check_you_email: "შეამოწმე მეილი",
+    go_to_email: " გადასვლა მეილზე",
   },
 };
 
