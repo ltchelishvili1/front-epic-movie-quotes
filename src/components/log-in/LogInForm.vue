@@ -34,7 +34,11 @@
       >
     </div>
     <base-button buttonClass="primary">{{ $t("get_started") }}</base-button>
-    <base-button buttonClass="google" displayIcon @click-button="handleClick">
+    <base-button
+      buttonClass="google"
+      displayIcon
+      @click-button="handleGoogleAuth"
+    >
       {{ $t("sign_up_with_google") }}</base-button
     >
   </Form>
@@ -67,7 +71,6 @@ export default {
     const handleButtonClick = async () => {
       try {
         await axios.get("sanctum/csrf-cookie");
-
         const response = await axios.post("login", {
           ...logInData.value,
           remember_me: logInData.value.remember_me
@@ -86,8 +89,19 @@ export default {
       }
     };
 
+    const handleGoogleAuth = async () => {
+      try {
+        const response = await axios.get("/auth/google");
+        await axios.get("sanctum/csrf-cookie");
+        window.location.replace(response.data);
+      } catch (error) {
+        errorMessage.value = "Something went wrong, try again later!";
+      } 
+    };
+
     return {
       handleClick: handleButtonClick,
+      handleGoogleAuth,
       setInputValue,
       errors: errorMessage,
     };

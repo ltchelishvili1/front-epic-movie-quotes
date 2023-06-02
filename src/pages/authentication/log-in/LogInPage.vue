@@ -1,5 +1,5 @@
 <template>
-  <auth-layout>
+  <auth-layout :title="$t('login_to_profile')" :description="$t('welcome_back')">
     <log-in-form
     
     ></log-in-form>

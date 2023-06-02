@@ -11,6 +11,11 @@ import router from "./router";
 
 const app = createApp(App);
 
+const storedLanguage = localStorage.getItem("language");
+if (storedLanguage) {
+  i18n.global.locale.value = storedLanguage;
+}
+
 app.use(createPinia());
 app.use(router);
 app.use(i18n);

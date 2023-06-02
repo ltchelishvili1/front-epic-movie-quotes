@@ -3,3 +3,20 @@
     <component :is="Component"></component>
   </router-view>
 </template>
+
+<script>
+import { onMounted } from "vue";
+import { setLocale } from "@vee-validate/i18n";
+
+export default {
+  setup() {
+    onMounted(() => {
+      const storedLanguage = localStorage.getItem("language");
+      if (storedLanguage) {
+        setLocale(storedLanguage);
+      }
+    });
+  },
+};
+</script>
+

@@ -1,6 +1,6 @@
 <template>
     <auth-layout>
-      <h1 class="text-white font-medium text-[32px]">{{ $t('create_new_password') }}</h1>
+      <h1 class="text-center text-white font-medium text-[32px]">{{ $t('create_new_password') }}</h1>
       <p class="mt-[12px] text-[16px] text-center text-[#6C757D] mb-[25px]">
        {{ $t('password_must_be_different') }}
       </p>

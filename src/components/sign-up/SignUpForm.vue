@@ -35,7 +35,11 @@
     ></base-input>
     <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
     <base-button buttonClass="primary">{{ $t("get_started") }}</base-button>
-    <base-button buttonClass="google" displayIcon @click-button="handleClick">
+    <base-button
+      buttonClass="google"
+      displayIcon
+      @click-button="handleGoogleAuth"
+    >
       {{ $t("sign_up_with_google") }}</base-button
     >
   </Form>
@@ -89,9 +93,20 @@ export default {
       }
     };
 
+    const handleGoogleAuth = async () => {
+      try {
+        const response = await axios.get("/auth/google");
+        await axios.get("sanctum/csrf-cookie");
+        window.location.replace(response.data);
+      } catch (error) {
+        errorMessage.value = "Something went wrong, try again later!";
+      }
+    };
+
     return {
       handleClick,
       setInputValue,
+      handleGoogleAuth,
       error: errorMessage,
       passwordConfirmationRules,
     };
