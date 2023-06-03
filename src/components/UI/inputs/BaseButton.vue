@@ -1,13 +1,13 @@
 <template>
-  <div @click="handleClick">
-    <div :class="getButtonClass" class="flex items-center justify-center">
+  <div @click="handleClick" class="mt-[16px]">
+    <button :class="getButtonClass" class="flex items-center justify-center">
       <span v-if="displayIcon" class="mr-[8px]"
         ><icon-google></icon-google>
       </span>
-      <button>
+      <div>
         <slot></slot>
-      </button>
-    </div>
+      </div>
+    </button>
   </div>
 </template>
 

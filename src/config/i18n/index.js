@@ -93,6 +93,7 @@ const messages = {
     // EmailSendModal
     check_you_email: "შეამოწმე მეილი",
     go_to_email: " გადასვლა მეილზე",
+    
   },
 };
 

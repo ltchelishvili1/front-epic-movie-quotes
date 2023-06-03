@@ -34,8 +34,9 @@
       @set-input-value="setInputValue"
     ></base-input>
     <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
-    <base-button buttonClass="primary">{{ $t("get_started") }}</base-button>
+    <base-button  buttonClass="primary">{{ $t("get_started") }}</base-button>
     <base-button
+ 
       buttonClass="google"
       displayIcon
       @click-button="handleGoogleAuth"
