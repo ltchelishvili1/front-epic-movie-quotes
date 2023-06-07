@@ -18,7 +18,7 @@ export default {
         try {
           axios.get("set-language/" + storedLanguage);
         } catch (error) {
-          throw new Error(error);
+          //
         }
       }
     });

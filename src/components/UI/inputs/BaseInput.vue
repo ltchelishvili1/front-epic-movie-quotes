@@ -7,28 +7,28 @@
         >
       </div>
       <div class="flex items-center">
-        <Field :rules="rules" :name="name" :id="name" v-model="inputData">
-          <template #default="{ meta }">
-            <input
-              class="w-[360px] h-[38px] bg-[#CED4DA] border border-[#232323] p-4 mt-[8px]"
-              :class="displayValidationBorder(meta)"
-              :type="type"
-              :placeholder="placeholder || name"
-              :value="inputData"
-              @input="inputData = $event.target.value"
-              @blur="meta.touched = true"
-            />
 
-            <icon-input-valid
-              v-if="inputIsValid(meta)"
-              class="absolute left-[450px] mt-[10px]"
-            ></icon-input-valid>
-            <icon-input-invalid
-              v-if="inputIsInvalid(meta)"
-              class="absolute left-[450px] mt-[10px]"
-            ></icon-input-invalid>
-          </template>
-        </Field>
+        <Field
+          :rules="rules"
+          :name="name"
+          :id="name"
+          :class="displayValidationBorder"
+          v-model="inputData"
+          class="w-[360px] h-[38px] bg-[#CED4DA] border border-[#232323] p-4 mt-[8px]"
+          :type="type"
+          :placeholder="placeholder || name"
+          :value="inputData"
+          @input="inputData = $event.target.value"
+        />
+
+        <icon-input-valid
+          v-if="inputIsValid"
+          class="absolute left-[450px] mt-[10px]"
+        ></icon-input-valid>
+        <icon-input-invalid
+          v-else-if="inputIsInvalid"
+          class="absolute left-[450px] mt-[10px]"
+        ></icon-input-invalid>
       </div>
       <div class="mt-[6px]">
         <ErrorMessage class="text-red-500 ml-4" :name="name" />
@@ -85,6 +85,7 @@ export default {
 
   setup({ name }, { emit }) {
     const inputData = ref("");
+    const { meta } = useField(name);
 
     watch(inputData, (newValue) => {
       const key = name;
@@ -93,35 +94,28 @@ export default {
     });
 
     const inputIsValid = computed(
-      () => (meta) =>
-        (meta.valid && meta.touched && meta.value.length) ||
-        (meta.errors &&
-          !meta.errors.length &&
-          meta.touched &&
-          meta.value.length > 0)
+      () => meta.valid && meta.touched && meta.value.length
     );
-    const inputIsInvalid = computed(
-      () => (meta) => (!meta.valid && meta.touched) || meta.errors.length
+    const inputIsInvalid = computed(() => meta.touched && (!meta.valid || !meta.value.length));
+
+    const displayValidationBorder = computed(() =>
+      (meta.valid && meta.touched && meta.value.length)
+        ? "border-[1.5px] border-[#198754]"
+        : (!meta.valid && meta.touched) || meta.errors.length
+        ? "border border-[#E31221]"
+        : ""
     );
 
-    const displayValidationBorder = computed(
-      () => (meta) =>
-        (meta.valid && meta.touched && meta.value.length) ||
-        (meta.errors &&
-          !meta.errors.length &&
-          meta.touched &&
-          meta.value.length)
-          ? "border-[1.5px] border-[#198754]"
-          : (!meta.valid && meta.touched) || meta.errors.length
-          ? "border border-[#E31221]"
-          : ""
-    );
+    const isTouched = (touched) => {
+      meta.touched = touched;
+    };
 
     return {
       inputData,
-      inputIsInvalid,
       inputIsValid,
+      inputIsInvalid,
       displayValidationBorder,
+      isTouched,
     };
   },
 };

@@ -10,13 +10,14 @@
       :key="`locale-${locale}`"
       :value="locale"
     >
-      {{ locale === "ka" ? "ქარ" : locale }}
-    </option>
+    {{ displayLocale(locale) }}
+  </option>
   </select>
 </template>
 
 <script>
 import { setLocale } from "@vee-validate/i18n";
+import { computed } from "vue";
 export default {
   setup() {
     const changeLanguage = (event) => {
@@ -24,8 +25,13 @@ export default {
       localStorage.setItem("language", event.target.value);
     };
 
+    const displayLocale = computed(
+      () => (locale) => locale === "ka" ? "ქარ" : locale
+    );
+
     return {
       changeLanguage,
+      displayLocale,
     };
   },
 };

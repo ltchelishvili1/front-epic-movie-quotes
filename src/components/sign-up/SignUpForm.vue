@@ -49,6 +49,7 @@
 <script>
 import BaseInput from "@/components/UI/inputs/BaseInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
+import { handleGoogleAuth } from "@/config/helpers";
 
 import { Form } from "vee-validate";
 import { ref, computed } from "vue";
@@ -94,15 +95,7 @@ export default {
       }
     };
 
-    const handleGoogleAuth = async () => {
-      try {
-        const response = await axios.get("/auth/google");
-        await axios.get("sanctum/csrf-cookie");
-        window.location.replace(response.data);
-      } catch (error) {
-        errorMessage.value = "Something went wrong, try again later!";
-      }
-    };
+
 
     return {
       handleClick,

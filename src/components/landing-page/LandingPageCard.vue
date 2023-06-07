@@ -1,7 +1,8 @@
 <template>
   <div>
     <div
-      :class="displayBackground"
+      :style="displayBackground"
+      :class="displayParalax"
       class="h-[100vh] fit pt-[80%] pl-[10%] lg:pt-[200px] lg:pl-44"
     >
       <icon-line class="mt-[10px] mr-[10px]"></icon-line>
@@ -31,7 +32,7 @@ export default {
     IconLine,
   },
   props: {
-    normal: {
+    paralax: {
       type: Boolean,
       required: false,
     },
@@ -43,19 +44,26 @@ export default {
       type: String,
       required: true,
     },
-    background: {
+
+    bg: {
       type: String,
       required: true,
     },
   },
 
   setup(props) {
-    const displayBackground = computed(() => {
-     return !props.normal ? 'paralax ' + props.background : props.background
+    const displayParalax = computed(() => {
+     return !props.paralax ? 'paralax'  :''
     })
+    const displayBackground = computed(() => {
+      return {
+        backgroundImage: `url(${props.bg})`,
+      };
+    });
 
     return{
-      displayBackground
+      displayBackground,
+      displayParalax
     }
   },
 };

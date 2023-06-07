@@ -9,13 +9,14 @@
     </div>
 
     <landing-page-card
-      :normal="true"
+      :paralax="true"
       class="pt-[200px]"
       id="landing-card"
       quote=" “You have to leave somethig
             behind to go forward”"
       movie="Interstellar, 2014"
       background="bg-[url('@/assets/images/InterstellarBackground.jpg')]"
+      :bg="InterstellarBackground"
     ></landing-page-card>
 
     <landing-page-card
@@ -24,6 +25,7 @@ to be secretly in love with earch other
 and leave it that”"
       movie="The Royal Tenenbaums,2001 "
       background="bg-[url('@/assets/images/TheRoyalTenebaumsBackground.jpg')]"
+      :bg="TheRoyalTenebaumsBackground"
     ></landing-page-card>
 
     <landing-page-card
@@ -32,6 +34,7 @@ to be secretly in love with earch other
 and leave it that”"
       movie="The Royal Tenenbaums,2001 "
       background="bg-[url('@/assets/images/LordOfTheRignsBackground.jpg')]"
+      :bg="LordOfTheRignsBackground"
     ></landing-page-card>
   </div>
 </template>
@@ -44,7 +47,7 @@ import LordOfTheRignsBackground from "@/assets/images/LordOfTheRignsBackground.j
 import IconLine from "@/components/icons/IconLine.vue";
 import LandingPageCard from "@/components/landing-page/LandingPageCard.vue";
 import LandingPageNavigationBar from "@/components/landing-page/LandingPageNavigationBar.vue";
-import LandingPageHeader from "../components/landing-page/LandingPageHeader.vue";
+import LandingPageHeader from "@/components/landing-page/LandingPageHeader.vue";
 
 export default {
   components: {
