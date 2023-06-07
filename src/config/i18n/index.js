@@ -25,6 +25,8 @@ const messages = {
     already_have_an_account: "Already have an account?",
     not_have_an_account: "Do not have an account?",
     forgot_password: "Forgot Password?",
+    login_to_profile: 'Log in to your account',
+    welcome_back: 'Welcome back! Please enter your details.',
     // reset-password-request-modal
     enter_email:
       "Enter the email and we’ll send an email with instructions to reset your password",
@@ -58,6 +60,8 @@ const messages = {
     confirm_password: "დაადასტურე პაროლი",
     confirm_password_placeholder: "პაროლი",
     remember_me: "დამახსოვრება",
+    login_to_profile: 'პროფილში შესვლა',
+    welcome_back: "გთხოვთ შეიყვანოთ თქვენი დეტალები.",
     // landing
     movie_quotes: "ფრაზები ფილმებიდან",
     sign_up: "რეგისტრაცია",
@@ -69,7 +73,7 @@ const messages = {
     log_out: "გასვლა",
     already_have_an_account: "უკვე გაქვს ანგარიში?",
     not_have_an_account: "უკვე გაქვს ანგარიში?",
-    forgot_password: "დაგავიწყდა პაროლი?",
+    forgot_password: "დაგავიწყდა ",
     // reset-password-request-modal
     enter_email: "შეიყვანე ელ-ფოსტა და გამოგიგზავნით ინსტრუქციებს",
     send_insturctions: "ინსტრუქციების მიღება",
@@ -89,6 +93,7 @@ const messages = {
     // EmailSendModal
     check_you_email: "შეამოწმე მეილი",
     go_to_email: " გადასვლა მეილზე",
+    
   },
 };
 

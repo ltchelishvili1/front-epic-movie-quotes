@@ -34,8 +34,13 @@
       @set-input-value="setInputValue"
     ></base-input>
     <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
-    <base-button buttonClass="primary">{{ $t("get_started") }}</base-button>
-    <base-button buttonClass="google" displayIcon @click-button="handleClick">
+    <base-button  buttonClass="primary">{{ $t("get_started") }}</base-button>
+    <base-button
+ 
+      buttonClass="google"
+      displayIcon
+      @click-button="handleGoogleAuth"
+    >
       {{ $t("sign_up_with_google") }}</base-button
     >
   </Form>
@@ -44,6 +49,7 @@
 <script>
 import BaseInput from "@/components/UI/inputs/BaseInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
+import { handleGoogleAuth } from "@/config/helpers";
 
 import { Form } from "vee-validate";
 import { ref, computed } from "vue";
@@ -89,9 +95,12 @@ export default {
       }
     };
 
+
+
     return {
       handleClick,
       setInputValue,
+      handleGoogleAuth,
       error: errorMessage,
       passwordConfirmationRules,
     };

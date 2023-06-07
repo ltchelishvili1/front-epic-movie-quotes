@@ -3,7 +3,7 @@
     <base-input
       :title="$t('password')"
       name="password"
-      :placeholder="$t('email_placeholder')"
+      :placeholder="$t('password_placeholder')"
       rules="required|min:8|max:15"
       type="password"
       @set-input-value="setInputValue"
@@ -32,7 +32,7 @@ import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import BaseInput from "@/components/UI/inputs/BaseInput.vue";
 import IconNavigateBack from "@/components/icons/IconNavigateBack.vue";
 import { Form } from "vee-validate";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import axios from "@/config/axios";
 
@@ -59,6 +59,7 @@ export default {
         });
         router.push({ name: "update-password-success" });
       } catch (err) {
+        errorMessage.value = err.response.data.errors.password[0];
         throw new Error(err);
       }
     };

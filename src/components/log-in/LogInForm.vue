@@ -34,7 +34,11 @@
       >
     </div>
     <base-button buttonClass="primary">{{ $t("get_started") }}</base-button>
-    <base-button buttonClass="google" displayIcon @click-button="handleClick">
+    <base-button
+      buttonClass="google"
+      displayIcon
+      @click-button="handleGoogleAuth"
+    >
       {{ $t("sign_up_with_google") }}</base-button
     >
   </Form>
@@ -44,8 +48,9 @@
 import BaseInput from "@/components/UI/inputs/BaseInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import BaseCheckBox from "@/components/UI/inputs/BaseCheckBox.vue";
+import { handleGoogleAuth } from "@/config/helpers";
 
-import { Form } from "vee-validate";
+import { Form ,useForm} from "vee-validate";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user/index";
@@ -58,36 +63,37 @@ export default {
     const logInData = ref({});
     const userStore = useUserStore();
     const errorMessage = ref(null);
+    const { handleSubmit } = useForm();
+
 
     const router = useRouter();
     const setInputValue = ({ key, value }) => {
       logInData.value[key] = value;
     };
+    
+    const handleButtonClick = handleSubmit(async () => {
+  try {
+    await axios.get("sanctum/csrf-cookie");
+    const response = await axios.post("login", {
+      ...logInData.value,
+      remember_me: logInData.value.remember_me ? logInData.value.remember_me : false,
+    });
 
-    const handleButtonClick = async () => {
-      try {
-        await axios.get("sanctum/csrf-cookie");
+    if (response.status !== 200) {
+      throw new Error("Request failed with status " + response.status);
+    }
 
-        const response = await axios.post("login", {
-          ...logInData.value,
-          remember_me: logInData.value.remember_me
-            ? logInData.value.remember_me
-            : false,
-        });
+    userStore.setAuth(true);
+    router.push({ name: "landing" });
+  } catch (error) {
+    errorMessage.value = error.response.data.errors.password[0];
+  }
+});
 
-        if (response.status !== 200) {
-          throw new Error("Request failed with status " + response.status);
-        }
-
-        userStore.setAuth(true);
-        router.push({ name: "landing" });
-      } catch (error) {
-        errorMessage.value = error.response.data.errors.password[0];
-      }
-    };
 
     return {
       handleClick: handleButtonClick,
+      handleGoogleAuth,
       setInputValue,
       errors: errorMessage,
     };

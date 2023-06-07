@@ -2,8 +2,9 @@ import axios from "@/config/axios";
 import { useUserStore } from "@/stores/user/index";
 
 export const authenticateUser = async (to, from, next) => {
+
   const userStore = useUserStore();
-  if (userStore.authenticated === null) {
+  if (userStore.authenticated === null ) {
     try {
       const response = await axios.get("user");
       userStore.authenticated = true;
@@ -29,6 +30,7 @@ export const Guest = (to, from, next) => {
   if (userStore.authenticated) {
     next({ name: "landing" });
   } else {
+    userStore.authenticated= false;
     return next();
   }
 };

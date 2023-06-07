@@ -1,10 +1,14 @@
 <template>
-  <button :class="getButtonClass" @click="handleClick">
-    <span v-if="displayIcon" class="mr-[8px]"
-      ><icon-google></icon-google>
-    </span>
-    <slot></slot>
-  </button>
+  <div @click="handleClick" class="mt-[16px]">
+    <button :class="getButtonClass" class="flex items-center justify-center">
+      <span v-if="displayIcon" class="mr-[8px]"
+        ><icon-google></icon-google>
+      </span>
+      <div>
+        <slot></slot>
+      </div>
+    </button>
+  </div>
 </template>
 
 <script>
@@ -33,7 +37,7 @@ export default defineComponent({
 
     const getButtonClass = computed(() =>
       props.buttonClass === "primary"
-        ? "w-full bg-[#E31221] text-white px-[7px] py-[7px] rounded-[4px] my-[16px]"
+        ? "w-full bg-[#E31221] text-white px-[7px] py-[7px] rounded-[4px] my-[2px]"
         : props.buttonClass === "google"
         ? "w-full bg-transparent text-white px-[7px] py-[7px] rounded-[4px] border border-white flex items-center justify-center"
         : ""
