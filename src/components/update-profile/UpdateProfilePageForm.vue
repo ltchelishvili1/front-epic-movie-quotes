@@ -187,7 +187,7 @@ export default {
 
     const updateProfile = handleSubmit(async () => {
       try {
-        const response = await axios.post("update-profile", formData.value, {
+        const response = await axios.patch("user", formData.value, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
