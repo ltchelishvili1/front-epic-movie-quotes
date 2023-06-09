@@ -1,7 +1,8 @@
 <template>
   <div :class="setMobilePosition">
-    <input
-      ref="photoInput"
+    <Field
+      name="image"
+      id="image"
       type="file"
       accept="image/*"
       style="display: none"
@@ -10,11 +11,11 @@
     <img
       class="w-[188px] h-[188px] rounded-full cursor-pointer"
       :src="displayImage"
-      @click="$refs.photoInput.click()"
+      @click="openFileInput"
     />
     <p
       class="text-white text-center mt-[10px] cursor-pointer"
-      @click="$refs.photoInput.click()"
+      @click="openFileInput"
     >
       {{ $t("upload_new_photo") }}
     </p>
@@ -22,8 +23,13 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, ref } from "vue";
+import { Field } from "vee-validate";
+
 export default {
+  components: {
+    Field
+  },
   props: {
     isMobile: {
       type: Boolean,
@@ -36,6 +42,9 @@ export default {
     },
   },
   setup({ isMobile }, { emit }) {
+
+    const photoInput = ref();
+
     const uploadImage = (file) => {
       emit("upload-image", file);
     };
@@ -44,9 +53,16 @@ export default {
       isMobile ? "-translate-y-[50px]" : "-translate-y-[70%]"
     );
 
+    const openFileInput = () => {
+      const temp = document.getElementById("image");
+      temp.click();
+    };
+
     return {
       uploadImage,
       setMobilePosition,
+      openFileInput,
+      photoInput
     };
   },
 };

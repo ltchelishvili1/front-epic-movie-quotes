@@ -25,7 +25,6 @@
         <base-button
           buttonClass="google"
           class="mb-[17px] hidden md:block lg:block"
-          @click-button="null"
           >{{ $t("log_out") }}</base-button
         >
       </div>
@@ -114,7 +113,8 @@ export default {
     });
 
 
-    const displayImage = computed(() => userStore.getUser.thumbnail ?  import.meta.env.VITE_API_STORAGE_URL +  userStore.getUser.thumbnail : NoUserImage)
+    const displayImage = computed(() => userStore.getUser.thumbnail ? userStore.getUser.thumbnail  : NoUserImage)
+
 
     const displayUsername = computed(() => userStore.getUser.username);
     

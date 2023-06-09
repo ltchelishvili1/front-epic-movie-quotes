@@ -186,8 +186,9 @@ export default {
     });
 
     const updateProfile = handleSubmit(async () => {
+      formData.value.append("_method", "patch");
       try {
-        const response = await axios.patch("user", formData.value, {
+        const response = await axios.post("user", formData.value, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -208,7 +209,7 @@ export default {
       img.value
         ? img.value
         : userStore.getUser.thumbnail
-        ? import.meta.env.VITE_API_STORAGE_URL + userStore.getUser.thumbnail
+        ? userStore.getUser.thumbnail
         : formData.value.get("photo")
         ? formData.value.get("photo")
         : NoUserImage
