@@ -9,6 +9,7 @@ configure({
         min: "The name field must be at least 0:{length} characters",
         max: "The name field may not be greater than 0:{length} characters",
         confirmed: "The password should be the same",
+        email: 'Please use email'
       },
     },
     ka: {
@@ -17,6 +18,7 @@ configure({
         min: "სახელი უნდა შეიცავდეს მინიმუმ 0:{length} სიმბოლოს",
         max: "სახელი არ უნდა შეიცავდეს 0:{length} სიმბოლოზე მეტს",
         confirmed: "პაროლი არ ემთხვევა",
+        email: 'გამოიყენეთ ელ-ფოსტა'
       },
     },
   }),
