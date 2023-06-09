@@ -18,11 +18,18 @@
 <script>
 import { setLocale } from "@vee-validate/i18n";
 import { computed } from "vue";
+import axios from '@/config/axios/index'
+
 export default {
   setup() {
     const changeLanguage = (event) => {
       setLocale(event.target.value);
       localStorage.setItem("language", event.target.value);
+      try {
+          axios.get("set-language/" + event.target.value);
+        } catch (error) {
+          //
+        }
     };
 
     const displayLocale = computed(

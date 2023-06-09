@@ -8,6 +8,7 @@ import AccountActivated from "@/components/modals/AccountActivatedModal.vue";
 import ResetPasswordRequest from "@/components/modals/reset-password/ResetPasswordRequestModal.vue";
 import UpdatePassword from "@/components/modals/reset-password/UpdatePasswordModal.vue";
 import UpdatePasswordSuccessModal from "@/components/modals/reset-password/UpdatePasswordSuccessModal.vue";
+import UpdateProfilePage from "@/pages/UpdateProfilePage.vue";
 
 import {
   authenticateUser,
@@ -76,11 +77,15 @@ const router = createRouter({
           name: "reset-password-email-send",
           beforeEnter: Guest,
           component: ResetPasswordEmailSentModal,
-        
         },
       ],
     },
-    {},
+    {
+      path: "/update-profile",
+      name: "update-profile",
+      component: UpdateProfilePage,
+      beforeEnter: authenticateUser,
+    },
   ],
 });
 

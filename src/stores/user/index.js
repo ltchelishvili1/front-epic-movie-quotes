@@ -8,7 +8,7 @@ export const useUserStore = defineStore({
   }),
   actions: {
     setUser(userData) {
-      this.user = userData;
+      this.user = { ...userData };
     },
     setAuth(isAuth) {
       this.authenticated = isAuth;

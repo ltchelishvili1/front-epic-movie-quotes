@@ -1,18 +1,10 @@
 import axios from "@/config/axios";
 import { useUserStore } from "@/stores/user/index";
+import { authUser } from "@/config/helpers";
 
 export const authenticateUser = async (to, from, next) => {
-
   const userStore = useUserStore();
-  if (userStore.authenticated === null ) {
-    try {
-      const response = await axios.get("user");
-      userStore.authenticated = true;
-      userStore.setUser(response.data.user);
-    } catch (err) {
-      userStore.authenticated = false;
-    }
-  }
+  await authUser(userStore);
   return next();
 };
 
