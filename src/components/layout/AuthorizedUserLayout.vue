@@ -31,11 +31,11 @@
     </nav>
 
     <div class="flex">
-      <div v-if="displayScreenNavbar" class="px-[70px]">
+      <div v-if="displayScreenNavbar" class="pl-[70px] min-w-[350px]">
         <div class="flex mt-[30px]">
           <img
             class="mr-[20px] w-[60px] h-[60px] rounded-full border-2 border-solid border-[#E31221]"
-           :src="displayImage"
+            :src="displayImage"
           />
           <div>
             <h1 class="text-white">{{ username }}</h1>
@@ -46,13 +46,16 @@
         </div>
 
         <div class="flex iems-center mt-[40px]">
-          <icon-news-feed class="ml-[15px]"></icon-news-feed>
+          <icon-news-feed :color="displayIconBackground('news-feed')" class="ml-[15px]"></icon-news-feed>
           <router-link to="#" class="text-white text-2xl ml-[32px]">{{
             $t("news_feed")
           }}</router-link>
         </div>
         <div class="flex iems-center mt-[40px]">
-          <icon-list-of-movies class="ml-[15px]"></icon-list-of-movies>
+          <icon-list-of-movies
+            :color="displayIconBackground('movies-list')"
+            class="ml-[15px]"
+          ></icon-list-of-movies>
           <router-link to="#" class="text-white text-2xl ml-[32px]">{{
             $t("list_of_movies")
           }}</router-link>
@@ -74,10 +77,11 @@ import IconNotification from "@/components/icons/IconNotification.vue";
 import IconListOfMovies from "@/components/icons/IconListOfMovies.vue";
 import IconNewsFeed from "@/components/icons/IconNewsFeed.vue";
 import IconMobileNavbarMenu from "@/components/icons/IconMobileNavbarMenu.vue";
-import NoUserImage from '@/assets/images/NoUserImage.png'
+import NoUserImage from "@/assets/images/NoUserImage.png";
 
 import { useUserStore } from "@/stores/user/index";
 import { computed, onBeforeUnmount, ref } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
   components: {
@@ -87,19 +91,18 @@ export default {
     IconListOfMovies,
     IconNewsFeed,
     IconMobileNavbarMenu,
-
   },
 
   setup() {
     const displayNavbar = ref(false);
     const isMobile = ref(false);
     const userStore = useUserStore();
+    const route = useRoute();
 
     const toggleNavbar = () => {
       displayNavbar.value = !displayNavbar.value;
     };
 
-    
     const updateScreen = () => {
       isMobile.value = window.matchMedia("(max-width: 768px)").matches;
     };
@@ -112,16 +115,21 @@ export default {
       window.removeEventListener("resize", updateScreen);
     });
 
-
-    const displayImage = computed(() => userStore.getUser.thumbnail ? userStore.getUser.thumbnail  : NoUserImage)
-
+    const displayImage = computed(() =>
+      userStore.getUser.thumbnail ? userStore.getUser.thumbnail : NoUserImage
+    );
 
     const displayUsername = computed(() => userStore.getUser.username);
-    
-    const hideNavbar = computed(() => displayNavbar.value ? 'hidden' : '')
 
-    const displayScreenNavbar = computed(() => displayNavbar.value || !isMobile.value)
+    const hideNavbar = computed(() => (displayNavbar.value ? "hidden" : ""));
 
+    const displayScreenNavbar = computed(
+      () => displayNavbar.value || !isMobile.value
+    );
+
+    const displayIconBackground = computed(
+      () => (name) => route.fullPath.includes(name) ? "#E31221" : "white"
+    );
     return {
       displayNavbar,
       toggleNavbar,
@@ -129,8 +137,8 @@ export default {
       displayImage,
       username: displayUsername,
       hideNavbar,
-      displayScreenNavbar
-      
+      displayScreenNavbar,
+      displayIconBackground,
     };
   },
 };
