@@ -87,21 +87,21 @@ export default {
     AddMovieCaategoriesInput,
   },
   setup() {
-    const formData = ref(new FormData());
+    const formData = new FormData();
     const errorMessage = ref(null);
     const { handleSubmit } = useForm();
 
     const setInputValue = ({ key, value }) => {
-      formData.value.set(key, value);
+      formData.set(key, value);
     };
 
     const uploadImage = (file) => {
-      formData.value.set("image", file);
+      formData.set("image", file);
     };
 
     const addMovie = handleSubmit(async () => {
       try {
-        const response = await axios.post("movies", formData.value, {
+        const response = await axios.post("movies", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -117,8 +117,8 @@ export default {
     });
 
     const setCategories = (selectedCategories) => {
-      const categoryIds = selectedCategories.map((cat) => cat.id);
-      formData.value.set("categories", categoryIds);
+      const categoryIds = selectedCategories.map((category) => category.id);
+      formData.set("genres", JSON.stringify(categoryIds));
     };
 
     return {

@@ -29,7 +29,7 @@
           class="mr-[20px] w-[60px] h-[60px] rounded-full"
           :src="displayImage"
         />
-        <p>{{ displayUsername }}</p>
+        <p class="text-white">{{ userName }}</p>
       </div>
       <slot></slot>
     </div>
@@ -39,19 +39,15 @@
 <script>
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user/index";
-import { computed } from "vue";
-import NoUserImage from "@/assets/images/NoUserImage.png";
+import { displayImage } from "@/config/helpers";
+
 
 export default {
   props: {
     title: {
       type: String,
       required: false,
-    },
-    description: {
-      type: String,
-      required: false,
-    },
+    }
   },
 
   setup() {
@@ -64,17 +60,12 @@ export default {
       event.stopPropagation();
     };
 
-    const displayImage = computed(() =>
-      userStore.getUser.thumbnail ? userStore.getUser.thumbnail : NoUserImage
-    );
-
-    const displayUsername = computed(() => userStore.getUser.username);
 
     return {
       handleInnerClick,
       handleOuterClick,
       displayImage,
-      displayUsername,
+      userName: userStore.getUser.username,
     };
   },
 };

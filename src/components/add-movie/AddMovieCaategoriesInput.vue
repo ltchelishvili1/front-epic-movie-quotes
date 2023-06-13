@@ -21,7 +21,7 @@
       <input
         v-for="category in displayCategories"
         :key="category.id"
-        :value="category.categories[locale]"
+        :value="category.name[locale]"
         class="text-white bg-transparent"
         :name="category.id"
         readonly
@@ -34,24 +34,24 @@
 <script>
 import { computed, onMounted, ref } from "vue";
 import axios from "@/config/axios/index";
-import i18n from "@/config/i18n/index.js";
+import {getLocale} from '@/config/helpers/index'
 
 export default {
   setup(_, { emit }) {
     const showCategoriesRef = ref(false);
     const selectedCategories = ref([]);
     const categories = ref([]);
-    const locale = computed(() => i18n.global.locale.value || "en");
+    const locale = getLocale();
 
     const showCategories = () => {
       showCategoriesRef.value = true;
     };
 
     onMounted(() => {
-      const fetchCategories = async () => {
+    const fetchCategories = async () => {
         try {
-          const response = await axios.get("categories");
-          categories.value = response.data.categories;
+          const response = await axios.get("genres");
+          categories.value = response.data.genres;
 
           if (response.status !== 200) {
             throw new Error("Request failed with status " + response.status);
@@ -68,7 +68,7 @@ export default {
     const addCategory = (event) => {
       if (
         selectedCategories.value.some(
-          (selCat) => selCat.value === event.target.value
+          (selectedCategory) => selectedCategory.value === event.target.value
         )
       ) {
         return;
@@ -86,7 +86,7 @@ export default {
     const removeCategory = (category) => {
       selectedCategories.value = [
         ...selectedCategories.value.filter(
-          (selectetCat) => selectetCat.value !== category
+          (selectedCategory) => selectedCategory.value !== category
         ),
       ];
       emit("set-categories", selectedCategories.value);

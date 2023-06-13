@@ -46,14 +46,17 @@
         </div>
 
         <div class="flex iems-center mt-[40px]">
-          <icon-news-feed :color="displayIconBackground('news-feed')" class="ml-[15px]"></icon-news-feed>
+          <icon-news-feed
+            :color="displayIconBackground('news-feed')"
+            class="ml-[15px]"
+          ></icon-news-feed>
           <router-link to="#" class="text-white text-2xl ml-[32px]">{{
             $t("news_feed")
           }}</router-link>
         </div>
         <div class="flex iems-center mt-[40px]">
           <icon-list-of-movies
-            :color="displayIconBackground('movies-list')"
+            :color="displayIconBackground('movies')"
             class="ml-[15px]"
           ></icon-list-of-movies>
           <router-link to="#" class="text-white text-2xl ml-[32px]">{{
@@ -77,11 +80,11 @@ import IconNotification from "@/components/icons/IconNotification.vue";
 import IconListOfMovies from "@/components/icons/IconListOfMovies.vue";
 import IconNewsFeed from "@/components/icons/IconNewsFeed.vue";
 import IconMobileNavbarMenu from "@/components/icons/IconMobileNavbarMenu.vue";
-import NoUserImage from "@/assets/images/NoUserImage.png";
 
 import { useUserStore } from "@/stores/user/index";
 import { computed, onBeforeUnmount, ref } from "vue";
 import { useRoute } from "vue-router";
+import { displayImage } from "@/config/helpers";
 
 export default {
   components: {
@@ -114,10 +117,6 @@ export default {
     onBeforeUnmount(() => {
       window.removeEventListener("resize", updateScreen);
     });
-
-    const displayImage = computed(() =>
-      userStore.getUser.thumbnail ? userStore.getUser.thumbnail : NoUserImage
-    );
 
     const displayUsername = computed(() => userStore.getUser.username);
 

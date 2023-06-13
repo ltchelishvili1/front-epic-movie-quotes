@@ -89,13 +89,13 @@ const router = createRouter({
       beforeEnter: authenticateUser,
     },
     {
-      path: "/movies-list",
-      name: "movies-list",
+      path: "/movies",
+      name: "movies",
       component: MoviesListPage,
       beforeEnter: authenticateUser,
       children: [
         {
-          path: "add-movie",
+          path: "/movies/add",
           name: "add-movie",
           component: AddMovieModal,
           beforeEnter: authenticateUser,

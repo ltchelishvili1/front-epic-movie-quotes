@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import { computed } from "vue";
-import i18n from "@/config/i18n/index.js";
+import {getLocale} from '@/config/helpers/index'
+
 export default {
   props: {
     movie: {
@@ -19,7 +19,8 @@ export default {
     },
   },
   setup() {
-    const locale = computed(() => i18n.global.locale.value || "en");
+    const locale = getLocale();
+    
     return {
       locale,
     };

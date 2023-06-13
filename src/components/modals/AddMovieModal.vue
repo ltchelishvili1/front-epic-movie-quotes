@@ -1,5 +1,5 @@
 <template>
-   <create-or-modify-modal :title="$t('add_movie')" description="ewrgetrn'">
+   <create-or-modify-modal :title="$t('add_movie')" >
       <add-movie-form></add-movie-form>
    </create-or-modify-modal>
 </template>
