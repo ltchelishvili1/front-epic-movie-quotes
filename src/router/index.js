@@ -9,6 +9,8 @@ import ResetPasswordRequest from "@/components/modals/reset-password/ResetPasswo
 import UpdatePassword from "@/components/modals/reset-password/UpdatePasswordModal.vue";
 import UpdatePasswordSuccessModal from "@/components/modals/reset-password/UpdatePasswordSuccessModal.vue";
 import UpdateProfilePage from "@/pages/UpdateProfilePage.vue";
+import MoviesListPage from "@/pages/MoviesListPage.vue";
+import AddMovieModal from '@/components/modals/AddMovieModal.vue'
 
 import {
   authenticateUser,
@@ -85,6 +87,20 @@ const router = createRouter({
       name: "update-profile",
       component: UpdateProfilePage,
       beforeEnter: authenticateUser,
+    },
+    {
+      path: "/movies",
+      name: "movies",
+      component: MoviesListPage,
+      beforeEnter: authenticateUser,
+      children: [
+        {
+          path: "/movies/add",
+          name: "add-movie",
+          component: AddMovieModal,
+          beforeEnter: authenticateUser,
+        },
+      ],
     },
   ],
 });

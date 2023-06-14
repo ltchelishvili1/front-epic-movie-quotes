@@ -66,7 +66,10 @@ const messages = {
      username: 'Username',
      mail:'Email',
      new_password: 'New Password',
-     new_email: 'New Email'
+     new_email: 'New Email',
+     add_movie: 'Add movie',
+     my_list_of_movies: 'My list of movies',
+     search: 'search'
   },
   ka: {
     email: "გამოიყენეთ ელ-ფოსტა",
@@ -132,7 +135,10 @@ const messages = {
     username: 'სახელი',
     mail:'ელ-ფოსტა',
     new_password: 'ახალი პაროლი',
-    new_email: 'ახალი ელ-ფოსტა'
+    new_email: 'ახალი ელ-ფოსტა',
+    add_movie: 'ფილმის დამატება',
+    my_list_of_movies: 'ჩემი ფილმები',
+    search: 'ძებნა'
   },
 };
 
