@@ -10,7 +10,11 @@ import UpdatePassword from "@/components/modals/reset-password/UpdatePasswordMod
 import UpdatePasswordSuccessModal from "@/components/modals/reset-password/UpdatePasswordSuccessModal.vue";
 import UpdateProfilePage from "@/pages/UpdateProfilePage.vue";
 import MoviesListPage from "@/pages/MoviesListPage.vue";
-import AddMovieModal from '@/components/modals/AddMovieModal.vue'
+import CheckMoviePage from "@/pages/CheckMoviePage.vue";
+import AddMovieModal from "@/components/modals/AddMovieModal.vue";
+import EditMovieModal from "@/components/modals/EditMovieModal.vue";
+import AddQuoteModal from "@/components/modals/AddQuoteModal.vue";
+import EditQuoteModal from "@/components/modals/EditQuoteModal.vue";
 
 import {
   authenticateUser,
@@ -101,6 +105,32 @@ const router = createRouter({
           beforeEnter: authenticateUser,
         },
       ],
+    },
+    {
+      path: "/check-movies/:id",
+      name: "checkmovie",
+      component: CheckMoviePage,
+      beforeEnter: authenticateUser,
+      children:[
+        {
+          path: "edit-movie",
+          name: "edit-movie",
+          component: EditMovieModal,
+          beforeEnter: authenticateUser, 
+        },
+        {
+          path: "add-quote",
+          name: "add-quote",
+          component: AddQuoteModal,
+          beforeEnter: authenticateUser, 
+        },
+        {
+          path: "edit-quote/:quoteId",
+          name: "edit-quote",
+          component: EditQuoteModal,
+          beforeEnter: authenticateUser, 
+        }
+      ]
     },
   ],
 });

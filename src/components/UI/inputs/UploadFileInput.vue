@@ -19,7 +19,7 @@
       @click="openFileInput"
     />
     <label class="text-white text-center cursor-pointer">
-      Drag & drop your image here or
+      {{ $t('drag_and_drop_image') }}
     </label>
     <button
       type="button"
@@ -35,11 +35,17 @@
 import { computed, ref } from "vue";
 import { Field } from "vee-validate";
 export default {
+  props: {
+    image: {
+      type: String,
+      default: null,
+    },
+  },
   components: {
     Field,
   },
-  setup(_, { emit }) {
-    const img = ref(null);
+  setup({ image }, { emit }) {
+    const img = ref(image);
     const uploadImage = (file) => {
       emit("upload-image", file);
       const reader = new FileReader();

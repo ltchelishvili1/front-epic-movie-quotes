@@ -59,7 +59,7 @@
             :color="displayIconBackground('movies')"
             class="ml-[15px]"
           ></icon-list-of-movies>
-          <router-link to="#" class="text-white text-2xl ml-[32px]">{{
+          <router-link :to="{name: 'movies'}" class="text-white text-2xl ml-[32px]">{{
             $t("list_of_movies")
           }}</router-link>
         </div>

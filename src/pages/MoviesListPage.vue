@@ -15,12 +15,10 @@
 <script>
 import AuthorizedUserLayout from "@/components/layout/AuthorizedUserLayout.vue";
 
-
-
 import axios from "@/config/axios/index";
-import {  onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import MoviesListNav from "@/components/movies-list/MoviesListNav.vue";
-import MoviesListMovieCard from '@/components/movies-list/MoviesListMovieCard.vue';
+import MoviesListMovieCard from "@/components/movies-list/MoviesListMovieCard.vue";
 
 export default {
   components: {

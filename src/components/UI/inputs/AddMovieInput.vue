@@ -7,14 +7,20 @@
           :rules="rules"
           :name="name"
           :id="name"
-          :class="displayValidationBorder"
-          v-model="inputData"
-          class="w-full text-white bg-transparent p-4 mt-[8px]"
+          :class="fieldClasses"
+          class="w-full text-white bg-transparent p-4 mt-[8px] z-[10]"
           :type="type"
           :placeholder="title"
           :value="inputData"
-          @input="inputData = $event.target.value"
+          @input="updateInputData"
         />
+        <p
+          v-if="value && !isQuote"
+          class="absolute text-white w-[200px] p-4 mt-[8px]"
+        >
+          {{ prefix }}
+        </p>
+
         <span class="absolute text-[#6C757D] right-0 mr-[50px] mt-[4px]">{{
           lang
         }}</span>
@@ -58,6 +64,14 @@ export default {
       type: Object,
       required: false,
     },
+    value: {
+      type: String || Number,
+      required: false,
+    },
+    isQuote: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   components: {
@@ -65,8 +79,9 @@ export default {
     ErrorMessage,
   },
 
-  setup({ name,type }, { emit }) {
-    const inputData = ref("");
+  setup({ name, type, title, value, isQuote }, { emit }) {
+    const prefix = ref(title + ":  ");
+    const inputData = ref(value);
     const { meta } = useField(name);
 
     watch(inputData, (newValue) => {
@@ -75,26 +90,49 @@ export default {
       emit("set-input-value", { key, value });
     });
 
-
     const displayValidationBorder = computed(() =>
-      meta.valid && meta.touched && meta.value.length
-        ? "border-[1.5px] border-[#198754]"
+      meta.valid && meta.touched && meta.value && meta.value.length
+        ? `border-[1.5px] border-[#198754]`
         : (!meta.valid && meta.touched) || meta.errors.length
-        ? "border border-[#E31221]"
-        : " border border-[#6C757D]"
+        ? `border border-[#E31221] `
+        : `border border-[#6C757D]`
     );
 
     const isTouched = (touched) => {
       meta.touched = touched;
     };
 
-    const isTextArea = computed(() => type === 'textarea' ? 'textarea' : 'input')
+    const isTextArea = computed(() =>
+      type === "textarea" ? "textarea" : "input"
+    );
+
+    const updateInputData = (event) => {
+      inputData.value = event.target.value;
+    };
+
+    const fieldClasses = computed(() => {
+      if (isQuote) {
+        return;
+      }
+      const classes = [displayValidationBorder.value];
+
+      if (value) {
+        classes.push("pl-[150px]");
+      }
+
+      return classes.join(" ");
+    });
 
     return {
       inputData,
       displayValidationBorder,
       isTouched,
-      isTextArea
+      isTextArea,
+      updateInputData,
+      inputData,
+      prefix,
+      value,
+      fieldClasses,
     };
   },
 };
