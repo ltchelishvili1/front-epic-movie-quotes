@@ -97,7 +97,7 @@ export default {
     };
 
     const uploadImage = (file) => {
-      formData.set("image", file);
+      formData.set("thumbnail", file);
     };
 
     const addMovie = handleSubmit(async () => {

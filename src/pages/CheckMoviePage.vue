@@ -6,7 +6,7 @@
       <div class="w-[60%]">
         <div
           :style="{
-            backgroundImage: `url(${movie?.image})`,
+            backgroundImage: `url(${movie?.thumbnail})`,
             backgroundSize: 'cover',
           }"
           class="w-full h-[441px]"
@@ -94,7 +94,6 @@ import { getLocale } from "@/config/helpers/index";
 import axios from "@/config/axios/index";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useMoviesStore } from "@/stores/movie/index";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import CheckMovieQuoteCard from "@/components/CheckMovieQuoteCard.vue";
 
@@ -116,17 +115,20 @@ export default {
     const route = useRoute();
     const router = useRouter();
 
-    const movieStore = useMoviesStore();
-
     onMounted(() => {
       const fetchMovie = async () => {
-        await movieStore.getMovie(route.params.id);
-        movie.value = movieStore.movie;
-        movie.value.quotes
-          .map((quote) => quote.id)
-          .forEach((quoteId) => {
-            displayQuote.value[quoteId + "quote"] = false;
-          });
+        try {
+          const response = await axios.get(`movies/${route.params.id}`);
+          movie.value = response.data.movie;
+        } catch (error) {
+          //
+        } finally {
+          movie.value.quotes
+            .map((quote) => quote.id)
+            .forEach((quoteId) => {
+              displayQuote.value[quoteId + "quote"] = false;
+            });
+        }
       };
 
       fetchMovie();

@@ -67,7 +67,7 @@
 
     <upload-file-input
       @upload-image="uploadImage"
-      :image="movie?.image"
+      :image="(movie?.thumbnail)"
     ></upload-file-input>
 
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
@@ -112,7 +112,7 @@ export default {
     };
 
     const uploadImage = (file) => {
-      formData.set("image", file);
+      formData.set("thumbnail", file);
     };
 
     const updateMovie = handleSubmit(async () => {

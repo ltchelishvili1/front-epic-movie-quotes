@@ -79,8 +79,6 @@
               withCredentials: true,
             }
           );
-
-          console.log(response)
   
           if (response.status !== 200) {
             throw new Error("Request failed with status " + response.status);
