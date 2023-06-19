@@ -1,0 +1,13 @@
+<template>
+    <create-or-modify-modal :title="$t('edit_quote')" >
+       <edit-quote-form></edit-quote-form>
+    </create-or-modify-modal>
+ </template>
+ 
+ <script>
+ import CreateOrModifyModal from '@/components/layout/CreateOrModifyModal.vue'
+ import EditQuoteForm from '@/components/edit-movie/EditQuoteForm.vue';
+ export default {
+   components: { CreateOrModifyModal, EditQuoteForm },
+ }
+ </script>

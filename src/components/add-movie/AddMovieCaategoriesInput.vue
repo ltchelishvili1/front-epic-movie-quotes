@@ -5,7 +5,7 @@
       @click="showCategories"
     >
       <p v-if="!displaySelectedCategories.length" class="text-white">
-        Categories
+        {{ $t('genres') }}
       </p>
       <div
         class="text-white bg-[#6C757D] flex justify-center items-center m-[3px]"
@@ -34,21 +34,28 @@
 <script>
 import { computed, onMounted, ref } from "vue";
 import axios from "@/config/axios/index";
-import {getLocale} from '@/config/helpers/index'
+import { getLocale } from "@/config/helpers/index";
 
 export default {
-  setup(_, { emit }) {
-    const showCategoriesRef = ref(false);
-    const selectedCategories = ref([]);
-    const categories = ref([]);
+  props: {
+    value: {
+      type: Array,
+      default: []
+    },
+  },
+  setup({ value }, { emit }) {
     const locale = getLocale();
+    const showCategoriesRef = ref(false);
+    const selectedCategories = ref(value);
+    const categories = ref([]);
+
 
     const showCategories = () => {
       showCategoriesRef.value = true;
     };
 
     onMounted(() => {
-    const fetchCategories = async () => {
+      const fetchCategories = async () => {
         try {
           const response = await axios.get("genres");
           categories.value = response.data.genres;
@@ -77,7 +84,6 @@ export default {
         value: event.target.value,
         id: event.target.name,
       });
-
       emit("set-categories", selectedCategories.value);
     };
 

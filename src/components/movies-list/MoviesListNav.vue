@@ -1,7 +1,7 @@
 <template>
   <nav class="flex mb-[68px] items-center justify-between">
     <p class="text-white">
-      {{ $t("my_list_of_movies") }} (Total <span>{{ length }}</span
+      {{ $t("my_list_of_movies") }} ({{ $t('total') }} <span>{{ length }}</span
       >)
     </p>
     <div class="flex items-center justify-center">
