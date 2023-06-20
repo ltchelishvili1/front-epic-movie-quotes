@@ -50,7 +50,7 @@
             :color="displayIconBackground('news-feed')"
             class="ml-[15px]"
           ></icon-news-feed>
-          <router-link to="#" class="text-white text-2xl ml-[32px]">{{
+          <router-link :to="{name: 'news-feed'}" class="text-white text-2xl ml-[32px]">{{
             $t("news_feed")
           }}</router-link>
         </div>

@@ -9,12 +9,15 @@ import ResetPasswordRequest from "@/components/modals/reset-password/ResetPasswo
 import UpdatePassword from "@/components/modals/reset-password/UpdatePasswordModal.vue";
 import UpdatePasswordSuccessModal from "@/components/modals/reset-password/UpdatePasswordSuccessModal.vue";
 import UpdateProfilePage from "@/pages/UpdateProfilePage.vue";
+import NewsFeedPage from "@/pages/NewsFeedPage.vue";
 import MoviesListPage from "@/pages/MoviesListPage.vue";
 import CheckMoviePage from "@/pages/CheckMoviePage.vue";
 import AddMovieModal from "@/components/modals/AddMovieModal.vue";
 import EditMovieModal from "@/components/modals/EditMovieModal.vue";
 import AddQuoteModal from "@/components/modals/AddQuoteModal.vue";
 import EditQuoteModal from "@/components/modals/EditQuoteModal.vue";
+import ViewQuoteModal from "@/components/modals/ViewQuoteModal.vue";
+
 
 import {
   authenticateUser,
@@ -129,8 +132,30 @@ const router = createRouter({
           name: "edit-quote",
           component: EditQuoteModal,
           beforeEnter: authenticateUser, 
-        }
+        },
+        {
+          path: "view-quote/:quoteId",
+          name: "view-quote",
+          component: ViewQuoteModal,
+          beforeEnter: authenticateUser, 
+        },
       ]
+    },
+    {
+      path: "/news-feed",
+      name: "news-feed",
+      component: NewsFeedPage,
+      beforeEnter: authenticateUser,
+      children: [
+        {
+          path: "add-quote",
+          name: "add-quote-news-feed",
+          component: AddQuoteModal,
+          beforeEnter: authenticateUser, 
+        },
+        
+      ]
+      
     },
   ],
 });

@@ -76,6 +76,8 @@ import { Form, useForm, Field } from "vee-validate";
 import { ref } from "vue";
 import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
 import AddMovieCaategoriesInput from "@/components/add-movie/AddMovieCaategoriesInput.vue";
+import { useMovieStore } from "@/stores/movie/index";
+import { useRouter } from 'vue-router';
 
 export default {
   components: {
@@ -89,7 +91,9 @@ export default {
   setup() {
     const formData = new FormData();
     const errorMessage = ref(null);
+    const router = useRouter()
     const { handleSubmit } = useForm();
+    const movieStore = useMovieStore();
 
     const setInputValue = ({ key, value }) => {
       formData.set(key, value);
@@ -101,20 +105,8 @@ export default {
     };
 
     const addMovie = handleSubmit(async () => {
-      try {
-        const response = await axios.post("movies", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        });
-
-        if (response.status !== 200) {
-          throw new Error("Request failed with status " + response.status);
-        }
-      } catch (error) {
-        errorMessage.value = error.response.data.message;
-      }
+        await movieStore.addMovie(formData);
+        router.push({name: 'movies'})
     });
 
     const setCategories = (selectedCategories) => {

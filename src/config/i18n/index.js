@@ -81,7 +81,11 @@ const messages = {
     quotes_total: 'Quotes total',
     director: 'Director',
     genres: 'Genres',
-    total: 'Total'
+    total: 'Total',
+    movie: 'Movie',
+    write_new_quote: 'Write new quote',
+    search_by:'Search',
+    choose_movie: 'Choose movie'
   },
   ka: {
     email: "გამოიყენეთ ელ-ფოსტა",
@@ -162,7 +166,11 @@ const messages = {
     quotes_total: 'სულ ფრაზები',
     director: 'რეჟისორი',
     genres: 'ჟანრები',
-    total: 'სულ'
+    total: 'სულ',
+    movie: 'ფილმი',
+    write_new_quote: 'ახალი ფრაზა',
+    search_by:'ძებნა',
+    choose_movie: 'ფილმის არჩევა'
   },
 };
 

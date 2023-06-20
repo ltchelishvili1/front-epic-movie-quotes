@@ -11,7 +11,7 @@
           class="w-full text-white bg-transparent p-4 mt-[8px] z-[10]"
           :type="type"
           :placeholder="title"
-          :value="inputData"
+          :value="readOnly ? value : inputData"
           @input="updateInputData"
         />
         <p
@@ -72,6 +72,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    readOnly:{
+      type: Boolean,
+      default: false
+    }
   },
 
   components: {
@@ -112,7 +116,7 @@ export default {
 
     const fieldClasses = computed(() => {
       if (isQuote) {
-        return;
+        return 'border border-[#6C757D]';
       }
       const classes = [displayValidationBorder.value];
 

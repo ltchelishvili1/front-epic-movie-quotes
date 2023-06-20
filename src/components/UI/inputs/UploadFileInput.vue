@@ -14,14 +14,16 @@
     />
     <img
       v-if="displayImage"
+      :class="readOnly ? 'w-full' : ''"
       class="w-[188px] h-[188px] cursor-pointer"
       :src="displayImage"
       @click="openFileInput"
     />
-    <label class="text-white text-center cursor-pointer">
+    <label v-if="!readOnly" class="text-white text-center cursor-pointer">
       {{ $t('drag_and_drop_image') }}
     </label>
     <button
+    v-if="!readOnly"
       type="button"
       class="ml-[20px] text-white text-center cursor-pointer bg-[#9747FF66] p-[10px] rounded"
       @click="openFileInput"
@@ -40,6 +42,10 @@ export default {
       type: String,
       default: null,
     },
+    readOnly:{
+      type:Boolean,
+      default: false
+    }
   },
   components: {
     Field,

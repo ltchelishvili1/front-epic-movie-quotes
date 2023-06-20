@@ -35,6 +35,7 @@
 import { computed, onMounted, ref } from "vue";
 import axios from "@/config/axios/index";
 import { getLocale } from "@/config/helpers/index";
+import {useMovieStore} from '@/stores/movie/index'
 
 export default {
   props: {
@@ -48,7 +49,9 @@ export default {
     const showCategoriesRef = ref(false);
     const selectedCategories = ref(value);
     const categories = ref([]);
+    const movieStore = useMovieStore()
 
+    const movie = computed(() => movieStore.getMovie)
 
     const showCategories = () => {
       showCategoriesRef.value = true;
@@ -84,6 +87,10 @@ export default {
         value: event.target.value,
         id: event.target.name,
       });
+
+
+      movie.value.genres.push(categories.value.filter((cat) => cat.id == event.target.name)[0])
+
       emit("set-categories", selectedCategories.value);
     };
 

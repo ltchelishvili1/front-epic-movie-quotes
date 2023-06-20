@@ -1,6 +1,7 @@
 <template>
   <authorized-user-layout>
     <router-view></router-view>
+
     <movies-list-nav :length="movies?.length"></movies-list-nav>
 
     <div
@@ -16,9 +17,10 @@
 import AuthorizedUserLayout from "@/components/layout/AuthorizedUserLayout.vue";
 
 import axios from "@/config/axios/index";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import MoviesListNav from "@/components/movies-list/MoviesListNav.vue";
 import MoviesListMovieCard from "@/components/movies-list/MoviesListMovieCard.vue";
+import { useMovieStore } from "@/stores/movie/index";
 
 export default {
   components: {
@@ -27,23 +29,14 @@ export default {
     MoviesListMovieCard,
   },
   setup() {
-    const movies = ref([]);
+    const movieStore = useMovieStore();
 
-    onMounted(() => {
-      const fetchMovies = async () => {
-        try {
-          const response = await axios.get("movies");
-          movies.value = response.data.movies;
-          if (response.status !== 200) {
-            throw new Error("Request failed with status " + response.status);
-          }
-        } catch (error) {
-          //
-        }
-      };
-
-      fetchMovies();
+    onMounted(async () => {
+      await movieStore.fetchMovies();
     });
+
+    const movies = computed(() => movieStore?.getMovies);
+
     return {
       movies,
     };

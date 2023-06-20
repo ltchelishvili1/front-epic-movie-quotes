@@ -21,6 +21,11 @@ axiosInstance.interceptors.response.use(
       userStore.authenticated = false;
       router.push({ name: "main" });
     }
+    if (error.response.status == 403) {
+      const userStore = useUserStore();
+      userStore.authenticated = false;
+      router.back();
+    }
     return Promise.reject(error);
   }
 );

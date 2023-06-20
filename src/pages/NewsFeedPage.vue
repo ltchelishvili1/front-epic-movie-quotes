@@ -1,0 +1,416 @@
+<template>
+    <authorized-user-layout>
+      <router-view> </router-view>
+      <div class="flex mt-8">
+        <div
+          class="bg-[#22203099] mr-6"
+          :class="isSearhOpen ? 'w-[15%]' : 'w-[75%]'"
+        >
+          <router-link :to="{ name: 'add-quote-news-feed' }" class="text-white"
+            ><p class="p-4">{{ $t("write_new_quote") }}</p></router-link
+          >
+        </div>
+        <div v-if="isSearhOpen" class="w-[70%]">
+          <Field
+            :ruels="[]"
+            name="search"
+            v-model="searchKey"
+            class="bg-transparent h-[50px] text-white w-full px-[20px]"
+            placeholder="Enter @ to search movies, Enter # to search quotes "
+            :value="searchKey"
+            @input="searchKey = $event.target.value"
+          />
+          <button
+            @click="hideSearchInput"
+            class="text-white absolute curson-pointer mt-[15px] opacity-[.6] -translate-x-[30px]"
+          >
+            X
+          </button>
+          <div class="w-full h-[0.1px] bg-[#EFEFEF] opacity-[0.3]"></div>
+        </div>
+  
+        <div v-if="!isSearhOpen">
+          <button @click="toggleSearch" class="text-white p-4">
+            {{ $t("search_by") }}
+          </button>
+        </div>
+      </div>
+      <div v-if="posts">
+        <div
+          v-for="post in posts"
+          :key="post.id"
+          class="text-white text-[30px] my-[22px] p-6 bg-[#11101A] rounded-xl w-[88%]"
+        >
+          <div class="flex items-center">
+            <img
+              class="mr-[20px] w-[60px] h-[60px] rounded-full border-2 border-solid border-[#E31221]"
+              :src="post?.user?.thumbnail"
+            />
+            <p class="text-white ml-4 text-[20px]">{{ post?.user?.username }}</p>
+          </div>
+          <div>
+            <p class="text-white py-4">
+              “{{ post?.quote[locale] }}” {{ $t("movie") }}-
+              <span class="text-[#DDCCAA]"
+                >{{ post?.movie?.title[locale] }}.
+              </span>
+              ({{ post?.movie?.release_year }})
+            </p>
+            <img :src="post?.image" class="w-full h-[500px]" />
+            <div>
+              <div class="flex items-center">
+                <div class="flex items-center mr-6">
+                  <p class="text-white text-[20px]">
+                    {{ post?.comments?.length || 0 }}
+                  </p>
+                  <icon-comments class="ml-3"></icon-comments>
+                </div>
+                <button
+                  @click="
+                    handleLikePost(
+                      post?.id,
+                      post?.user_id,
+                      hasUserLikedPost(post?.likes),
+                      post?.likes
+                    )
+                  "
+                  class="text-white flex items-center text-[20px] my-[24px]"
+                >
+                  {{ post?.likes?.length || 0 }}
+                  <icon-likes
+                    :isSelected="hasUserLikedPost(post?.likes)"
+                    class="ml-3"
+                  ></icon-likes>
+                </button>
+              </div>
+  
+              <div v-if="post?.comments && post?.comments.length">
+                <div
+                  class="flex items-center"
+                  v-for="(comment, index) in post?.comments"
+                  :key="comment.id"
+                >
+                  <img
+                    class="w-[52px] h-[52px] rounded-full mx-6"
+                    :src="comment?.user?.thumbnail"
+                  />
+                  <div class="w-[80%] mt-[35px]">
+                    <p class="text-white text-[20px]">
+                      {{ comment?.user?.username }}
+                    </p>
+                    <p
+                      class="text-white text-[20px] break-words w-full mt-[11px] mb-6"
+                    >
+                      {{ comment?.comment }}
+                    </p>
+                    <div
+                      v-if="index != post?.comments.length - 1"
+                      class="w-full h-[0.1px] bg-[#EFEFEF] opacity-[0.3] mt-[24px]"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="flex items-center">
+                <img
+                  class="w-[52px] h-[52px] rounded-full mx-6"
+                  :src="userStore.getUser.thumbnail"
+                />
+                <Form
+                  class="w-full relative"
+                  @submit="addComment(post?.id, post?.user_id, post?.comments)"
+                >
+                  <Field
+                    as="textarea"
+                    rules="required"
+                    name="comment"
+                    id="comment"
+                    rows="2"
+                    style="background-color: #22203099"
+                    class="w-full text-white bg-transparent flex p-4 h-[80px] rounded-lg mt-[8px] z-[10]"
+                    :placeholder="$t('write_a_comment')"
+                    :value="comment"
+                    @input="setComment"
+                  />
+                  <button class="absolute right-[10px] bottom-[15px] text-white">
+                    send
+                  </button>
+                </Form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div v-else-if="quotes" class="flex flex-col items-center justify-center">
+        <div
+          v-for="quote in quotes"
+          :key="quote.id"
+          class="text-white flex items-center justify-center mt-[40px] p-[50px] bg-[#11001A] w-[70%] rounded-xl"
+        >
+          <div class="flex flex-col items-center justify -center">
+            <h3 class="text-white mb-[30px] italic">
+              " {{ quote.quote[locale] }} "
+            </h3>
+            <img
+              :src="quote.image"
+              :alt="quote.quote[locale]"
+              class="w-[70%] h-[400px]"
+            />
+          </div>
+        </div>
+      </div>
+  
+      <div
+        v-if="movies"
+        class="mt-[100px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-[50px]"
+      >
+        <div v-for="movie in movies" :key="movie.id">
+          <movies-list-movie-card :movie="movie"></movies-list-movie-card>
+        </div>
+      </div>
+    </authorized-user-layout>
+  </template>
+  <script>
+  import AuthorizedUserLayout from "@/components/layout/AuthorizedUserLayout.vue";
+  
+  import { useUserStore } from "@/stores/user/index";
+  import { getLocale } from "@/config/helpers/index";
+  import { Field, Form } from "vee-validate";
+  import axios from "@/config/axios/index";
+  
+  import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+  import MoviesListMovieCard from "@/components/movies-list/MoviesListMovieCard.vue";
+  import IconLikes from "@/components/icons/IconLikes.vue";
+  import IconComments from "@/components/icons/IconComments.vue";
+  
+  export default {
+    components: {
+      AuthorizedUserLayout,
+      Field,
+      MoviesListMovieCard,
+      Form,
+      IconLikes,
+      IconComments,
+    },
+    setup() {
+      let searchTimeout = null;
+      const posts = ref([]);
+      const movies = ref([]);
+      const quotes = ref([]);
+      const comment = ref("");
+      const page = ref({
+        posts: 2,
+        quotes: 2,
+        movies: 2,
+      });
+      const searchKey = ref("");
+      const isSearhOpen = ref(false);
+      const locale = getLocale();
+      const userStore = useUserStore();
+  
+      if (localStorage.getItem("searchKey")) {
+        searchKey.value = localStorage.getItem("searchKey");
+      }
+      if (localStorage.getItem("isSearchOpen")) {
+        isSearhOpen.value = JSON.parse(localStorage.getItem("isSearchOpen"));
+      }
+  
+      const toggleSearch = () => {
+        isSearhOpen.value = !isSearhOpen.value;
+        localStorage.setItem("isSearchOpen", JSON.stringify(isSearhOpen.value));
+      };
+  
+      const fetchSearchResult = async (search, page = 1) => {
+        try {
+          const response = await axios.get(`quotes-search?page=${page}`, {
+            params: {
+              searchKey: search,
+            },
+          });
+          if (response.data.posts) {
+            posts.value = response.data.posts;
+            movies.value = null;
+            quotes.value = null;
+          }
+          if (response.data.movies) {
+            movies.value = response.data.movies;
+            posts.value = null;
+            quotes.value = null;
+          }
+          if (response.data.quotes) {
+            quotes.value = response.data.quotes;
+            posts.value = null;
+            movies.value = null;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+  
+      watch(searchKey, (newValue) => {
+        if (searchKey.value.trim() !== "@") {
+          page.value.movies = 2;
+        }
+        if (searchKey.value.trim() !== "#") {
+          page.value.quotes = 2;
+        }
+        if (searchKey.value.trim() === "@" || searchKey.value.trim() === "#") {
+          page.value.posts = 2;
+        }
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          fetchSearchResult(newValue);
+        }, 500);
+        localStorage.setItem("searchKey", newValue);
+      });
+  
+      const handleScroll = async () => {
+        if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
+          const paginationPage =
+            searchKey.value.trim()[0] === "@"
+              ? page.value.movies
+              : searchKey.value.trim()[0] === "#"
+              ? page.value.quotes
+              : page.value.posts;
+          try {
+            const response = await axios.get(
+              `quotes-search?page=${paginationPage}`,
+              {
+                params: {
+                  searchKey: searchKey.value,
+                },
+              }
+            );
+            if (response.data.posts) {
+              response.data.posts.forEach((post) => {
+                posts.value.push(post);
+              });
+  
+              page.value.posts++;
+            }
+            if (response.data.movies) {
+              response.data.movies.forEach((movie) => {
+                movies.value.push(movie);
+              });
+  
+              page.value.movies++;
+            }
+  
+            if (response.data.quotes) {
+              console.log(response);
+              response.data.quotes.forEach((movie) => {
+                quotes.value.push(movie);
+              });
+  
+              page.value.quotes++;
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      };
+  
+      const hideSearchInput = () => {
+        isSearhOpen.value = false;
+        localStorage.setItem("isSearchOpen", false);
+      };
+  
+      const handleLikePost = async (
+        quote_id,
+        quote_user_id,
+        hasAlreadyLiked,
+        likes
+      ) => {
+        if (!hasAlreadyLiked) {
+          try {
+            const response = await axios.post("likes", {
+              quote_id,
+              quote_user_id,
+            });
+  
+            const newLike = response.data;
+            likes.push(newLike);
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          const likeId = likes.find(
+            (like) => like.user_id === userStore.getUser.id
+          ).id;
+          try {
+            await axios.delete(`likes/${likeId}`, {
+              quote_id,
+              quote_user_id,
+            });
+  
+            const index = likes.findIndex((like) => like.id === likeId);
+            if (index !== -1) {
+              likes.splice(index, 1);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      };
+  
+      const addComment = async (quote_id, quote_user_id, comments) => {
+        try {
+          await axios.post("comments", {
+            quote_id,
+            quote_user_id,
+            comment: comment.value,
+          });
+          console.log(comments)
+          comments.push(
+            {
+              comment: comment.value,
+              user: {
+                  thumbnail: userStore.getUser.thumbnail,
+                  username: userStore.getUser.username
+              }
+            }
+            )
+        } catch (error) {
+          console.log(error);
+        }
+      };
+  
+      window.addEventListener("scroll", handleScroll);
+  
+      const setComment = (e) => {
+        comment.value = e.target.value;
+        console.log(comment.value);
+      };
+  
+      const hasUserLikedPost = computed(() => (likes) => {
+        return likes.map((like) => like.user_id).includes(userStore.getUser.id);
+      });
+  
+      onUnmounted(() => {
+        window.removeEventListener("scroll", handleScroll);
+      });
+  
+      onMounted(() => {
+        fetchSearchResult(searchKey.value);
+      });
+  
+      return {
+        posts,
+        userStore,
+        locale,
+        isSearhOpen,
+        toggleSearch,
+        searchKey,
+        movies,
+        quotes,
+        hideSearchInput,
+        handleLikePost,
+        hasUserLikedPost,
+        setComment,
+        comment,
+        addComment,
+      };
+    },
+  };
+  </script>
