@@ -223,7 +223,7 @@
   
       const fetchSearchResult = async (search, page = 1) => {
         try {
-          const response = await axios.get(`quotes-search?page=${page}`, {
+          const response = await axios.get(`quotes?page=${page}`, {
             params: {
               searchKey: search,
             },
@@ -244,7 +244,7 @@
             movies.value = null;
           }
         } catch (error) {
-          console.log(error);
+          //
         }
       };
   
@@ -266,7 +266,8 @@
       });
   
       const handleScroll = async () => {
-        if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
+        if (window.scrollY + window.innerHeight +1 >= document.body.scrollHeight) {
+        
           const paginationPage =
             searchKey.value.trim()[0] === "@"
               ? page.value.movies
@@ -274,8 +275,9 @@
               ? page.value.quotes
               : page.value.posts;
           try {
+           
             const response = await axios.get(
-              `quotes-search?page=${paginationPage}`,
+              `quotes?page=${paginationPage}`,
               {
                 params: {
                   searchKey: searchKey.value,
@@ -298,7 +300,6 @@
             }
   
             if (response.data.quotes) {
-              console.log(response);
               response.data.quotes.forEach((movie) => {
                 quotes.value.push(movie);
               });
@@ -306,7 +307,7 @@
               page.value.quotes++;
             }
           } catch (error) {
-            console.log(error);
+            //
           }
         }
       };
@@ -332,7 +333,7 @@
             const newLike = response.data;
             likes.push(newLike);
           } catch (error) {
-            console.log(error);
+            //
           }
         } else {
           const likeId = likes.find(
@@ -349,7 +350,7 @@
               likes.splice(index, 1);
             }
           } catch (error) {
-            console.log(error);
+            //
           }
         }
       };
@@ -361,7 +362,6 @@
             quote_user_id,
             comment: comment.value,
           });
-          console.log(comments)
           comments.push(
             {
               comment: comment.value,
@@ -372,7 +372,7 @@
             }
             )
         } catch (error) {
-          console.log(error);
+          //
         }
       };
   
@@ -380,7 +380,6 @@
   
       const setComment = (e) => {
         comment.value = e.target.value;
-        console.log(comment.value);
       };
   
       const hasUserLikedPost = computed(() => (likes) => {

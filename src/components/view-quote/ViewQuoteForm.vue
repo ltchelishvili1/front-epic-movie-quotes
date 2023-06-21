@@ -52,7 +52,7 @@
             const response = await axios.get(`quotes/${route.params.quoteId}`);
             quote.value = response.data.quote;
           } catch (error) {
-            console.log(error);
+           //
           }
         };
   
