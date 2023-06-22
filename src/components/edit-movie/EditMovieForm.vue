@@ -21,6 +21,7 @@
       @set-categories="setCategories"
       :value="selectedGenres(locale)"
     ></add-movie-caategories-input>
+    <p class="text-white">{{ selectedGenres(locale) }}</p>
 
     <add-movie-input
       title="წელი/Year"
@@ -67,7 +68,7 @@
 
     <upload-file-input
       @upload-image="uploadImage"
-      :image="(movie?.thumbnail)"
+      :image="movie?.thumbnail"
     ></upload-file-input>
 
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
@@ -88,7 +89,8 @@ import { Form, useForm, Field } from "vee-validate";
 import { computed, onBeforeMount, onMounted, ref } from "vue";
 import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
 import AddMovieCaategoriesInput from "@/components/add-movie/AddMovieCaategoriesInput.vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import { useMovieStore } from "@/stores/movie/index";
 
 export default {
   components: {
@@ -100,15 +102,23 @@ export default {
     AddMovieCaategoriesInput,
   },
   setup() {
+    const TRANSLATABLES = ["title", "description", "director"];
     const formData = new FormData();
     const errorMessage = ref(null);
-    const movie = ref(null);
+    const movie = computed(() => movieStore.getMovie);
     const { handleSubmit } = useForm();
     const route = useRoute();
     const locale = getLocale();
+    const movieStore = useMovieStore();
+    const router = useRouter();
 
     const setInputValue = ({ key, value }) => {
-      formData.set(key, value);
+      if (TRANSLATABLES.includes(key.split("_")[0])) {
+        movie.value[key.split("_")[0]][key.split("_")[1]] = value;
+      } else {
+        movie.value[key] = value;
+        formData.set(key, value);
+      }
     };
 
     const uploadImage = (file) => {
@@ -117,24 +127,13 @@ export default {
 
     const updateMovie = handleSubmit(async () => {
       formData.append("_method", "patch");
-      try {
-        const response = await axios.post(
-          `movies/${route.params.id}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true,
-          }
-        );
+      TRANSLATABLES.forEach((key) => {
+        formData.set(key + "_en", movie.value[key].en);
+        formData.set(key + "_ka", movie.value[key].ka);
+      });
 
-        if (response.status !== 200) {
-          throw new Error("Request failed with status " + response.status);
-        }
-      } catch (error) {
-        errorMessage.value = error.response.data.message;
-      }
+      await movieStore.editMovie(route.params.id, formData);
+      router.back();
     });
 
     const setCategories = (selectedCategories) => {
@@ -143,21 +142,7 @@ export default {
     };
 
     const fetchMovie = async () => {
-      try {
-        const response = await axios.get(`movies/${route.params.id}`);
-        movie.value = response.data.movie;
-        Object.keys(response.data.movie).forEach((key) => {
-          if (key === "genres") {
-            return formData.set(
-              key,
-              JSON.stringify(response.data.movie[key].map((genre) => genre.id))
-            );
-          }
-          return formData.set(key, JSON.stringify(response.data.movie[key]));
-        });
-      } catch (error) {
-        //
-      }
+      await movieStore.fetchMoviesForGenres(route.params.id, formData);
     };
 
     const selectedGenres = computed(() => (locale) => {

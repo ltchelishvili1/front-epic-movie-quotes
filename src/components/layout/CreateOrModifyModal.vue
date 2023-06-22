@@ -8,6 +8,29 @@
       @click="handleInnerClick"
     >
       <div class="flex items-center justify-center">
+        <div
+          v-if="isQuote"
+          class="absolute h-[40px] left-8 flex space-x-3 rounded-xl p-2 mb-[40px]"
+        >
+          <router-link
+            v-if="isQuote === 'view-quote'"
+            :to="{ name: 'edit-quote', params: { quoteId } }"
+            class="text-white text-center mt-[25px] mr-[15px]"
+          >
+            <icon-edit></icon-edit
+          ></router-link>
+
+          <div
+            v-if="isQuote === 'view-quote'"
+            class="border-r translate-y-[25px]"
+          ></div>
+          <button
+            @click="deleteQuote(quoteId)"
+            class="text-white text-center mt-[25px] translate-x-[15px]"
+          >
+            <icon-delete></icon-delete>
+          </button>
+        </div>
         <button
           @click="handleOuterClick"
           class="absolute text-white top-[40px] right-[30px]"
@@ -37,35 +60,58 @@
 </template>
 
 <script>
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user/index";
 import { displayImage } from "@/config/helpers";
-
+import IconEdit from "@/components/icons/IconEdit.vue";
+import IconDelete from "@/components/icons/IconDelete.vue";
+import axios from "@/config/axios/index";
 
 export default {
+  components: {
+    IconEdit,
+    IconDelete,
+  },
   props: {
     title: {
       type: String,
       required: false,
-    }
+    },
+    isQuote: {
+      type: String,
+      required: false,
+    },
   },
 
-  setup() {
+  setup({ isQuote }) {
     const router = useRouter();
+    const route = useRoute();
     const userStore = useUserStore();
     const handleOuterClick = () => {
-      router.back();
+      if (isQuote) {
+        router.push({ name: "checkmovie", params: { id: route.params.id } });
+      } else {
+        router.back();
+      }
     };
     const handleInnerClick = (event) => {
       event.stopPropagation();
     };
-
+    const deleteQuote = async (id) => {
+      try {
+        await axios.delete(`quotes/${id}`);
+      } catch (error) {
+        //
+      }
+    };
 
     return {
       handleInnerClick,
       handleOuterClick,
       displayImage,
+      quoteId: route.params.quoteId,
       userName: userStore.getUser.username,
+      deleteQuote,
     };
   },
 };

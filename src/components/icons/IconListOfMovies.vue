@@ -23,11 +23,11 @@
 
 <script>
 export default {
-  props:{
+  props: {
     color: {
       type: String,
-      default: 'white'
-    }
-  }
-}
+      default: "white",
+    },
+  },
+};
 </script>

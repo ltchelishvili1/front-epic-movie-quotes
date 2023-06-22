@@ -12,7 +12,11 @@
     >
       <div class="flex items-center justify-start mb-[32px]">
         <icon-view></icon-view>
-        <p class="text-white ml-4">{{ $t("view_quote") }}</p>
+        <router-link
+          :to="{ name: 'view-quote', params: { quoteId: quote?.id } }"
+          class="text-white ml-4"
+          >{{ $t("view_quote") }}</router-link
+        >
       </div>
       <div class="flex items-center justify-start mb-[32px]">
         <icon-edit></icon-edit>
@@ -66,7 +70,7 @@ import IconView from "@/components/icons/IconView.vue";
 import IconComments from "@/components/icons/IconComments.vue";
 import IconLikes from "@/components/icons/IconLikes.vue";
 export default {
-    components: {
+  components: {
     IconEdit,
     IconDelete,
     IconComments,
@@ -78,10 +82,10 @@ export default {
       type: Object,
       required: true,
     },
-    quote:{
-        type: Object,
-        required:true
-    }
+    quote: {
+      type: Object,
+      required: true,
+    },
   },
   setup(_, { emit }) {
     const toggleQuoteMenu = (id) => {
@@ -90,13 +94,13 @@ export default {
     const locale = getLocale();
 
     const deleteQuote = (id) => {
-        emit("delete-quote", id);
-    }
+      emit("delete-quote", id);
+    };
 
     return {
       toggleQuoteMenu,
       locale,
-      deleteQuote
+      deleteQuote,
     };
   },
 };

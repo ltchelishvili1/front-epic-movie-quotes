@@ -91,11 +91,11 @@ import IconView from "@/components/icons/IconView.vue";
 import IconComments from "@/components/icons/IconComments.vue";
 import IconLikes from "@/components/icons/IconLikes.vue";
 import { getLocale } from "@/config/helpers/index";
-import axios from "@/config/axios/index";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import CheckMovieQuoteCard from "@/components/CheckMovieQuoteCard.vue";
+import {useMovieStore} from '@/stores/movie/index'
 
 export default {
   components: {
@@ -109,47 +109,26 @@ export default {
     CheckMovieQuoteCard,
   },
   setup() {
-    const movie = ref(null);
     const displayQuote = ref({});
     const locale = getLocale();
     const route = useRoute();
     const router = useRouter();
+    const movieStore = useMovieStore()
+    
 
-    onMounted(() => {
-      const fetchMovie = async () => {
-        try {
-          const response = await axios.get(`movies/${route.params.id}`);
-          movie.value = response.data.movie;
-        } catch (error) {
-          //
-        } finally {
-          movie.value.quotes
-            .map((quote) => quote.id)
-            .forEach((quoteId) => {
-              displayQuote.value[quoteId + "quote"] = false;
-            });
-        }
-      };
-
-      fetchMovie();
+    onMounted(async () => {
+      await movieStore.fetchMovie(route.params.id)
     });
 
+    const movie = computed(() => movieStore.getMovie);
+
     const deleteMovie = async () => {
-      try {
-        await axios.delete(`movies/${route.params.id}`);
-      } catch (error) {
-        //
-      } finally {
-        router.push({ name: "movies" });
-      }
+     await movieStore.deleteMovie(route.params.id)
+     router.push({ name: "movies" });
     };
 
     const deleteQuote = async (id) => {
-      try {
-        await axios.delete(`quotes/${id}`);
-      } catch (error) {
-        //
-      }
+      await movieStore.deleteQuote(id)
     };
 
     const openAddQuoteModal = () => {

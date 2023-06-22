@@ -5,7 +5,6 @@
       >)
     </p>
     <div class="flex items-center justify-center">
-      <p class="text-white mt-[10px]">{{ $t("search") }}</p>
       <base-button
         class="flex items-center justify-center"
         buttonClass="primary"

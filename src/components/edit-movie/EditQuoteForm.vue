@@ -42,9 +42,10 @@ import axios from "@/config/axios/index";
 
 import { Form, useForm, Field } from "vee-validate";
 import { computed, onBeforeMount, onMounted, ref } from "vue";
+import {useMovieStore} from '@/stores/movie/index'
 import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
 import AddMovieCaategoriesInput from "@/components/add-movie/AddMovieCaategoriesInput.vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 export default {
   components: {
@@ -58,13 +59,16 @@ export default {
   setup() {
     const formData = new FormData();
     const errorMessage = ref(null);
+    const movieStore = useMovieStore()
     const quote = ref(null);
     const { handleSubmit } = useForm();
     const route = useRoute();
     const locale = getLocale();
+    const router = useRouter()
+    
 
     const setInputValue = ({ key, value }) => {
-      formData.set(key, value);
+      quote.value[key.split('_')[0]][key.split('_')[1]] = value
     };
 
     const uploadImage = (file) => {
@@ -92,25 +96,11 @@ export default {
     const updateQuote = handleSubmit(async () => {
       formData.set("movie_id", route.params.id);
       formData.set("quote_id", route.params.quoteId);
+      formData.set('quote_en', quote.value.quote.en)
+      formData.set('quote_ka', quote.value.quote.ka)
       formData.append("_method", "patch");
-      try {
-        const response = await axios.post(
-          `quotes/${route.params.quoteId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true,
-          }
-        );
-
-        if (response.status !== 200) {
-          throw new Error("Request failed with status " + response.status);
-        }
-      } catch (error) {
-        errorMessage.value = error.response.data.message;
-      }
+      await movieStore.editQuote(route.params.quoteId,formData)
+      router.back();
     });
 
     
