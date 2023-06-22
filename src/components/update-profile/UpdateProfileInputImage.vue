@@ -28,7 +28,7 @@ import { Field } from "vee-validate";
 
 export default {
   components: {
-    Field
+    Field,
   },
   props: {
     isMobile: {
@@ -41,8 +41,7 @@ export default {
       required: true,
     },
   },
-  setup({ isMobile }, { emit }) {
-
+  setup(props, { emit }) {
     const photoInput = ref();
 
     const uploadImage = (file) => {
@@ -50,7 +49,7 @@ export default {
     };
 
     const setMobilePosition = computed(() =>
-      isMobile ? "-translate-y-[50px]" : "-translate-y-[70%]"
+      props.isMobile ? "-translate-y-[50px]" : "-translate-y-[70%]"
     );
 
     const openFileInput = () => {
@@ -62,7 +61,7 @@ export default {
       uploadImage,
       setMobilePosition,
       openFileInput,
-      photoInput
+      photoInput,
     };
   },
 };

@@ -21,14 +21,14 @@
 import AuthLayout from "@/components/layout/AuthLayout.vue";
 import IconEmailVerification from "@/components/icons/IconEmailVerification.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
-import { useRoute } from 'vue-router';
+import { useRoute } from "vue-router";
 
 export default {
-  props:{
-    description:{
+  props: {
+    description: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
     AuthLayout,
@@ -36,7 +36,7 @@ export default {
     BaseButton,
   },
   setup() {
-    const route = useRoute()
+    const route = useRoute();
 
     const redirectToEmail = () => {
       let domain;

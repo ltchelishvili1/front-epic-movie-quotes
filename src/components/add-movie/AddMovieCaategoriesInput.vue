@@ -5,7 +5,7 @@
       @click="showCategories"
     >
       <p v-if="!displaySelectedCategories.length" class="text-white">
-        {{ $t('genres') }}
+        {{ $t("genres") }}
       </p>
       <div
         class="text-white bg-[#6C757D] flex justify-center items-center m-[3px]"
@@ -35,23 +35,23 @@
 import { computed, onMounted, ref } from "vue";
 import axios from "@/config/axios/index";
 import { getLocale } from "@/config/helpers/index";
-import {useMovieStore} from '@/stores/movie/index'
+import { useMovieStore } from "@/stores/movie/index";
 
 export default {
   props: {
     value: {
       type: Array,
-      default: []
+      default: () => [],
     },
   },
-  setup({ value }, { emit }) {
+  setup(props, { emit }) {
     const locale = getLocale();
     const showCategoriesRef = ref(false);
-    const selectedCategories = ref(value);
+    const selectedCategories = ref(props.value);
     const categories = ref([]);
-    const movieStore = useMovieStore()
+    const movieStore = useMovieStore();
 
-    const movie = computed(() => movieStore.getMovie)
+    const movie = computed(() => movieStore.getMovie);
 
     const showCategories = () => {
       showCategoriesRef.value = true;
@@ -67,7 +67,7 @@ export default {
             throw new Error("Request failed with status " + response.status);
           }
         } catch (error) {
-          errorMessage.value = error.response.data.message;
+          //
         }
       };
       fetchCategories();
@@ -88,8 +88,9 @@ export default {
         id: event.target.name,
       });
 
-
-      movie.value.genres.push(categories.value.filter((cat) => cat.id == event.target.name)[0])
+      movie.value.genres.push(
+        categories.value.filter((cat) => cat.id == event.target.name)[0]
+      );
 
       emit("set-categories", selectedCategories.value);
     };

@@ -87,15 +87,12 @@
 import AuthorizedUserLayout from "@/components/layout/AuthorizedUserLayout.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
 import IconDelete from "@/components/icons/IconDelete.vue";
-import IconView from "@/components/icons/IconView.vue";
-import IconComments from "@/components/icons/IconComments.vue";
-import IconLikes from "@/components/icons/IconLikes.vue";
 import { getLocale } from "@/config/helpers/index";
 import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import CheckMovieQuoteCard from "@/components/CheckMovieQuoteCard.vue";
-import {useMovieStore} from '@/stores/movie/index'
+import { useMovieStore } from "@/stores/movie/index";
 
 export default {
   components: {
@@ -103,9 +100,6 @@ export default {
     IconEdit,
     IconDelete,
     BaseButton,
-    IconComments,
-    IconLikes,
-    IconView,
     CheckMovieQuoteCard,
   },
   setup() {
@@ -113,22 +107,21 @@ export default {
     const locale = getLocale();
     const route = useRoute();
     const router = useRouter();
-    const movieStore = useMovieStore()
-    
+    const movieStore = useMovieStore();
 
     onMounted(async () => {
-      await movieStore.fetchMovie(route.params.id)
+      await movieStore.fetchMovie(route.params.id);
     });
 
     const movie = computed(() => movieStore.getMovie);
 
     const deleteMovie = async () => {
-     await movieStore.deleteMovie(route.params.id)
-     router.push({ name: "movies" });
+      await movieStore.deleteMovie(route.params.id);
+      router.push({ name: "movies" });
     };
 
     const deleteQuote = async (id) => {
-      await movieStore.deleteQuote(id)
+      await movieStore.deleteQuote(id);
     };
 
     const openAddQuoteModal = () => {

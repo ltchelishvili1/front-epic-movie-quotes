@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <router-link   :to="{ name: 'checkmovie', params: { id: movie.id } }">
+    <router-link :to="{ name: 'checkmovie', params: { id: movie.id } }">
       <img :src="movie?.thumbnail" :alt="movie.name" class="h-[371px] w-full" />
       <p class="mt-4 text-white text-[24px] font-medium">
         {{ movie.title[locale] }} <span>({{ movie.release_year }})</span>

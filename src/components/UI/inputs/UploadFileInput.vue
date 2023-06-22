@@ -20,10 +20,10 @@
       @click="openFileInput"
     />
     <label v-if="!readOnly" class="text-white text-center cursor-pointer">
-      {{ $t('drag_and_drop_image') }}
+      {{ $t("drag_and_drop_image") }}
     </label>
     <button
-    v-if="!readOnly"
+      v-if="!readOnly"
       type="button"
       class="ml-[20px] text-white text-center cursor-pointer bg-[#9747FF66] p-[10px] rounded"
       @click="openFileInput"
@@ -42,16 +42,16 @@ export default {
       type: String,
       default: null,
     },
-    readOnly:{
-      type:Boolean,
-      default: false
-    }
+    readOnly: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     Field,
   },
-  setup({ image }, { emit }) {
-    const img = ref(image);
+  setup(props, { emit }) {
+    const img = ref(props.image);
     const uploadImage = (file) => {
       emit("upload-image", file);
       const reader = new FileReader();

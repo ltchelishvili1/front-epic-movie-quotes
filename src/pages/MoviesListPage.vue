@@ -16,8 +16,7 @@
 <script>
 import AuthorizedUserLayout from "@/components/layout/AuthorizedUserLayout.vue";
 
-import axios from "@/config/axios/index";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted } from "vue";
 import MoviesListNav from "@/components/movies-list/MoviesListNav.vue";
 import MoviesListMovieCard from "@/components/movies-list/MoviesListMovieCard.vue";
 import { useMovieStore } from "@/stores/movie/index";

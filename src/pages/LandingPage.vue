@@ -40,23 +40,16 @@ and leave it that”"
 </template>
 
 <script>
-import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import InterstellarBackground from "@/assets/images/InterstellarBackground.jpg";
 import TheRoyalTenebaumsBackground from "@/assets/images/TheRoyalTenebaumsBackground.jpg";
 import LordOfTheRignsBackground from "@/assets/images/LordOfTheRignsBackground.jpg";
-import IconLine from "@/components/icons/IconLine.vue";
 import LandingPageCard from "@/components/landing-page/LandingPageCard.vue";
 import LandingPageNavigationBar from "@/components/landing-page/LandingPageNavigationBar.vue";
 import LandingPageHeader from "@/components/landing-page/LandingPageHeader.vue";
 
 export default {
   components: {
-    BaseButton,
-    InterstellarBackground,
-    IconLine,
     LandingPageCard,
-    TheRoyalTenebaumsBackground,
-    LordOfTheRignsBackground,
     LandingPageNavigationBar,
     LandingPageHeader,
   },

@@ -27,10 +27,10 @@ export default {
       type: Boolean,
       required: true,
     },
-    isMobile:{
-        type: Boolean,
-        required: false
-    }
+    isMobile: {
+      type: Boolean,
+      required: false,
+    },
   },
   setup(_, { emit }) {
     const displayForm = () => {

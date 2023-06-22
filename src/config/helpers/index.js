@@ -11,7 +11,7 @@ export const handleGoogleAuth = async () => {
     await axios.get("sanctum/csrf-cookie");
     window.location.replace(response.data);
   } catch (error) {
-    errorMessage.value = "Something went wrong, try again later!";
+    //
   }
 };
 

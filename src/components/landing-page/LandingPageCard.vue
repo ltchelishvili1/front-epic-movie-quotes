@@ -26,7 +26,7 @@
 
 <script>
 import IconLine from "@/components/icons/IconLine.vue";
-import { computed } from 'vue';
+import { computed } from "vue";
 export default {
   components: {
     IconLine,
@@ -53,18 +53,18 @@ export default {
 
   setup(props) {
     const displayParalax = computed(() => {
-     return !props.paralax ? 'paralax'  :''
-    })
+      return !props.paralax ? "paralax" : "";
+    });
     const displayBackground = computed(() => {
       return {
         backgroundImage: `url(${props.bg})`,
       };
     });
 
-    return{
+    return {
       displayBackground,
-      displayParalax
-    }
+      displayParalax,
+    };
   },
 };
 </script>

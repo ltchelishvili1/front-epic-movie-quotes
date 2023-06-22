@@ -7,7 +7,6 @@
         >
       </div>
       <div class="flex items-center">
-
         <Field
           :rules="rules"
           :name="name"
@@ -40,7 +39,6 @@
 <script>
 import IconInputValid from "@/components/icons/IconInputValid.vue";
 import IconInputInvalid from "@/components/icons/IconInputInvalid.vue";
-import IconInputOnFocus from "@/components/icons/IconInputOnFocus.vue";
 
 import { Field, ErrorMessage, useField } from "vee-validate";
 import { computed, ref, watch } from "vue";
@@ -80,15 +78,14 @@ export default {
     ErrorMessage,
     IconInputValid,
     IconInputInvalid,
-    IconInputOnFocus,
   },
 
-  setup({ name }, { emit }) {
+  setup(props, { emit }) {
     const inputData = ref("");
-    const { meta } = useField(name);
+    const { meta } = useField(props.name);
 
     watch(inputData, (newValue) => {
-      const key = name;
+      const key = props.name;
       const value = newValue;
       emit("set-input-value", { key, value });
     });
@@ -96,10 +93,12 @@ export default {
     const inputIsValid = computed(
       () => meta.valid && meta.touched && meta.value.length
     );
-    const inputIsInvalid = computed(() => meta.touched && (!meta.valid || !meta.value.length));
+    const inputIsInvalid = computed(
+      () => meta.touched && (!meta.valid || !meta.value.length)
+    );
 
     const displayValidationBorder = computed(() =>
-      (meta.valid && meta.touched && meta.value.length)
+      meta.valid && meta.touched && meta.value.length
         ? "border-[1.5px] border-[#198754]"
         : (!meta.valid && meta.touched) || meta.errors.length
         ? "border border-[#E31221]"

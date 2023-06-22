@@ -1,5 +1,5 @@
 <template>
-  <Form v-if="quote" @submit="updateQuote">
+  <vee-validate-form v-if="quote" @submit="updateQuote">
     <add-movie-input
       title='"Quote in English."'
       name="quote_en"
@@ -30,7 +30,7 @@
     <base-button class="mt-[40px]" buttonClass="primary">{{
       $t("add_movie")
     }}</base-button>
-  </Form>
+  </vee-validate-form>
 </template>
 
 <script>
@@ -40,35 +40,31 @@ import { getLocale } from "@/config/helpers/index";
 
 import axios from "@/config/axios/index";
 
-import { Form, useForm, Field } from "vee-validate";
-import { computed, onBeforeMount, onMounted, ref } from "vue";
-import {useMovieStore} from '@/stores/movie/index'
+import { Form, useForm } from "vee-validate";
+import { onBeforeMount, ref } from "vue";
+import { useMovieStore } from "@/stores/movie/index";
 import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
-import AddMovieCaategoriesInput from "@/components/add-movie/AddMovieCaategoriesInput.vue";
 import { useRoute, useRouter } from "vue-router";
 
 export default {
   components: {
     AddMovieInput,
     BaseButton,
-    Form,
-    Field,
+    VeeValidateForm: Form,
     UploadFileInput,
-    AddMovieCaategoriesInput,
   },
   setup() {
     const formData = new FormData();
     const errorMessage = ref(null);
-    const movieStore = useMovieStore()
+    const movieStore = useMovieStore();
     const quote = ref(null);
     const { handleSubmit } = useForm();
     const route = useRoute();
     const locale = getLocale();
-    const router = useRouter()
-    
+    const router = useRouter();
 
     const setInputValue = ({ key, value }) => {
-      quote.value[key.split('_')[0]][key.split('_')[1]] = value
+      quote.value[key.split("_")[0]][key.split("_")[1]] = value;
     };
 
     const uploadImage = (file) => {
@@ -96,14 +92,12 @@ export default {
     const updateQuote = handleSubmit(async () => {
       formData.set("movie_id", route.params.id);
       formData.set("quote_id", route.params.quoteId);
-      formData.set('quote_en', quote.value.quote.en)
-      formData.set('quote_ka', quote.value.quote.ka)
+      formData.set("quote_en", quote.value.quote.en);
+      formData.set("quote_ka", quote.value.quote.ka);
       formData.append("_method", "patch");
-      await movieStore.editQuote(route.params.quoteId,formData)
+      await movieStore.editQuote(route.params.quoteId, formData);
       router.back();
     });
-
-    
 
     return {
       setInputValue,

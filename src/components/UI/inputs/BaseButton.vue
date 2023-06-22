@@ -12,11 +12,10 @@
 </template>
 
 <script>
-import { defineComponent, computed } from "vue";
+import { computed } from "vue";
 import IconGoogle from "@/components/icons/IconGoogle.vue";
 
-export default defineComponent({
-  name: "Button",
+export default {
   components: {
     IconGoogle,
   },
@@ -46,8 +45,7 @@ export default defineComponent({
     return {
       handleClick,
       getButtonClass,
-      displayIcon: props.displayIcon,
     };
   },
-});
+};
 </script>

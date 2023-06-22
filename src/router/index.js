@@ -18,7 +18,6 @@ import AddQuoteModal from "@/components/modals/AddQuoteModal.vue";
 import EditQuoteModal from "@/components/modals/EditQuoteModal.vue";
 import ViewQuoteModal from "@/components/modals/ViewQuoteModal.vue";
 
-
 import {
   authenticateUser,
   Guest,
@@ -114,32 +113,32 @@ const router = createRouter({
       name: "checkmovie",
       component: CheckMoviePage,
       beforeEnter: authenticateUser,
-      children:[
+      children: [
         {
           path: "edit-movie",
           name: "edit-movie",
           component: EditMovieModal,
-          beforeEnter: authenticateUser, 
+          beforeEnter: authenticateUser,
         },
         {
           path: "add-quote",
           name: "add-quote",
           component: AddQuoteModal,
-          beforeEnter: authenticateUser, 
+          beforeEnter: authenticateUser,
         },
         {
           path: "edit-quote/:quoteId",
           name: "edit-quote",
           component: EditQuoteModal,
-          beforeEnter: authenticateUser, 
+          beforeEnter: authenticateUser,
         },
         {
           path: "view-quote/:quoteId",
           name: "view-quote",
           component: ViewQuoteModal,
-          beforeEnter: authenticateUser, 
+          beforeEnter: authenticateUser,
         },
-      ]
+      ],
     },
     {
       path: "/news-feed",
@@ -151,11 +150,9 @@ const router = createRouter({
           path: "add-quote",
           name: "add-quote-news-feed",
           component: AddQuoteModal,
-          beforeEnter: authenticateUser, 
+          beforeEnter: authenticateUser,
         },
-        
-      ]
-      
+      ],
     },
   ],
 });

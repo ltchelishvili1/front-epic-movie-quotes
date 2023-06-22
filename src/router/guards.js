@@ -22,7 +22,7 @@ export const Guest = (to, from, next) => {
   if (userStore.authenticated) {
     next({ name: "landing" });
   } else {
-    userStore.authenticated= false;
+    userStore.authenticated = false;
     return next();
   }
 };
@@ -38,7 +38,7 @@ export const checkPasswordUpdateToken = async (to, from, next) => {
       return next();
     }
   } catch (err) {
-    throw new Error(err)
+    throw new Error(err);
   }
 
   return next({ name: "log-in" });

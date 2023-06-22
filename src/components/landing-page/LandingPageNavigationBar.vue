@@ -2,7 +2,9 @@
   <nav
     class="flex items-center justify-between px-[26px] md:px-[70px] lg:px-[70px] py-[30px]"
   >
-    <router-link :to="{name: 'main'}" class="text-[#DDCCAA]">{{ $t("movie_quotes") }}</router-link>
+    <router-link :to="{ name: 'main' }" class="text-[#DDCCAA]">{{
+      $t("movie_quotes")
+    }}</router-link>
     <div class="flex items-center justify-center h-[38px]">
       <div v-if="userStore.authenticated">
         <base-button
@@ -12,7 +14,7 @@
           >{{ $t("log_out") }}</base-button
         >
       </div>
-  
+
       <div v-else class="flex items-center justify-center">
         <change-language></change-language>
         <base-button
@@ -35,7 +37,7 @@
 </template>
 
 <script>
-import ChangeLanguage from '@/components/LanguageSwitch.vue'
+import ChangeLanguage from "@/components/LanguageSwitch.vue";
 import { useUserStore } from "@/stores/user/index";
 import { useRouter } from "vue-router";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
@@ -44,7 +46,7 @@ import axios from "@/config/axios/index";
 export default {
   components: {
     BaseButton,
-    ChangeLanguage
+    ChangeLanguage,
   },
   setup() {
     const userStore = useUserStore();
@@ -71,7 +73,6 @@ export default {
       openLogInModal,
       userStore,
       logOutUser,
-
     };
   },
 };

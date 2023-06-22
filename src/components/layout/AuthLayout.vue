@@ -11,7 +11,8 @@
         {{ title }}
       </h1>
       <p v-if="description" class="text-[#6C757D] pb-[23px]">
-      {{ description }}</p>
+        {{ description }}
+      </p>
       <slot></slot>
     </div>
   </div>
@@ -20,17 +21,17 @@
 <script>
 import { useRouter } from "vue-router";
 export default {
-  props:{
+  props: {
     title: {
       type: String,
-      required: false
+      required: false,
     },
     description: {
       type: String,
-      required: false
+      required: false,
     },
   },
-  
+
   setup() {
     const router = useRouter();
 

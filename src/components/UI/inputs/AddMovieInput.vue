@@ -72,10 +72,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    readOnly:{
+    readOnly: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   components: {
@@ -83,13 +83,13 @@ export default {
     ErrorMessage,
   },
 
-  setup({ name, type, title, value, isQuote }, { emit }) {
-    const prefix = ref(title + ":  ");
-    const inputData = ref(value);
-    const { meta } = useField(name);
+  setup(props, { emit }) {
+    const prefix = ref(props.title + ":  ");
+    const inputData = ref(props.value);
+    const { meta } = useField(props.name);
 
     watch(inputData, (newValue) => {
-      const key = name;
+      const key = props.name;
       const value = newValue;
       emit("set-input-value", { key, value });
     });
@@ -107,7 +107,7 @@ export default {
     };
 
     const isTextArea = computed(() =>
-      type === "textarea" ? "textarea" : "input"
+      props.type === "textarea" ? "textarea" : "input"
     );
 
     const updateInputData = (event) => {
@@ -115,12 +115,12 @@ export default {
     };
 
     const fieldClasses = computed(() => {
-      if (isQuote) {
-        return 'border border-[#6C757D]';
+      if (props.isQuote) {
+        return "border border-[#6C757D]";
       }
       const classes = [displayValidationBorder.value];
 
-      if (value) {
+      if (props.value) {
         classes.push("pl-[150px]");
       }
 
@@ -133,9 +133,7 @@ export default {
       isTouched,
       isTextArea,
       updateInputData,
-      inputData,
       prefix,
-      value,
       fieldClasses,
     };
   },

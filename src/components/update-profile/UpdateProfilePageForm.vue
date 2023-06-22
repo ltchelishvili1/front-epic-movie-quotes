@@ -1,5 +1,5 @@
 <template>
-  <Form
+  <vee-validate-form
     class="-translate-y-[100px] flex flex-col items-center justify-center"
     @submit="updateProfile"
   >
@@ -104,7 +104,7 @@
         {{ $t("save_changes") }}
       </base-button>
     </div>
-  </Form>
+  </vee-validate-form>
 </template>
 
 <script>
@@ -129,7 +129,7 @@ export default {
   components: {
     UpdateProfileInput,
     BaseButton,
-    Form,
+    VeeValidateForm: Form,
     UpdateProfileDisplayInput,
     UpdateProfileInputWrapper,
     UpdateProfileInputImage,

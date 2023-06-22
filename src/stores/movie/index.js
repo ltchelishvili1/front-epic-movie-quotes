@@ -8,6 +8,7 @@ export const useMovieStore = defineStore({
     movies: null,
     movie: null,
     quote: null,
+    errors: null,
   }),
   actions: {
     async fetchMovie(id) {
@@ -60,7 +61,7 @@ export const useMovieStore = defineStore({
           throw new Error("Request failed with status " + response.status);
         }
       } catch (error) {
-        errorMessage.value = error.response.data.message;
+        this.errors = error.response.data.message;
       }
     },
 
@@ -79,7 +80,7 @@ export const useMovieStore = defineStore({
           throw new Error("Request failed with status " + response.status);
         }
       } catch (error) {
-        errorMessage.value = error.response.data.message;
+        this.errors = error.response.data.message;
       }
     },
 
@@ -102,56 +103,46 @@ export const useMovieStore = defineStore({
           throw new Error("Request failed with status " + response.status);
         }
       } catch (error) {
-        errorMessage.value = error.response.data.message;
+        this.errors = error.response.data.message;
       }
     },
 
+    async editMovie(id, formData) {
+      try {
+        const response = await axios.post(`movies/${id}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        });
 
-    async editMovie(id,formData){
+        this.movie = response.data.movie;
 
-        try {
-            const response = await axios.post(
-              `movies/${id}`,
-              formData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-                withCredentials: true,
-              }
-            );
-
-            this.movie = response.data.movie
-
-            if (response.status !== 200) {
-              throw new Error("Request failed with status " + response.status);
-            }
-          } catch (error) {
-            errorMessage.value = error.response.data.message;
-          }
-
+        if (response.status !== 200) {
+          throw new Error("Request failed with status " + response.status);
+        }
+      } catch (error) {
+        this.errors = error.response.data.message;
+      }
     },
 
-    async fetchMoviesForGenres(id,formData) {
-        try {
-            const response = await axios.get(`movies/${id}`);
-            this.movie = response.data.movie;
-            Object.keys(this.movie).forEach((key) => {
-              if (key === "genres") {
-                return formData.set(
-                  key,
-                  JSON.stringify(this.movie[key].map((genre) => genre.id))
-                );
-              }
-              return formData.set(key, JSON.stringify(this.movie[key]));
-            });
-          } catch (error) {
-            //
+    async fetchMoviesForGenres(id, formData) {
+      try {
+        const response = await axios.get(`movies/${id}`);
+        this.movie = response.data.movie;
+        Object.keys(this.movie).forEach((key) => {
+          if (key === "genres") {
+            return formData.set(
+              key,
+              JSON.stringify(this.movie[key].map((genre) => genre.id))
+            );
           }
-    }
-
-
-
+          return formData.set(key, JSON.stringify(this.movie[key]));
+        });
+      } catch (error) {
+        //
+      }
+    },
   },
   getters: {
     getMovie: (state) => state.movie,
