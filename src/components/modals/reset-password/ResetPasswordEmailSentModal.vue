@@ -1,61 +1,60 @@
 <template>
-    <auth-layout>
-      <icon-email-verification></icon-email-verification>
-      <h1 class="text-white text-[32px] font-medium mt-[20px]">
-        Check your email
-      </h1>
-      <p class="text-white text-[17px] font-medium mt-[30px] text-center">
-        "We have sent a password recover instructions to your email",
-      </p>
-      <base-button
-        class="mt-[40px]"
-        @click-button="redirectToEmail"
-        buttonClass="primary"
-      >
-        Go to my email</base-button
-      >
-    </auth-layout>
-  </template>
-  
-  <script>
-  import AuthLayout from "@/components/layout/AuthLayout.vue";
-  import IconEmailVerification from "@/components/icons/IconEmailVerification.vue";
-  import BaseButton from "@/components/UI/inputs/BaseButton.vue";
-  import { useRoute } from 'vue-router';
-  
-  export default {
-    props:{
-      description:{
-        type: String,
-        required: true
+  <auth-layout>
+    <icon-email-verification></icon-email-verification>
+    <h1 class="text-white text-[32px] font-medium mt-[20px]">
+      Check your email
+    </h1>
+    <p class="text-white text-[17px] font-medium mt-[30px] text-center">
+      "We have sent a password recover instructions to your email",
+    </p>
+    <base-button
+      class="mt-[40px]"
+      @click-button="redirectToEmail"
+      buttonClass="primary"
+    >
+      Go to my email</base-button
+    >
+  </auth-layout>
+</template>
+
+<script>
+import AuthLayout from "@/components/layout/AuthLayout.vue";
+import IconEmailVerification from "@/components/icons/IconEmailVerification.vue";
+import BaseButton from "@/components/UI/inputs/BaseButton.vue";
+import { useRoute } from "vue-router";
+
+export default {
+  props: {
+    description: {
+      type: String,
+      required: true,
+    },
+  },
+  components: {
+    AuthLayout,
+    IconEmailVerification,
+    BaseButton,
+  },
+  setup() {
+    const route = useRoute();
+
+    const redirectToEmail = () => {
+      let domain;
+      let email = route.params.email;
+      if (email) {
+        domain = email.split("@")[1];
+      } else {
+        domain = "gmail.com";
       }
-    },
-    components: {
-      AuthLayout,
-      IconEmailVerification,
-      BaseButton,
-    },
-    setup() {
-      const route = useRoute()
-  
-      const redirectToEmail = () => {
-        let domain;
-        let email = route.params.email;
-        if (email) {
-          domain = email.split("@")[1];
-        } else {
-          domain = "gmail.com";
-        }
-  
-        let redirectLink = `https://${domain}`;
-  
-        window.open(redirectLink, "_blank");
-      };
-  
-      return {
-        redirectToEmail,
-      };
-    },
-  };
-  </script>
-  
+
+      let redirectLink = `https://${domain}`;
+
+      window.open(redirectLink, "_blank");
+    };
+
+    return {
+      redirectToEmail,
+    };
+  },
+};
+</script>

@@ -50,18 +50,22 @@
             :color="displayIconBackground('news-feed')"
             class="ml-[15px]"
           ></icon-news-feed>
-          <router-link :to="{name: 'news-feed'}" class="text-white text-2xl ml-[32px]">{{
-            $t("news_feed")
-          }}</router-link>
+          <router-link
+            :to="{ name: 'news-feed' }"
+            class="text-white text-2xl ml-[32px]"
+            >{{ $t("news_feed") }}</router-link
+          >
         </div>
         <div class="flex iems-center mt-[40px]">
           <icon-list-of-movies
             :color="displayIconBackground('movies')"
             class="ml-[15px]"
           ></icon-list-of-movies>
-          <router-link :to="{name: 'movies'}" class="text-white text-2xl ml-[32px]">{{
-            $t("list_of_movies")
-          }}</router-link>
+          <router-link
+            :to="{ name: 'movies' }"
+            class="text-white text-2xl ml-[32px]"
+            >{{ $t("list_of_movies") }}</router-link
+          >
         </div>
       </div>
       <div

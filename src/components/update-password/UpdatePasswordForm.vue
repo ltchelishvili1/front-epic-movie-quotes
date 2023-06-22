@@ -1,5 +1,5 @@
 <template>
-  <Form @submit="handleClick">
+  <vee-validate-form @submit="handleClick">
     <base-input
       :title="$t('password')"
       name="password"
@@ -17,14 +17,14 @@
       @set-input-value="setInputValue"
     ></base-input>
     <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
-    <base-button buttonClass="primary">{{ $t('reset_password') }}</base-button>
+    <base-button buttonClass="primary">{{ $t("reset_password") }}</base-button>
     <nav class="flex items-center justify-center">
       <router-link :to="{ name: 'landing' }">
         <icon-navigate-back></icon-navigate-back>
       </router-link>
-      <p class="text-[#6C757D] ml-[10px]">{{ $t('back_to_login') }}</p>
+      <p class="text-[#6C757D] ml-[10px]">{{ $t("back_to_login") }}</p>
     </nav>
-  </Form>
+  </vee-validate-form>
 </template>
 
 <script>
@@ -40,7 +40,7 @@ export default {
   components: {
     BaseButton,
     BaseInput,
-    Form,
+    VeeValidateForm: Form,
     IconNavigateBack,
   },
   setup() {
@@ -78,7 +78,7 @@ export default {
       handleClick,
       error: errorMessage,
       updatePasswordData,
-      passwordConfirmationRules
+      passwordConfirmationRules,
     };
   },
 };

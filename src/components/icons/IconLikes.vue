@@ -13,15 +13,17 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { computed } from "vue";
 
 export default {
   props: {
-    isSelected: Boolean,
-    default: false,
+    isSelected: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
-    const setColor = computed(() => props.isSelected ? 'red' : 'white');
+    const setColor = computed(() => (props.isSelected ? "red" : "white"));
     return {
       setColor,
     };

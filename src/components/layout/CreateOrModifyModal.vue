@@ -83,12 +83,12 @@ export default {
     },
   },
 
-  setup({ isQuote }) {
+  setup(props) {
     const router = useRouter();
     const route = useRoute();
     const userStore = useUserStore();
     const handleOuterClick = () => {
-      if (isQuote) {
+      if (props.isQuote) {
         router.push({ name: "checkmovie", params: { id: route.params.id } });
       } else {
         router.back();

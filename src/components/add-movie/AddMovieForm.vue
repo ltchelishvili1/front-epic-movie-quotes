@@ -1,5 +1,5 @@
 <template>
-  <Form @submit="addMovie">
+  <vee-validate-form @submit="addMovie">
     <add-movie-input
       title="Movie Name"
       name="title_en"
@@ -63,41 +63,37 @@
     <base-button class="mt-[40px]" buttonClass="primary">{{
       $t("add_movie")
     }}</base-button>
-  </Form>
+  </vee-validate-form>
 </template>
 
 <script>
 import AddMovieInput from "@/components/UI/inputs/AddMovieInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 
-import axios from "@/config/axios/index";
-
-import { Form, useForm, Field } from "vee-validate";
+import { Form, useForm } from "vee-validate";
 import { ref } from "vue";
 import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
 import AddMovieCaategoriesInput from "@/components/add-movie/AddMovieCaategoriesInput.vue";
 import { useMovieStore } from "@/stores/movie/index";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
 export default {
   components: {
     AddMovieInput,
     BaseButton,
-    Form,
-    Field,
+    VeeValidateForm: Form,
     UploadFileInput,
     AddMovieCaategoriesInput,
   },
   setup() {
     const formData = new FormData();
     const errorMessage = ref(null);
-    const router = useRouter()
+    const router = useRouter();
     const { handleSubmit } = useForm();
     const movieStore = useMovieStore();
 
     const setInputValue = ({ key, value }) => {
       formData.set(key, value);
-
     };
 
     const uploadImage = (file) => {
@@ -105,8 +101,8 @@ export default {
     };
 
     const addMovie = handleSubmit(async () => {
-        await movieStore.addMovie(formData);
-        router.push({name: 'movies'})
+      await movieStore.addMovie(formData);
+      router.push({ name: "movies" });
     });
 
     const setCategories = (selectedCategories) => {

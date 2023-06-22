@@ -1,5 +1,5 @@
 <template>
-  <Form v-if="movie" @submit="updateMovie">
+  <vee-validate-form v-if="movie" @submit="updateMovie">
     <add-movie-input
       title="Movie Name"
       name="title_en"
@@ -21,7 +21,6 @@
       @set-categories="setCategories"
       :value="selectedGenres(locale)"
     ></add-movie-caategories-input>
-    <p class="text-white">{{ selectedGenres(locale) }}</p>
 
     <add-movie-input
       title="წელი/Year"
@@ -75,7 +74,7 @@
     <base-button class="mt-[40px]" buttonClass="primary">{{
       $t("add_movie")
     }}</base-button>
-  </Form>
+  </vee-validate-form>
 </template>
 
 <script>
@@ -83,10 +82,8 @@ import AddMovieInput from "@/components/UI/inputs/AddMovieInput.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import { getLocale } from "@/config/helpers/index";
 
-import axios from "@/config/axios/index";
-
-import { Form, useForm, Field } from "vee-validate";
-import { computed, onBeforeMount, onMounted, ref } from "vue";
+import { Form, useForm } from "vee-validate";
+import { computed, onBeforeMount, ref } from "vue";
 import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
 import AddMovieCaategoriesInput from "@/components/add-movie/AddMovieCaategoriesInput.vue";
 import { useRoute, useRouter } from "vue-router";
@@ -96,8 +93,8 @@ export default {
   components: {
     AddMovieInput,
     BaseButton,
-    Form,
-    Field,
+    VeeValidateForm: Form,
+
     UploadFileInput,
     AddMovieCaategoriesInput,
   },

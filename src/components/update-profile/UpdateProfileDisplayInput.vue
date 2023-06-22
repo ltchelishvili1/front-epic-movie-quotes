@@ -7,9 +7,11 @@
     </div>
     <input
       :class="
-        !isMobile ? ' bg-[#CED4DA] border border-[#232323] ' : ' text-white bg-transparent'
+        !isMobile
+          ? ' bg-[#CED4DA] border border-[#232323] '
+          : ' text-white bg-transparent'
       "
-      class="md:w-[460px] h-[38px] p-4 mt-[8px] "
+      class="md:w-[460px] h-[38px] p-4 mt-[8px]"
       :value="value"
       :type="type"
       readonly

@@ -7,7 +7,7 @@
 <script>
 import { onMounted } from "vue";
 import { setLocale } from "@vee-validate/i18n";
-import axios from '@/config/axios/index'
+import axios from "@/config/axios/index";
 
 export default {
   setup() {

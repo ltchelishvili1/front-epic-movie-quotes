@@ -11,10 +11,10 @@
       />
     </div>
     <div v-if="title">
-        <label :for="name" class="font-semibold text-[16px] text-white"
-          >{{ title }}</label
-        >
-      </div>
+      <label :for="name" class="font-semibold text-[16px] text-white">{{
+        title
+      }}</label>
+    </div>
   </div>
 </template>
 
@@ -42,10 +42,10 @@ export default {
     Field,
   },
 
-  setup({ name }, { emit }) {
+  setup(props, { emit }) {
     const inputData = ref("");
     watch(inputData, (newValue) => {
-      const key = name;
+      const key = props.name;
       const value = newValue;
       emit("set-input-value", { key, value });
     });

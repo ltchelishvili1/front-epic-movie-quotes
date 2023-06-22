@@ -48,12 +48,9 @@
 </template>
 
 <script>
-import IconInputValid from "@/components/icons/IconInputValid.vue";
-import IconInputInvalid from "@/components/icons/IconInputInvalid.vue";
-import IconInputOnFocus from "@/components/icons/IconInputOnFocus.vue";
 import i18n from "@/config/i18n/index.js";
 
-import { Field, ErrorMessage, useField } from "vee-validate";
+import { Field, useField } from "vee-validate";
 import { computed, ref, watch } from "vue";
 
 export default {
@@ -96,18 +93,13 @@ export default {
 
   components: {
     Field,
-    ErrorMessage,
-    IconInputValid,
-    IconInputInvalid,
-    IconInputOnFocus,
   },
 
-  setup({ name, rules, hide, isMobile }, { emit }) {
-    console.log();
+  setup(props, { emit }) {
     const inputData = ref("");
     const locale = localStorage.getItem("language") || "en";
     const messages = ref(
-      rules
+      props.rules
         .split("|")
         .map((rule) => rule.split(":"))
         .map((rule) =>
@@ -118,10 +110,10 @@ export default {
         )
     );
 
-    const { meta } = useField(name);
+    const { meta } = useField(props.name);
 
     watch(inputData, (newValue) => {
-      const key = name;
+      const key = props.name;
       const value = newValue;
       emit("set-input-value", { key, value });
     });
@@ -132,7 +124,8 @@ export default {
 
     const displayShouldContain = computed(
       () => (index) =>
-        (rules.includes("min") || rules.includes("max")) && index == 1
+        (props.rules.includes("min") || props.rules.includes("max")) &&
+        index == 1
     );
 
     const displayErrorBoxBackground = computed(
@@ -162,10 +155,10 @@ export default {
           : message
     );
 
-    const customizeOrder = computed(() => (!hide ? "order-last" : ""));
+    const customizeOrder = computed(() => (!props.hide ? "order-last" : ""));
 
     const displayFieldBg = computed(() =>
-      !isMobile
+      !props.isMobile
         ? " bg-[#CED4DA] border border-[#232323] "
         : "bg-transparent text-white"
     );

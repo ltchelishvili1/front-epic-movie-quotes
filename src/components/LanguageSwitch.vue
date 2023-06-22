@@ -10,15 +10,15 @@
       :key="`locale-${locale}`"
       :value="locale"
     >
-    {{ displayLocale(locale) }}
-  </option>
+      {{ displayLocale(locale) }}
+    </option>
   </select>
 </template>
 
 <script>
 import { setLocale } from "@vee-validate/i18n";
 import { computed } from "vue";
-import axios from '@/config/axios/index'
+import axios from "@/config/axios/index";
 
 export default {
   setup() {
@@ -26,10 +26,10 @@ export default {
       setLocale(event.target.value);
       localStorage.setItem("language", event.target.value);
       try {
-          axios.get("set-language/" + event.target.value);
-        } catch (error) {
-          //
-        }
+        axios.get("set-language/" + event.target.value);
+      } catch (error) {
+        //
+      }
     };
 
     const displayLocale = computed(
