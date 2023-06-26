@@ -13,14 +13,77 @@
         ></icon-mobile-navbar-menu>
       </div>
       <div class="flex items-center">
-        <div class="flex">
+        <div class="flex" @click="openNotifications">
           <icon-notification></icon-notification>
           <span
             class="flex items-center justify-center text-white -translate-x-[90%] -translate-y-[10%] bg-[#E33812] rounded-full w-[20px] h-[20px]"
           >
-            11</span
-          >
+            11
+          </span>
         </div>
+        <div
+          v-if="isNotificationsOpen"
+          @click="openNotifications"
+          class="w-full h-screen bg-black fixed z-[90] top-[0px] left-[0px] opacity-60"
+        ></div>
+
+        <div
+          v-if="isNotificationsOpen"
+          class="absolute top-[80px] w-[50%] right-[5%] z-[100] bg-[#11101A] opacity-100"
+        >
+          <div class="p-4 z-[100]">
+            <div
+              v-for="notification in notifications"
+              :key="notification.id"
+              class="flex p-4 border border-[#6C757D] justify-between"
+              @click="handleNotificationClick(notification)"
+            >
+              <div class="flex">
+                <img
+                  :src="notification.notification_sender.thumbnail"
+                  class="-[60px] h-[60px] rounded-full border-4 border-solid mx-4"
+                  :class="!notification.has_user_seen ? ' border-green-600' : ''"
+                />
+                <div>
+                  <p class="text-white">
+                    {{ notification.notification_sender.username }}
+                  </p>
+                  <p
+                    v-if="notification.type === 'comment'"
+                    class="text-white flex items-center mt-2"
+                  >
+                    <icon-comments
+                      class="w-[20px] h-[20px] mr-2"
+                    ></icon-comments>
+                    {{ $t("commented_to_your_movie_quote") }}
+                  </p>
+                  <p v-else class="text-white flex items-center mt-2">
+                    <icon-likes
+                      :isSelected="true"
+                      class="w-[20px] h-[20px] mr-2"
+                    ></icon-likes>
+                    {{ $t("reacted_to_your_quote") }}
+                  </p>
+                </div>
+              </div>
+    
+              <div>
+                <p class="text-white">
+                  {{ displayDate(notification.created_at, notification.id) }}
+                </p>
+               
+                <p
+                  v-if="!notification.has_user_seen"
+                  class="text-white float-right"
+                >
+              
+                  {{ $t("new") }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <language-switch class="mb-[20px]"></language-switch>
         <base-button
           buttonClass="google"
@@ -69,7 +132,7 @@
         </div>
       </div>
       <div
-        class="flex grow flex-col mx-[10%] justify-center"
+        class="flex grow flex-col md:mx-[10%] lg:mx-[10%] justify-center"
         :class="hideNavbar"
       >
         <slot></slot>
@@ -86,9 +149,15 @@ import IconNewsFeed from "@/components/icons/IconNewsFeed.vue";
 import IconMobileNavbarMenu from "@/components/icons/IconMobileNavbarMenu.vue";
 
 import { useUserStore } from "@/stores/user/index";
-import { computed, onBeforeUnmount, ref } from "vue";
-import { useRoute } from "vue-router";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { displayImage } from "@/config/helpers";
+
+import axios from "@/config/axios/index";
+
+import instantiatePusher from "@/config/helpers/instantiatePusher.js";
+import IconComments from "@/components/icons/IconComments.vue";
+import IconLikes from "../icons/IconLikes.vue";
 
 export default {
   components: {
@@ -98,6 +167,8 @@ export default {
     IconListOfMovies,
     IconNewsFeed,
     IconMobileNavbarMenu,
+    IconComments,
+    IconLikes,
   },
 
   setup() {
@@ -105,6 +176,26 @@ export default {
     const isMobile = ref(false);
     const userStore = useUserStore();
     const route = useRoute();
+    const isNotificationsOpen = ref(false);
+    const notifications = ref([]);
+
+    onMounted(async () => {
+      instantiatePusher();
+
+      window.Echo.private(`feedback-${userStore.getUser.id}`).listen(
+        "UserFeedBack",
+        (dat) => {
+          notifications.value.push(dat.message.notification)
+          console.log(notifications.value)
+         
+        }
+      );
+
+      const response = await axios.get("notifications");
+
+      notifications.value = response.data.notifications;
+
+    });
 
     const toggleNavbar = () => {
       displayNavbar.value = !displayNavbar.value;
@@ -133,6 +224,53 @@ export default {
     const displayIconBackground = computed(
       () => (name) => route.fullPath.includes(name) ? "#E31221" : "white"
     );
+
+    const openNotifications = () => {
+      isNotificationsOpen.value = !isNotificationsOpen.value;
+    };
+
+    const displayDate = computed(() => (time, id) => {
+      const currentTime = new Date();
+      const pastTime = new Date(time);
+      const timeDifference = Math.round((currentTime - pastTime) / 60000);
+
+      if (timeDifference < 60) {
+        return timeDifference + " minutes ago";
+      } else if (timeDifference < 1440) {
+        const hours = Math.floor(timeDifference / 60);
+        return hours + " hours ago";
+      } else if (timeDifference < 10080) {
+        const days = Math.floor(timeDifference / 1440);
+        return days + " days ago";
+      } else if (timeDifference < 43200) {
+        const weeks = Math.floor(timeDifference / 10080);
+        return weeks + " weeks ago";
+      } else if (timeDifference < 525600) {
+        const months = Math.floor(timeDifference / 43200);
+        return months + " months ago";
+      } else {
+        const years = Math.floor(timeDifference / 525600);
+        return years + " years ago";
+      }
+    });
+
+    const handleNotificationClick = async (notification) => {
+
+      const formData = new FormData();
+      formData.set('id', notification.id)
+      formData.append("_method", "patch");
+
+      try{
+        await axios.post('notifications', formData)
+        notification.has_user_seen = true;
+
+      }catch(error){
+        //
+      }
+
+    }
+
+
     return {
       displayNavbar,
       toggleNavbar,
@@ -142,6 +280,11 @@ export default {
       hideNavbar,
       displayScreenNavbar,
       displayIconBackground,
+      openNotifications,
+      isNotificationsOpen,
+      notifications,
+      displayDate,
+      handleNotificationClick
     };
   },
 };

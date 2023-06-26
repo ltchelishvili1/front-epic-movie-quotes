@@ -101,6 +101,7 @@ export default {
     };
 
     const addMovie = handleSubmit(async () => {
+
       await movieStore.addMovie(formData);
       router.push({ name: "movies" });
     });

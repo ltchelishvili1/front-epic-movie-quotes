@@ -1,16 +1,16 @@
 <template>
   <div
-    class="fixed top-0 left-0 w-[100vw] h-[100vh] bg-transparent z-50"
+    class="fixed top-[30px] left-0 w-[100vw] h-[100vh] bg-transparent z-50"
     @click="handleOuterClick"
   >
     <div
-      class="px-[32px] rounded-[10px] py-[36px] w-[600px] absolute left-[50%] top-[50%] -translate-x-[50%] h-[800px] overflow-y-scroll -translate-y-[50%] h-[1000px] bg-[#11101A]"
+      class="px-[32px] rounded-[10px] py-[36px] md:w-[600px] lg:w-[600px] w-full absolute left-[50%] top-[50%] -translate-x-[50%] h-[800px] overflow-y-scroll -translate-y-[50%] h-[1000px] scale-[.9] bg-[#11101A]"
       @click="handleInnerClick"
     >
       <div class="flex items-center justify-center">
         <div
           v-if="isQuote"
-          class="absolute h-[40px] left-8 flex space-x-3 rounded-xl p-2 mb-[40px]"
+          class="absolute h-[40px] left-8 flex md:space-x-3 lg:space-x-3 rounded-xl p-2 mb-[40px] -translate-x-[20px] md:-translate-x-[0px] lg:-translate-x-[0px]"
         >
           <router-link
             v-if="isQuote === 'view-quote'"

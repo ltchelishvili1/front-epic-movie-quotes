@@ -13,6 +13,7 @@
           :placeholder="title"
           :value="readOnly ? value : inputData"
           @input="updateInputData"
+          :readonly="readOnly? true : false"
         />
         <p
           v-if="value && !isQuote"

@@ -8,7 +8,7 @@
     </button>
     <div
       v-if="displayQuote[quote.id + 'quote']"
-      class="p-[40px] absolute text-white right-[55px] z-[10] translate-x-[100%] top-[40px] bg-[#24222F] rounded-lg cursor-pointer"
+      class="p-[40px] absolute text-white right-[55px] z-[10] lg:translate-x-[100%] md:translate-x-[100%]  translate-x-[10%] top-[40px] bg-[#24222F] rounded-lg cursor-pointer"
     >
       <div class="flex items-center justify-start mb-[32px]">
         <icon-view></icon-view>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="bg-[#11101A] w-full px-[32px] py-[24px]">
-      <div class="flex items-center justify-space-evenly">
+      <div class="md:flex lg:flex items-center justify-space-evenly">
         <img
           class="w-[220px] h-[140px] rounded"
           :src="quote?.image"
@@ -50,7 +50,7 @@
 
       <div class="flex mt-[25px]">
         <div class="flex">
-          <p class="text-white mx-4 text-[20px]">4</p>
+          <p class="text-white mx-4 text-[20px]">{{ quote?.comments.length }}</p>
           <icon-comments></icon-comments>
         </div>
         <div class="flex">

@@ -15,7 +15,7 @@
     <img
       v-if="displayImage"
       :class="readOnly ? 'w-full' : ''"
-      class="w-[188px] h-[188px] cursor-pointer"
+      class="md:w-[188px] lg:w-[188px] lg:h-[188px] md:h-[188px] w-[50px] h-[50px] cursor-pointer"
       :src="displayImage"
       @click="openFileInput"
     />
