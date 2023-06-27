@@ -216,6 +216,9 @@ export default {
     const quotes = ref([]);
     const comment = ref("");
 
+   
+
+
     onMounted(() => {
       instantiatePusher();
       window.Echo.channel("likes").listen("UserLiked", (data) => {
@@ -223,18 +226,20 @@ export default {
           posts.value
             .filter((post) => post.id == data.message.comment.quote_id)[0]
             .comments.push(data.message.comment);
-        } else if (Object.keys(data.message).includes("delete_like")) {
-          const quoteId = data.message.delete_like.quote_id;
-          const likeId = data.message.delete_like.id;
-          const post = posts.value.find((post) => post.id == quoteId);
-          const postIndex = posts.value.findIndex((post) => post.id == quoteId);
-          const filteredLikes = post.likes.filter((like) => like.id !== likeId);
-          posts.value[postIndex].likes = filteredLikes;
-        } else {
+        }else {
           posts.value
             .filter((post) => post.id == data.message.quote_id)[0]
             .likes.push(data.message);
         }
+      });
+
+      window.Echo.channel("unlikes").listen("UserUnLiked", (data) => {
+        const quoteId = data.message.unlike.quote_id;
+          const likeId = data.message.unlike.id;
+          const post = posts.value.find((post) => post.id == quoteId);
+          const postIndex = posts.value.findIndex((post) => post.id == quoteId);
+          const filteredLikes = post.likes.filter((like) => like.id !== likeId);
+          posts.value[postIndex].likes = filteredLikes;
       });
 
 
