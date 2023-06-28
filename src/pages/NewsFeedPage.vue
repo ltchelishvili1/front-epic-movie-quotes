@@ -1,16 +1,24 @@
 <template>
   <authorized-user-layout>
     <router-view> </router-view>
-    <div class="flex mt-8">
+    <div
+      class="flex mt-8 items-center justify-center md:justify-start lg:justify-start"
+    >
       <div
-        class="bg-[#22203099] mr-6"
-        :class="isSearhOpen ? 'w-[15%]' : 'w-[75%]'"
+        class="md:bg-[#22203099] lg:bg-[#22203099] mr-6"
+        :class="
+          isSearhOpen
+            ? 'w-[15%] md:block lg:block hidden'
+            : 'lg:w-[75%] md:w-[75%] w-[100%]'
+        "
       >
         <router-link :to="{ name: 'add-quote-news-feed' }" class="text-white"
-          ><p class="p-4">{{ $t("write_new_quote") }}</p></router-link
+          ><p class="p-4 lg:mx-0 md:mx-0 mx-6">
+            {{ $t("write_new_quote") }}
+          </p></router-link
         >
       </div>
-      <div v-if="isSearhOpen" class="w-[70%]">
+      <div v-if="isSearhOpen" class="md:w-[70%] lg:w-[70%] w-[90%]">
         <Field
           :ruels="[]"
           name="search"
@@ -22,7 +30,7 @@
         />
         <button
           @click="hideSearchInput"
-          class="text-white absolute curson-pointer mt-[15px] opacity-[.6] -translate-x-[30px]"
+          class="text-white absolute curson-pointer mt-[15px] opacity-[.6] md:-translate-x-[30px] lg:-translate-x-[30px] -translate-x-[10px]"
         >
           X
         </button>
@@ -30,7 +38,10 @@
       </div>
 
       <div v-if="!isSearhOpen">
-        <button @click="toggleSearch" class="text-white p-4">
+        <button
+          @click="toggleSearch"
+          class="text-white p-4 md:block lg:block hidden"
+        >
           {{ $t("search_by") }}
         </button>
       </div>
@@ -39,7 +50,7 @@
       <div
         v-for="post in posts"
         :key="post.id"
-        class="text-white text-[30px] my-[22px] p-6 bg-[#11101A] rounded-xl w-[88%]"
+        class="text-white md:text-[30px] lg:text-[30px] my-[22px] p-6 bg-[#11101A] rounded-xl w-[100%] md:w-[88%] lg:w-[88%]"
       >
         <div class="flex items-center">
           <img
@@ -56,7 +67,7 @@
             </span>
             ({{ post?.movie?.release_year }})
           </p>
-          <img :src="post?.image" class="w-full h-[500px]" />
+          <img :src="post?.image" class="w-full rounded-lg h-[500px]" />
           <div>
             <div class="flex items-center">
               <div class="flex items-center mr-6">
@@ -91,10 +102,10 @@
                 :key="comment.id"
               >
                 <img
-                  class="w-[52px] h-[52px] rounded-full mx-6"
+                  class="w-[52px] h-[52px] rounded-full lg:mx-6 md:mx-6 mx-2"
                   :src="comment?.user?.thumbnail"
                 />
-                <div class="w-[80%] mt-[35px]">
+                <div class="w-[80%] mt-[35px] ml-[20px]">
                   <p class="text-white text-[20px]">
                     {{ comment?.user?.username }}
                   </p>
@@ -113,11 +124,11 @@
 
             <div class="flex items-center">
               <img
-                class="w-[52px] h-[52px] rounded-full mx-6"
+                class="w-[52px] h-[52px] rounded-full lg:mx-6 md:mx-6 mx-2"
                 :src="userStore.getUser.thumbnail"
               />
               <vee-validate-form
-                class="w-full relative"
+                class="w-full relative ml-[10px]"
                 @submit="addComment(post?.id, post?.user_id, post?.comments)"
               >
                 <Field
@@ -179,10 +190,14 @@ import { getLocale } from "@/config/helpers/index";
 import { Field, Form } from "vee-validate";
 import axios from "@/config/axios/index";
 
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, reactive, ref, watch } from "vue";
 import MoviesListMovieCard from "@/components/movies-list/MoviesListMovieCard.vue";
 import IconLikes from "@/components/icons/IconLikes.vue";
 import IconComments from "@/components/icons/IconComments.vue";
+
+import { useNotificationStore } from "@/stores/notification/index";
+
+import instantiatePusher from "@/config/helpers/instantiatePusher.js";
 
 export default {
   components: {
@@ -195,10 +210,43 @@ export default {
   },
   setup() {
     let searchTimeout = null;
+    const notificationStore = useNotificationStore();
     const posts = ref([]);
     const movies = ref([]);
     const quotes = ref([]);
     const comment = ref("");
+
+   
+
+
+    onMounted(() => {
+      instantiatePusher();
+      window.Echo.channel("likes").listen("UserLiked", (data) => {
+        if (Object.keys(data.message).includes("comment")) {
+          posts.value
+            .filter((post) => post.id == data.message.comment.quote_id)[0]
+            .comments.push(data.message.comment);
+        }else {
+          posts.value
+            .filter((post) => post.id == data.message.quote_id)[0]
+            .likes.push(data.message);
+        }
+      });
+
+      window.Echo.channel("unlikes").listen("UserUnLiked", (data) => {
+        const quoteId = data.message.unlike.quote_id;
+          const likeId = data.message.unlike.id;
+          const post = posts.value.find((post) => post.id == quoteId);
+          const postIndex = posts.value.findIndex((post) => post.id == quoteId);
+          const filteredLikes = post.likes.filter((like) => like.id !== likeId);
+          posts.value[postIndex].likes = filteredLikes;
+      });
+
+
+
+
+      
+    });
     const page = ref({
       posts: 2,
       quotes: 2,
@@ -223,11 +271,14 @@ export default {
 
     const fetchSearchResult = async (search, page = 1) => {
       try {
-        const response = await axios.get(`quotes?page=${page}`, {
-          params: {
-            searchKey: search,
-          },
-        });
+        const response = await axios.get(
+          `${searchKey.value[0] === "@" ? "movies" : "quotes"}?page=${page}`,
+          {
+            params: {
+              searchKey: search,
+            },
+          }
+        );
         if (response.data.posts) {
           posts.value = response.data.posts;
           movies.value = null;
@@ -277,11 +328,16 @@ export default {
             ? page.value.quotes
             : page.value.posts;
         try {
-          const response = await axios.get(`quotes?page=${paginationPage}`, {
-            params: {
-              searchKey: searchKey.value,
-            },
-          });
+          const response = await axios.get(
+            `${
+              searchKey.value[0] === "@" ? "movies" : "quotes"
+            }?page=${paginationPage}`,
+            {
+              params: {
+                searchKey: searchKey.value,
+              },
+            }
+          );
           if (response.data.posts) {
             response.data.posts.forEach((post) => {
               posts.value.push(post);
@@ -321,15 +377,12 @@ export default {
       hasAlreadyLiked,
       likes
     ) => {
+
       if (!hasAlreadyLiked) {
         try {
           const response = await axios.post("likes", {
             quote_id,
-            quote_user_id,
           });
-
-          const newLike = response.data;
-          likes.push(newLike);
         } catch (error) {
           //
         }
@@ -359,13 +412,6 @@ export default {
           quote_id,
           quote_user_id,
           comment: comment.value,
-        });
-        comments.push({
-          comment: comment.value,
-          user: {
-            thumbnail: userStore.getUser.thumbnail,
-            username: userStore.getUser.username,
-          },
         });
       } catch (error) {
         //
@@ -405,6 +451,7 @@ export default {
       setComment,
       comment,
       addComment,
+      messages: notificationStore.getNotifications,
     };
   },
 };

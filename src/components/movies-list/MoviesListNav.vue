@@ -1,12 +1,15 @@
 <template>
-  <nav class="flex mb-[68px] items-center justify-between">
-    <p class="text-white">
-      {{ $t("my_list_of_movies") }} ({{ $t("total") }} <span>{{ length }}</span
-      >)
+  <nav class="flex mb-[68px] items-center justify-between px-12 md:px-0 lg:px-0">
+    <div class="md:flex lg:flex mt-[25px]">
+      <p class="text-white w-[130px] " >
+      {{ $t("my_list_of_movies") }} 
     </p>
+    <p class="text-white md:ml-[10px]  lg:ml-[10px] ">({{ $t("total") }} <span>{{ length }}</span
+      >)</p>
+    </div>
     <div class="flex items-center justify-center">
       <base-button
-        class="flex items-center justify-center"
+        class="flex items-center justify-center lg:text-normal md:text-normal text-[13px]"
         buttonClass="primary"
         @click-button="openAddMovieModal"
       >

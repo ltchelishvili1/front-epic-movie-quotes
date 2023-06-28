@@ -88,7 +88,9 @@ export default {
         id: event.target.name,
       });
 
-      movie.value.genres.push(
+      
+
+      movie.value?.genres.push(
         categories.value.filter((cat) => cat.id == event.target.name)[0]
       );
 

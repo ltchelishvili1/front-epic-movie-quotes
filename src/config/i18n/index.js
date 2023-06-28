@@ -86,6 +86,7 @@ const messages = {
     write_new_quote: "Write new quote",
     search_by: "Search",
     choose_movie: "Choose movie",
+    write_a_comment: 'Write a comment'
   },
   ka: {
     email: "გამოიყენეთ ელ-ფოსტა",
@@ -171,6 +172,7 @@ const messages = {
     write_new_quote: "ახალი ფრაზა",
     search_by: "ძებნა",
     choose_movie: "ფილმის არჩევა",
+    write_a_comment: 'კომენტარის დაწერა'
   },
 };
 
