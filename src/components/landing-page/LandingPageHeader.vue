@@ -10,7 +10,7 @@
     </p>
     <base-button
       v-if="!userStore.authenticated"
-      buttonClass="primary"
+      button-class="primary"
       class="md:w-[133px] lg:w-[133px] w-[109px] h-[38px] mr-[15px] mt-[30px]"
       @click-button="openSignUpModal"
       >{{ $t("get_started") }}</base-button

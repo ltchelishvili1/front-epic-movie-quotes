@@ -9,8 +9,8 @@
     </p>
     <base-button
       class="mt-[40px]"
+      button-class="primary"
       @click-button="redirectToEmail"
-      buttonClass="primary"
     >
       Go to my email</base-button
     >
@@ -24,16 +24,16 @@ import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import { useRoute } from "vue-router";
 
 export default {
+  components: {
+    AuthLayout,
+    IconEmailVerification,
+    BaseButton,
+  },
   props: {
     description: {
       type: String,
       required: true,
     },
-  },
-  components: {
-    AuthLayout,
-    IconEmailVerification,
-    BaseButton,
   },
   setup() {
     const route = useRoute();

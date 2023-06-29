@@ -20,7 +20,7 @@ const userStore =useUserStore()
     key: import.meta.env.VITE_PUSHER_KEY,
     forceTLS: true,
     cluster: ["eu"],
-    authorizer: (channel) => {
+    authorizer: () => {
       return {
         authorize: (socketId, callback) => {
           axios

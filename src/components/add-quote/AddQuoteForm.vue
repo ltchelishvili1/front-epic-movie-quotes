@@ -1,5 +1,5 @@
 <template>
-  <vee-validate-form @submit="addQuote">
+  <vee-validate-form v-slot="{meta}" @submit="addQuote">
     <add-movie-input
       title='"Quote in English."'
       name="quote_en"
@@ -23,12 +23,12 @@
         class="absolute mt-[50px] ml-[10px]"
       ></icon-list-of-movies>
       <select
-        @change="selectMovieId"
         v-if="!route.params.id"
-        class="w-full mt-[28px] h-[86px] bg-[#000000] text-white px-[50px]"
         id=""
+        class="w-full mt-[28px] h-[86px] bg-[#000000] text-white px-[50px]"
         as="select"
         name="movie_id"
+        @change="selectMovieId"
       >
         <option selected disabled>{{ $t("choose_movie") }}</option>
         <option v-for="movie in movies" :key="movie" :value="movie?.id">
@@ -38,7 +38,7 @@
     </div>
 
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
-    <base-button class="mt-[40px]" buttonClass="primary">{{
+    <base-button :disabled="!meta.valid" class="mt-[40px]" button-class="primary">{{
       $t("add_quote")
     }}</base-button>
   </vee-validate-form>
@@ -91,6 +91,7 @@ export default {
       }
 
       await movieStore.addQuote(formData);
+      errorMessage.value = movieStore.getErrors();
       router.back();
     });
 

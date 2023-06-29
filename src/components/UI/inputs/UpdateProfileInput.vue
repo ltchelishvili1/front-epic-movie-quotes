@@ -6,8 +6,8 @@
     >
       <div v-for="(message, index) in messages" :key="message">
         <div
-          class="text-white mb-[16px] mt-[10px]"
           v-if="displayShouldContain(index)"
+          class="text-white mb-[16px] mt-[10px]"
         >
           {{ title }} {{ $t("should_contain") }}:
         </div>
@@ -32,10 +32,10 @@
 
     <div class="flex items-center pb-[30px]">
       <Field
-        :rules="rules"
-        :name="name"
         :id="name"
         v-model="inputData"
+        :rules="rules"
+        :name="name"
         class="lg:w-[460px] md:w-[360px] w-full h-[38px] bg-[#CED4DA] border border-[#232323] p-4 mt-[8px]"
         :class="displayFieldBg"
         :type="type"
@@ -54,14 +54,20 @@ import { Field, useField } from "vee-validate";
 import { computed, ref, watch } from "vue";
 
 export default {
+
+  components: {
+    Field,
+  },
   props: {
     title: {
       type: String,
       required: false,
+      default: ''
     },
     rules: {
       type: String,
       required: false,
+      default: ''
     },
     name: {
       type: String,
@@ -70,6 +76,7 @@ export default {
     placeholder: {
       type: String,
       required: false,
+      default: ''
     },
     type: {
       type: String,
@@ -80,6 +87,7 @@ export default {
     errors: {
       type: Object,
       required: false,
+     default: () => {}
     },
     hide: {
       type: Boolean,
@@ -91,8 +99,8 @@ export default {
     },
   },
 
-  components: {
-    Field,
+  emits: {
+    "set-input-value": (val) => typeof val === "object",
   },
 
   setup(props, { emit }) {

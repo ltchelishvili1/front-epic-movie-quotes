@@ -25,10 +25,12 @@ export default {
     title: {
       type: String,
       required: false,
+      default: ''
     },
     description: {
       type: String,
       required: false,
+      default: ''
     },
   },
 

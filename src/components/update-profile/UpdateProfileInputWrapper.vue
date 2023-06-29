@@ -4,8 +4,8 @@
       <slot></slot>
       <button
         type="button"
-        @click="displayForm"
         class="text-white mt-[30px] ml-[10px] md:ml-[30px]"
+        @click="displayForm"
       >
         {{ $t("edit") }}
       </button>
@@ -31,6 +31,9 @@ export default {
       type: Boolean,
       required: false,
     },
+  },
+  emits:{
+    "display-form": null,
   },
   setup(_, { emit }) {
     const displayForm = () => {

@@ -1,3 +1,5 @@
+
+
 import { createRouter, createWebHistory } from "vue-router";
 import SignUpPage from "@/pages/authentication/sign-up/SignUpPage.vue";
 import LogInPage from "@/pages/authentication/log-in/LogInPage.vue";
@@ -23,6 +25,7 @@ import {
   Guest,
   checkPasswordUpdateToken,
 } from "@/router/guards";
+import { Auth } from "./guards";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,7 +40,7 @@ const router = createRouter({
       path: "/landing",
       name: "landing",
       component: LandingPage,
-      beforeEnter: authenticateUser,
+      beforeEnter: [authenticateUser, Guest],
       children: [
         {
           path: "/sign-up",
@@ -98,7 +101,7 @@ const router = createRouter({
       path: "/movies",
       name: "movies",
       component: MoviesListPage,
-      beforeEnter: authenticateUser,
+      beforeEnter: [authenticateUser,Auth],
       children: [
         {
           path: "/movies/add",
@@ -112,7 +115,7 @@ const router = createRouter({
       path: "/check-movies/:id",
       name: "checkmovie",
       component: CheckMoviePage,
-      beforeEnter: authenticateUser,
+      beforeEnter: [authenticateUser,Auth],
       children: [
         {
           path: "edit-movie",
@@ -144,7 +147,7 @@ const router = createRouter({
       path: "/news-feed",
       name: "news-feed",
       component: NewsFeedPage,
-      beforeEnter: authenticateUser,
+      beforeEnter: [authenticateUser,Auth],
       children: [
         {
           path: "add-quote",

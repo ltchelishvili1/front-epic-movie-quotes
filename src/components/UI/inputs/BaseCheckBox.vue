@@ -2,11 +2,11 @@
   <div class="flex items-center">
     <div class="mr-[4px]">
       <Field
-        class="bg-[#CED4DA] border border-[#232323] p-4 mt-[8px]"
         :id="name"
+        v-model="inputData"
+        class="bg-[#CED4DA] border border-[#232323] p-4 mt-[8px]"
         :name="name"
         type="checkbox"
-        v-model="inputData"
         :value="value"
       />
     </div>
@@ -23,10 +23,15 @@ import { Field } from "vee-validate";
 import { ref, watch } from "vue";
 
 export default {
+
+  components: {
+    Field,
+  },
   props: {
     title: {
       type: String,
       required: false,
+      default: ''
     },
     name: {
       type: String,
@@ -37,11 +42,10 @@ export default {
       required: true,
     },
   },
-
-  components: {
-    Field,
+  emits: {
+    "set-input-value": (val) => typeof val === "object",
   },
-
+  
   setup(props, { emit }) {
     const inputData = ref("");
     watch(inputData, (newValue) => {

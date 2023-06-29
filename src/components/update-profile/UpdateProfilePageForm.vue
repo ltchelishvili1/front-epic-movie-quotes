@@ -1,5 +1,6 @@
 <template>
   <vee-validate-form
+  v-slot="{meta}"
     class="-translate-y-[100px] flex flex-col items-center justify-center"
     @submit="updateProfile"
   >
@@ -7,20 +8,20 @@
       class="-translate-x-[10px] bg-[#11101A] mt-[100px] flex flex-col items-center justify-center py-[60px] min-w-[100%]"
     >
       <update-profile-input-image
+        :display-image="displayImage"
+        :is-mobile="isMobile"
         @upload-image="uploadImage"
-        :displayImage="displayImage"
-        :isMobile="isMobile"
       ></update-profile-input-image>
       <update-profile-input-wrapper
-        :isMobile="isMobile"
-        :hideExtraFields="hideExtraFields"
+        :is-mobile="isMobile"
+        :hide-extra-fields="hideExtraFields"
         @display-form="displayForm('username')"
       >
         <update-profile-display-input
           :title="$t('username')"
           name="username"
           :value="user.getUser.username"
-          :isMobile="isMobile"
+          :is-mobile="isMobile"
         ></update-profile-display-input>
         <template #update-input>
           <update-profile-input
@@ -29,23 +30,23 @@
             name="username"
             :placeholder="$t('name_placeholder')"
             rules="required|min:3|max:15"
-            @set-input-value="setInputValue"
             :hide="hideExtraFields"
-            :isMobile="isMobile"
+            :is-mobile="isMobile"
+            @set-input-value="setInputValue"
           ></update-profile-input>
         </template>
       </update-profile-input-wrapper>
 
       <update-profile-input-wrapper
-        :isMobile="isMobile"
-        :hideExtraFields="hideExtraFields"
+        :is-mobile="isMobile"
+        :hide-extra-fields="hideExtraFields"
         @display-form="displayForm('email')"
       >
         <update-profile-display-input
           :title="$t('mail')"
           name="email"
           :value="user.getUser.email"
-          :isMobile="isMobile"
+          :is-mobile="isMobile"
         ></update-profile-display-input>
         <template #update-input>
           <update-profile-input
@@ -54,16 +55,16 @@
             name="email"
             :placeholder="$t('email_placeholder')"
             rules="required|email"
-            @set-input-value="setInputValue"
             :hide="hideExtraFields"
-            :isMobile="isMobile"
+            :is-mobile="isMobile"
+            @set-input-value="setInputValue"
           ></update-profile-input>
         </template>
       </update-profile-input-wrapper>
 
       <update-profile-input-wrapper
-        :isMobile="isMobile"
-        :hideExtraFields="hideExtraFields"
+        :is-mobile="isMobile"
+        :hide-extra-fields="hideExtraFields"
         @display-form="displayForm('password')"
       >
         <update-profile-display-input
@@ -71,7 +72,7 @@
           name="password"
           value="Password"
           type="password"
-          :isMobile="isMobile"
+          :is-mobile="isMobile"
         ></update-profile-display-input>
         <template #update-input>
           <update-profile-input
@@ -81,9 +82,9 @@
             type="password"
             :placeholder="$t('password_placeholder')"
             rules="required|min:8|max:15"
-            @set-input-value="setInputValue"
             :hide="hideExtraFields"
-            :isMobile="isMobile"
+            :is-mobile="isMobile"
+            @set-input-value="setInputValue"
           ></update-profile-input>
         </template>
       </update-profile-input-wrapper>
@@ -100,7 +101,7 @@
       >
         {{ $t("cancel") }}
       </button>
-      <base-button class="w-[160px] sm:w-auto" buttonClass="primary">
+      <base-button :disabled="!meta.valid" class="w-[160px] sm:w-auto" button-class="primary">
         {{ $t("save_changes") }}
       </base-button>
     </div>

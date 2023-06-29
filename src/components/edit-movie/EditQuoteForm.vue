@@ -1,5 +1,5 @@
 <template>
-  <vee-validate-form v-if="quote" @submit="updateQuote">
+  <vee-validate-form v-if="quote" v-slot="{meta}" @submit="updateQuote">
     <add-movie-input
       title='"Quote in English."'
       name="quote_en"
@@ -7,8 +7,8 @@
       lang="Eng"
       :value="quote?.quote['en']"
       type="textarea"
+      :is-quote="true"
       @set-input-value="setInputValue"
-      :isQuote="true"
     ></add-movie-input>
     <add-movie-input
       title="“ციტატა ქართულ ენაზე”"
@@ -17,17 +17,17 @@
       :value="quote?.quote['ka']"
       type="textarea"
       lang="ქარ"
+      :is-quote="true"
       @set-input-value="setInputValue"
-      :isQuote="true"
     ></add-movie-input>
 
     <upload-file-input
-      @upload-image="uploadImage"
       :image="quote?.image"
+      @upload-image="uploadImage"
     ></upload-file-input>
 
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
-    <base-button class="mt-[40px]" buttonClass="primary">{{
+    <base-button :disabled="!meta.valid" class="mt-[40px]" button-class="primary">{{
       $t("add_movie")
     }}</base-button>
   </vee-validate-form>
@@ -96,6 +96,7 @@ export default {
       formData.set("quote_ka", quote.value.quote.ka);
       formData.append("_method", "patch");
       await movieStore.editQuote(route.params.quoteId, formData);
+      errorMessage.value = movieStore.getErrors();
       router.back();
     });
 

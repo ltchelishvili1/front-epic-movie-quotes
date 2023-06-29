@@ -1,5 +1,5 @@
 <template>
-  <vee-validate-form @submit="handleClick">
+  <vee-validate-form v-slot="{meta}" @submit="handleClick">
     <base-input
       :title="$t('email')"
       name="email"
@@ -9,11 +9,11 @@
       @set-input-value="setInputValue"
     ></base-input>
     <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
-    <base-button buttonClass="primary">{{
+    <base-button :disabled="!meta.valid" button-class="primary">{{
       $t("send_insturctions")
     }}</base-button>
     <nav class="flex items-center justify-center">
-      <router-link :to="{ name: 'landing' }">
+      <router-link :to="{ name: 'log-in' }">
         <icon-navigate-back></icon-navigate-back>
       </router-link>
       <p class="text-[#6C757D] ml-[10px]">{{ $t("back_to_login") }}</p>

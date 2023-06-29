@@ -9,8 +9,8 @@
     </p>
     <base-button
       class="mt-[40px]"
+      button-class="primary"
       @click-button="redirectTologin"
-      buttonClass="primary"
     >
       {{ $t("log_in") }}</base-button
     >
@@ -24,16 +24,16 @@ import IconAccountActivated from "@/components/icons/IconAccountActivated.vue";
 import { useRouter } from "vue-router";
 
 export default {
+  components: {
+    AuthLayout,
+    IconAccountActivated,
+    BaseButton,
+  },
   props: {
     description: {
       type: String,
       required: true,
     },
-  },
-  components: {
-    AuthLayout,
-    IconAccountActivated,
-    BaseButton,
   },
   setup() {
     const router = useRouter();

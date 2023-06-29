@@ -14,6 +14,7 @@ export const useMovieStore = defineStore({
     async fetchMovie(id) {
       try {
         const response = await axios.get(`movies/${id}`);
+        console.log(response)
         this.movie = response.data.movie;
       } catch (error) {
         //
@@ -75,7 +76,7 @@ export const useMovieStore = defineStore({
         });
 
         this.movie.quotes.push(response.data.quote);
-
+        console.log(this.quotes , response.data.quote)
         if (response.status !== 201) {
           throw new Error("Request failed with status " + response.status);
         }
@@ -148,5 +149,6 @@ export const useMovieStore = defineStore({
     getMovie: (state) => state.movie,
     getMovies: (state) => state.movies,
     getQuote: (state) => state.quote,
+    getErrors: (state) => state.errors
   },
 });

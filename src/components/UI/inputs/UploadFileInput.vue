@@ -5,9 +5,10 @@
     @dragover.prevent
   >
     <Field
-      name="image"
       id="image"
+      name="image"
       type="file"
+      rules="required"
       accept="image/*"
       style="display: none"
       @input="uploadImage($event.target.files[0])"
@@ -30,13 +31,20 @@
     >
       {{ $t("choose_file") }}
     </button>
+    <div class="mt-[6px]">
+        <ErrorMessage class="text-red-500 ml-4" name="image" />
+      </div>
   </div>
 </template>
 
 <script>
 import { computed, ref } from "vue";
-import { Field } from "vee-validate";
+import { Field ,ErrorMessage} from "vee-validate";
 export default {
+  components: {
+    Field,
+    ErrorMessage
+  },
   props: {
     image: {
       type: String,
@@ -47,9 +55,10 @@ export default {
       default: false,
     },
   },
-  components: {
-    Field,
+  emits: {
+    "upload-image": (val) => typeof val instanceof File,
   },
+
   setup(props, { emit }) {
     const img = ref(props.image);
     const uploadImage = (file) => {

@@ -60,9 +60,9 @@
           </p>
           <div class="border-r translate-y-[25px]"></div>
           <base-button
-            @click="openAddQuoteModal"
             class="py-[0px] py-[0px]"
-            buttonClass="primary"
+            button-class="primary"
+            @click="openAddQuoteModal"
             >{{ $t("add_quote") }}</base-button
           >
         </div>
@@ -73,9 +73,9 @@
         >
           <check-movie-quote-card
             :quote="quote"
+            :display-quote="displayQuote"
             @delete-quote="deleteQuote"
             @toggle-quote-menu="toggleQuoteMenu"
-            :displayQuote="displayQuote"
           ></check-movie-quote-card>
         </div>
       </div>

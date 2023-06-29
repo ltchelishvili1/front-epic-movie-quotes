@@ -1,5 +1,5 @@
 <template>
-  <vee-validate-form @submit="handleClick">
+  <vee-validate-form v-slot="{ meta }" @submit="handleClick()">
     <base-input
       :title="$t('email')"
       name="username"
@@ -14,8 +14,8 @@
       :placeholder="$t('password_placeholder')"
       rules="required|min:8|max:15"
       type="password"
-      @set-input-value="setInputValue"
       :errors="errors"
+      @set-input-value="setInputValue"
     ></base-input>
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
     <div class="flex items-center justify-between">
@@ -33,13 +33,15 @@
         </p></router-link
       >
     </div>
-    <base-button buttonClass="primary">{{ $t("get_started") }}</base-button>
+    
+    <base-button button-class="primary" :disabled="!meta.valid">{{ $t("log_in") }}</base-button>
     <base-button
-      buttonClass="google"
-      displayIcon
+    type="button"
+      button-class="google"
+      display-icon
       @click-button="handleGoogleAuth"
     >
-      {{ $t("sign_up_with_google") }}</base-button
+      {{ $t("log_in_with_google") }}</base-button
     >
   </vee-validate-form>
 </template>
@@ -85,7 +87,7 @@ export default {
         }
 
         userStore.setAuth(true);
-        router.push({ name: "landing" });
+        router.push({ name: "news-feed" });
       } catch (error) {
         errorMessage.value = error.response.data.errors.password[0];
       }

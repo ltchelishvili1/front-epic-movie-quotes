@@ -1,6 +1,11 @@
 <template>
-  <div @click="handleClick" class="mt-[16px]">
-    <button :class="getButtonClass" class="flex items-center justify-center">
+  <div class="mt-[16px]" @click="handleClick">
+    <button
+      :disabled="disabled"
+      :class="getButtonClass"
+      :type="type"
+      class="flex items-center justify-center"
+    >
       <span v-if="displayIcon" class="mr-[8px]"
         ><icon-google></icon-google>
       </span>
@@ -28,6 +33,18 @@ export default {
       type: Boolean,
       default: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    type: {
+      type: String,
+      default: "submit",
+    },
+  },
+
+  emits: {
+    "click-button": null,
   },
   setup(props, { emit }) {
     const handleClick = async () => {

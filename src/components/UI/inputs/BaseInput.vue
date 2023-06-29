@@ -8,11 +8,11 @@
       </div>
       <div class="flex items-center">
         <Field
+          :id="name"
+          v-model="inputData"
           :rules="rules"
           :name="name"
-          :id="name"
           :class="displayValidationBorder"
-          v-model="inputData"
           class="w-[360px] h-[38px] bg-[#CED4DA] border border-[#232323] p-4 mt-[8px]"
           :type="type"
           :placeholder="placeholder || name"
@@ -44,14 +44,23 @@ import { Field, ErrorMessage, useField } from "vee-validate";
 import { computed, ref, watch } from "vue";
 
 export default {
+
+  components: {
+    Field,
+    ErrorMessage,
+    IconInputValid,
+    IconInputInvalid,
+  },
   props: {
     title: {
       type: String,
       required: false,
+      default: ''
     },
     rules: {
       type: String,
       required: false,
+      default: ''
     },
     name: {
       type: String,
@@ -60,6 +69,7 @@ export default {
     placeholder: {
       type: String,
       required: false,
+      default: ''
     },
     type: {
       type: String,
@@ -70,14 +80,12 @@ export default {
     errors: {
       type: Object,
       required: false,
+      default: () => {}
     },
   },
 
-  components: {
-    Field,
-    ErrorMessage,
-    IconInputValid,
-    IconInputInvalid,
+  emits: {
+    "set-input-value": (val) => typeof val === "object",
   },
 
   setup(props, { emit }) {

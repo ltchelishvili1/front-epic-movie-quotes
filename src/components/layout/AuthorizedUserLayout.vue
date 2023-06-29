@@ -13,36 +13,45 @@
         ></icon-mobile-navbar-menu>
       </div>
       <div class="flex items-center">
-        <div class="flex" @click="openNotifications">
-          <icon-notification></icon-notification>
+        <icon-search
+          class="translate-x-[100%] md:hidden lg:hidden"
+          @click="openSearch"
+        ></icon-search>
+        <div
+          class="flex translate-x-[100%] md:translate-x-[0px] lg:translate-x-[0px] cursor-pointer"
+          @click="openNotifications"
+        >
+          <icon-notification ></icon-notification>
           <span
             class="flex items-center justify-center text-white -translate-x-[90%] -translate-y-[10%] bg-[#E33812] rounded-full w-[20px] h-[20px]"
           >
-            11
+            {{ displayNewNotificationsLength }}
           </span>
         </div>
         <div
           v-if="isNotificationsOpen"
-          @click="openNotifications"
           class="w-full h-screen bg-black fixed z-[90] top-[0px] left-[0px] opacity-60"
+          @click="openNotifications"
         ></div>
 
         <div
           v-if="isNotificationsOpen"
-          class="absolute top-[80px] w-[50%] right-[5%] z-[100] bg-[#11101A] opacity-100"
+          class="absolute top-[80px] md:w-[50%] lg:w-[50%] w-full right-[5%] left-[0px] md:left-auto lg:left-auto z-[100] bg-[#11101A] opacity-100"
         >
           <div class="p-4 z-[100]">
             <div
               v-for="notification in notifications"
               :key="notification.id"
-              class="flex p-4 border border-[#6C757D] justify-between"
+              class="md:flex lg:flex p-4 border border-[#6C757D] justify-between"
               @click="handleNotificationClick(notification)"
             >
               <div class="flex">
                 <img
                   :src="notification.notification_sender.thumbnail"
                   class="-[60px] h-[60px] rounded-full border-4 border-solid mx-4"
-                  :class="!notification.has_user_seen ? ' border-green-600' : ''"
+                  :class="
+                    !notification.has_user_seen ? ' border-green-600' : ''
+                  "
                 />
                 <div>
                   <p class="text-white">
@@ -50,7 +59,7 @@
                   </p>
                   <p
                     v-if="notification.type === 'comment'"
-                    class="text-white flex items-center mt-2"
+                    class="break-words w-[30px] text-white flex items-center mt-2 md:text-normal lg:text-normal text-[14px]"
                   >
                     <icon-comments
                       class="w-[20px] h-[20px] mr-2"
@@ -59,24 +68,23 @@
                   </p>
                   <p v-else class="text-white flex items-center mt-2">
                     <icon-likes
-                      :isSelected="true"
+                      :is-selected="true"
                       class="w-[20px] h-[20px] mr-2"
                     ></icon-likes>
                     {{ $t("reacted_to_your_quote") }}
                   </p>
                 </div>
               </div>
-    
+
               <div>
                 <p class="text-white">
                   {{ displayDate(notification.created_at, notification.id) }}
                 </p>
-               
+
                 <p
                   v-if="!notification.has_user_seen"
-                  class="text-white float-right"
+                  class="text-white float-right -translate-y-[25px] md:-translate-y-[0px] lg:-translate-y-[0px]"
                 >
-              
                   {{ $t("new") }}
                 </p>
               </div>
@@ -86,8 +94,9 @@
 
         <language-switch class="mb-[20px]"></language-switch>
         <base-button
-          buttonClass="google"
+          button-class="google"
           class="mb-[17px] hidden md:block lg:block"
+          @click="logOutUser"
           >{{ $t("log_out") }}</base-button
         >
       </div>
@@ -147,6 +156,7 @@ import IconNotification from "@/components/icons/IconNotification.vue";
 import IconListOfMovies from "@/components/icons/IconListOfMovies.vue";
 import IconNewsFeed from "@/components/icons/IconNewsFeed.vue";
 import IconMobileNavbarMenu from "@/components/icons/IconMobileNavbarMenu.vue";
+import IconSearch from "@/components/icons/IconSearch.vue";
 
 import { useUserStore } from "@/stores/user/index";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
@@ -169,6 +179,7 @@ export default {
     IconMobileNavbarMenu,
     IconComments,
     IconLikes,
+    IconSearch,
   },
 
   setup() {
@@ -178,6 +189,7 @@ export default {
     const route = useRoute();
     const isNotificationsOpen = ref(false);
     const notifications = ref([]);
+    const router = useRouter();
 
     onMounted(async () => {
       instantiatePusher();
@@ -185,16 +197,14 @@ export default {
       window.Echo.private(`feedback-${userStore.getUser.id}`).listen(
         "UserFeedBack",
         (dat) => {
-          notifications.value.push(dat.message.notification)
-          console.log(notifications.value)
-         
+          notifications.value.unshift(dat.message.notification);
+          console.log(notifications.value);
         }
       );
 
       const response = await axios.get("notifications");
 
       notifications.value = response.data.notifications;
-
     });
 
     const toggleNavbar = () => {
@@ -229,7 +239,7 @@ export default {
       isNotificationsOpen.value = !isNotificationsOpen.value;
     };
 
-    const displayDate = computed(() => (time, id) => {
+    const displayDate = computed(() => (time) => {
       const currentTime = new Date();
       const pastTime = new Date(time);
       const timeDifference = Math.round((currentTime - pastTime) / 60000);
@@ -255,21 +265,42 @@ export default {
     });
 
     const handleNotificationClick = async (notification) => {
-
       const formData = new FormData();
-      formData.set('id', notification.id)
+      formData.set("id", notification.id);
       formData.append("_method", "patch");
 
-      try{
-        await axios.post('notifications', formData)
+      try {
+        await axios.post("notifications", formData);
         notification.has_user_seen = true;
-
-      }catch(error){
+      } catch (error) {
         //
       }
+    };
 
-    }
+    const displayNewNotificationsLength = computed(
+      () =>
+        notifications.value.filter(
+          (notification) => notification.has_user_seen == 0
+        ).length
+    );
 
+    const logOutUser = async () => {
+      try {
+        await axios.get("logout");
+        userStore.setAuth(false);
+      } catch (error) {
+        throw new Error(error);
+      }
+    };
+
+    const openSearch = () => {
+      router.push({
+        name: "news-feed",
+        query: {
+          openSearch: true,
+        },
+      });
+    };
 
     return {
       displayNavbar,
@@ -284,7 +315,10 @@ export default {
       isNotificationsOpen,
       notifications,
       displayDate,
-      handleNotificationClick
+      displayNewNotificationsLength,
+      handleNotificationClick,
+      logOutUser,
+      openSearch,
     };
   },
 };

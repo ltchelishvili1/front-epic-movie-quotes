@@ -1,3 +1,4 @@
+
 import axios from "@/config/axios";
 import { useUserStore } from "@/stores/user/index";
 import { authUser } from "@/config/helpers";
@@ -20,7 +21,7 @@ export const Auth = (to, from, next) => {
 export const Guest = (to, from, next) => {
   const userStore = useUserStore();
   if (userStore.authenticated) {
-    next({ name: "landing" });
+    next({ name: "news-feed" });
   } else {
     userStore.authenticated = false;
     return next();

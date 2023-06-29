@@ -9,8 +9,8 @@
     </p>
     <base-button
       class="mt-[40px]"
+      button-class="primary"
       @click-button="redirectToNewsFeed"
-      buttonClass="primary"
     >
       {{ $t("go_to_news_feed") }}</base-button
     >

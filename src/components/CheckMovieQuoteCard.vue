@@ -8,7 +8,7 @@
     </button>
     <div
       v-if="displayQuote[quote.id + 'quote']"
-      class="p-[40px] absolute text-white right-[55px] z-[10] lg:translate-x-[100%] md:translate-x-[100%]  translate-x-[10%] top-[40px] bg-[#24222F] rounded-lg cursor-pointer"
+      class="p-[40px] absolute text-white right-[55px] z-[10] lg:translate-x-[100%] md:translate-x-[100%] translate-x-[10%] top-[40px] bg-[#24222F] rounded-lg cursor-pointer"
     >
       <div class="flex items-center justify-start mb-[32px]">
         <icon-view></icon-view>
@@ -27,8 +27,8 @@
         >
       </div>
       <div
-        @click="deleteQuote(quote.id)"
         class="flex items-center justify-start"
+        @click="deleteQuote(quote.id)"
       >
         <icon-delete></icon-delete>
         <p class="text-white ml-4">{{ $t("delete_quote") }}</p>
@@ -50,11 +50,13 @@
 
       <div class="flex mt-[25px]">
         <div class="flex">
-          <p class="text-white mx-4 text-[20px]">{{ quote?.comments.length }}</p>
+          <p class="text-white mx-4 text-[20px]">
+            {{ quote?.comments?.length }}
+          </p>
           <icon-comments></icon-comments>
         </div>
         <div class="flex">
-          <p class="text-white mx-4 text-[20px]">4</p>
+          <p class="text-white mx-4 text-[20px]">{{ quote?.likes?.length }}</p>
           <icon-likes></icon-likes>
         </div>
       </div>
@@ -87,6 +89,11 @@ export default {
       required: true,
     },
   },
+  emits: {
+    "toggle-quote-menu": (id) => typeof id === "number",
+    "delete-quote": (id) => typeof id === "number",
+  },
+
   setup(_, { emit }) {
     const toggleQuoteMenu = (id) => {
       emit("toggle-quote-menu", id);

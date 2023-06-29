@@ -7,9 +7,9 @@
       lang="Eng"
       :value="quote?.quote['en']"
       type="textarea"
-      :readOnly="true"
+      :read-only="true"
+      :is-quote="true"
       @set-input-value="null"
-      :isQuote="true"
     ></add-movie-input>
     <add-movie-input
       title="“ციტატა ქართულ ენაზე”"
@@ -17,16 +17,16 @@
       rules="required|min:3|geo"
       type="textarea"
       :value="quote?.quote['ka']"
-      :readOnly="true"
-      :isQuote="true"
+      :read-only="true"
+      :is-quote="true"
       lang="ქარ"
       @set-input-value="null"
     ></add-movie-input>
 
     <upload-file-input
-      @upload-image="null"
-      :readOnly="true"
+      :read-only="true"
       :image="quote?.image"
+      @upload-image="null"
     ></upload-file-input>
   </vee-validate-form>
 </template>

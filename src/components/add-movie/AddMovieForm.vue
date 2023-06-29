@@ -1,5 +1,5 @@
 <template>
-  <vee-validate-form @submit="addMovie">
+  <vee-validate-form v-slot="{meta}" @submit="addMovie">
     <add-movie-input
       title="Movie Name"
       name="title_en"
@@ -56,11 +56,9 @@
       lang="ქარ"
       @set-input-value="setInputValue"
     ></add-movie-input>
-
     <upload-file-input @upload-image="uploadImage"></upload-file-input>
-
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
-    <base-button class="mt-[40px]" buttonClass="primary">{{
+    <base-button :disabled="!meta.valid" class="mt-[40px]" button-class="primary">{{
       $t("add_movie")
     }}</base-button>
   </vee-validate-form>
@@ -103,6 +101,7 @@ export default {
     const addMovie = handleSubmit(async () => {
 
       await movieStore.addMovie(formData);
+      errorMessage.value = movieStore.getErrors();
       router.push({ name: "movies" });
     });
 
