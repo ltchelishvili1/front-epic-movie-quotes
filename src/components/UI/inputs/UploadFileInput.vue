@@ -8,7 +8,7 @@
       id="image"
       name="image"
       type="file"
-      rules="required"
+      :rules="rules"
       accept="image/*"
       style="display: none"
       @input="uploadImage($event.target.files[0])"
@@ -54,9 +54,13 @@ export default {
       type: Boolean,
       default: false,
     },
+    rules: {
+      type: String,
+      default: 'required'
+    }
   },
   emits: {
-    "upload-image": (val) => typeof val instanceof File,
+    "upload-file": (val) => typeof val instanceof File,
   },
 
   setup(props, { emit }) {

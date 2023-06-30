@@ -59,12 +59,14 @@
                   </p>
                   <p
                     v-if="notification.type === 'comment'"
-                    class="break-words w-[30px] text-white flex items-center mt-2 md:text-normal lg:text-normal text-[14px]"
+                    class="break-words text-white flex items-center mt-2 md:text-normal lg:text-normal text-[14px]"
                   >
                     <icon-comments
-                      class="w-[20px] h-[20px] mr-2"
+                      class=" h-[20px] mr-2"
                     ></icon-comments>
+             
                     {{ $t("commented_to_your_movie_quote") }}
+               
                   </p>
                   <p v-else class="text-white flex items-center mt-2">
                     <icon-likes
@@ -162,6 +164,8 @@ import { useUserStore } from "@/stores/user/index";
 import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { displayImage } from "@/config/helpers";
+import { useI18n } from 'vue-i18n';
+
 
 import axios from "@/config/axios/index";
 
@@ -190,15 +194,15 @@ export default {
     const isNotificationsOpen = ref(false);
     const notifications = ref([]);
     const router = useRouter();
+    const { t } = useI18n();
 
     onMounted(async () => {
       instantiatePusher();
 
-      window.Echo.private(`feedback-${userStore.getUser.id}`).listen(
+      window.Echo.private(`feedback-${userStore.getUser?.id}`).listen(
         "UserFeedBack",
         (dat) => {
           notifications.value.unshift(dat.message.notification);
-          console.log(notifications.value);
         }
       );
 
@@ -223,7 +227,7 @@ export default {
       window.removeEventListener("resize", updateScreen);
     });
 
-    const displayUsername = computed(() => userStore.getUser.username);
+    const displayUsername = computed(() => userStore.getUser?.username);
 
     const hideNavbar = computed(() => (displayNavbar.value ? "hidden" : ""));
 
@@ -245,22 +249,22 @@ export default {
       const timeDifference = Math.round((currentTime - pastTime) / 60000);
 
       if (timeDifference < 60) {
-        return timeDifference + " minutes ago";
+        return timeDifference +" " + t('minutes_ago');
       } else if (timeDifference < 1440) {
         const hours = Math.floor(timeDifference / 60);
-        return hours + " hours ago";
+        return hours + " " + t('hours_ago');
       } else if (timeDifference < 10080) {
         const days = Math.floor(timeDifference / 1440);
-        return days + " days ago";
+        return days + " " + t('days_ago');
       } else if (timeDifference < 43200) {
         const weeks = Math.floor(timeDifference / 10080);
-        return weeks + " weeks ago";
+        return weeks + " " + t('weeks_ago');
       } else if (timeDifference < 525600) {
         const months = Math.floor(timeDifference / 43200);
-        return months + " months ago";
+        return months + " " + t('monts_ago');
       } else {
         const years = Math.floor(timeDifference / 525600);
-        return years + " years ago";
+        return years + " " + t('years_ago');
       }
     });
 
@@ -272,6 +276,7 @@ export default {
       try {
         await axios.post("notifications", formData);
         notification.has_user_seen = true;
+        router.push({name: 'view-quote', params: {quoteId: notification.quote.quote_id, id: notification.quote.movie_id}})
       } catch (error) {
         //
       }
@@ -288,6 +293,7 @@ export default {
       try {
         await axios.get("logout");
         userStore.setAuth(false);
+        router.push({name: 'main'})
       } catch (error) {
         throw new Error(error);
       }

@@ -1,5 +1,3 @@
-
-
 import { createRouter, createWebHistory } from "vue-router";
 import SignUpPage from "@/pages/authentication/sign-up/SignUpPage.vue";
 import LogInPage from "@/pages/authentication/log-in/LogInPage.vue";
@@ -19,6 +17,8 @@ import EditMovieModal from "@/components/modals/EditMovieModal.vue";
 import AddQuoteModal from "@/components/modals/AddQuoteModal.vue";
 import EditQuoteModal from "@/components/modals/EditQuoteModal.vue";
 import ViewQuoteModal from "@/components/modals/ViewQuoteModal.vue";
+import NotAuthorizedPage from "@/pages/errors/NotAuthorizedPage.vue";
+import NotFoundPage from "@/pages/errors/NotFoundPage.vue";
 
 import {
   authenticateUser,
@@ -34,6 +34,12 @@ const router = createRouter({
       path: "/",
       redirect: "/landing",
       name: "main",
+    },
+
+    {
+      path: "/:catchAll(.*)", 
+      name: "not-found",
+      component: NotFoundPage,
     },
 
     {
@@ -64,7 +70,6 @@ const router = createRouter({
           path: "/account-activated",
           name: "account-activated",
           component: AccountActivated,
-          beforeEnter: Guest,
         },
         {
           path: "/update-password-success",
@@ -96,12 +101,24 @@ const router = createRouter({
       name: "update-profile",
       component: UpdateProfilePage,
       beforeEnter: authenticateUser,
+      children: [
+        {
+          path: "/edit-email-request-send/email=:email",
+          name: "edit-email-request-send",
+          component: VerificationEmailSendModal,
+        },
+      ],
+    },
+    {
+      path: "/not-authorized",
+      name: "not-authorized",
+      component: NotAuthorizedPage,
     },
     {
       path: "/movies",
       name: "movies",
       component: MoviesListPage,
-      beforeEnter: [authenticateUser,Auth],
+      beforeEnter: [authenticateUser, Auth],
       children: [
         {
           path: "/movies/add",
@@ -115,7 +132,7 @@ const router = createRouter({
       path: "/check-movies/:id",
       name: "checkmovie",
       component: CheckMoviePage,
-      beforeEnter: [authenticateUser,Auth],
+      beforeEnter: [authenticateUser, Auth],
       children: [
         {
           path: "edit-movie",
@@ -147,7 +164,7 @@ const router = createRouter({
       path: "/news-feed",
       name: "news-feed",
       component: NewsFeedPage,
-      beforeEnter: [authenticateUser,Auth],
+      beforeEnter: [authenticateUser, Auth],
       children: [
         {
           path: "add-quote",

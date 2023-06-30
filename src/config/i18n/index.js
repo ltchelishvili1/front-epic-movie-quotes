@@ -11,7 +11,7 @@ const messages = {
     start_journey: "Start you journey here",
     name: "Name",
     name_placeholder: "At least 3 & max.15 lower case characters",
-
+    email_or_username_placeholder: "Please use Email or Username",
     email_placeholder: "Enter your email",
     password: "Password",
     password_placeholder: "At least 8 & max.15 lower case characters",
@@ -50,7 +50,7 @@ const messages = {
     activated: "Your account has been activated.",
     go_to_news_feed: "  Go to my news feed",
     // EmailSendModal
-    check_you_email: "  Check your email",
+    check_your_email: "  Check your email",
     go_to_email: " Go to my email",
     //UpdateProfilePage
     my_profile: "My Profile",
@@ -86,7 +86,27 @@ const messages = {
     write_new_quote: "Write new quote",
     search_by: "Search",
     choose_movie: "Choose movie",
-    write_a_comment: 'Write a comment'
+    write_a_comment: "Write a comment",
+    log_in_with_google: "Log in with Google",
+    show_more: "Show More",
+    show_less: "Show Less",
+    go_to_my_email: "Go to my email",
+    please_check_your_email:
+      "Please check your email and follow the instructions to activate your account,",
+    commented_to_your_movie_quote: "commented on your quote",
+    reacted_to_your_quote: "liked your quote",
+    new: "new",
+    seconds_ago: "seconds ago",
+    minutes_ago: "minutes ago",
+    days_ago: "days ago",
+    hours_ago: "hours ago",
+    months_ago: "months_ago",
+    years_ago: "years_ago",
+    send: "send",
+    are_you_sure_to_make_changes: "Are you sure to make changes?",
+    cancel: "cancel",
+    confirm: 'confirm',
+    changes_updated_sucessfully: 'Changes updated successfuly'
   },
   ka: {
     email: "გამოიყენეთ ელ-ფოსტა",
@@ -98,7 +118,7 @@ const messages = {
     start_journey: "დაიწყე შენი მოგზაურობა!",
     name: "სახელი",
     name_placeholder: "სახელი",
-    // email: "ელ-ფოსტა", should be fixed
+    email_or_username_placeholder: "მომხმარებლის სახელი ან ელ-ფოსტა",
     email_placeholder: "ელ-ფოსტის მისამართი",
     password: "პაროლი",
     password_placeholder: "პაროლი",
@@ -136,7 +156,7 @@ const messages = {
     activated: "ექაუნთი გააქტიურებულია.",
     go_to_news_feed: "გადასვლა მთავარზე",
     // EmailSendModal
-    check_you_email: "შეამოწმე მეილი",
+    check_your_email: "შეამოწმე მეილი",
     go_to_email: " გადასვლა მეილზე",
     //Updateprofile
     my_profile: "პროფილი",
@@ -172,7 +192,26 @@ const messages = {
     write_new_quote: "ახალი ფრაზა",
     search_by: "ძებნა",
     choose_movie: "ფილმის არჩევა",
-    write_a_comment: 'კომენტარის დაწერა'
+    write_a_comment: "კომენტარის დაწერა",
+    log_in_with_google: "ავტორიზაცია გუგლით",
+    show_more: "მეტის ნახვა",
+    show_less: "დახურვა",
+    go_to_my_email: "მეილზე გადასვლა",
+    please_check_your_email: "შეამოწმეთ მეილი და მიყევეით ინსტრუქციებს",
+    commented_to_your_movie_quote: "დააკომენტარა თქვენს ფრაზაზე",
+    reacted_to_your_quote: "მოიწონა თქენი ფრაზა",
+    new: "ახალი",
+    seconds_ao: "წამის წინ",
+    minutes_ago: "წუთის წინ",
+    days_ago: "დღის წინ",
+    hours_ago: "საათის წინ",
+    months_ago: "თვის წინ",
+    years_ago: "წლის წინ",
+    send: "გაგზავნა",
+    are_you_sure_to_make_changes: "დარწმუნებული ხარ რომ გინდა შეცვლა?",
+     cancel: 'გაუქმება',
+     confirm: 'დადასტურება',
+     changes_updated_sucessfully: 'წარმატებით შეიცვალა'
   },
 };
 

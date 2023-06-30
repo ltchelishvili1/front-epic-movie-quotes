@@ -1,12 +1,11 @@
 <template>
   <div>
-    <div v-if="hideExtraFields" class="flex">
-      <slot></slot>
-      <button
-        type="button"
-        class="text-white mt-[30px] ml-[10px] md:ml-[30px]"
-        @click="displayForm"
-      >
+    <div v-if="hideExtraFields" class="flex relative">
+      <div class="mr-[10px] md:mr-[30px]">
+        <slot></slot>
+      </div>
+
+      <button v-if="!googleId" type="button" class="absolute -right-[35px] translate-y-[10px] text-white mt-[30px]" @click="displayForm">
         {{ $t("edit") }}
       </button>
     </div>
@@ -31,8 +30,12 @@ export default {
       type: Boolean,
       required: false,
     },
+    googleId: {
+      type: String,
+      default: '',
+    },
   },
-  emits:{
+  emits: {
     "display-form": null,
   },
   setup(_, { emit }) {

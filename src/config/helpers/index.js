@@ -33,7 +33,7 @@ export const getLocale = () => {
 
 export const displayImage = computed(() => {
   const userStore = useUserStore();
-  return userStore.getUser.thumbnail
-    ? userStore.getUser.thumbnail
+  return userStore.getUser?.thumbnail
+    ? userStore.getUser?.thumbnail
     : NoUserImage;
 });

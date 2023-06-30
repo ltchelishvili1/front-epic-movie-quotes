@@ -91,7 +91,7 @@ export default {
       }
 
       await movieStore.addQuote(formData);
-      errorMessage.value = movieStore.getErrors();
+      errorMessage.value = movieStore.getErrors;
       router.back();
     });
 

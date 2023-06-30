@@ -1,5 +1,5 @@
 <template>
-  <vee-validate-form v-if="quote" v-slot="{meta}" @submit="updateQuote">
+  <vee-validate-form v-if="quote" @submit="updateQuote">
     <add-movie-input
       title='"Quote in English."'
       name="quote_en"
@@ -23,11 +23,12 @@
 
     <upload-file-input
       :image="quote?.image"
+      rules=""
       @upload-image="uploadImage"
     ></upload-file-input>
 
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
-    <base-button :disabled="!meta.valid" class="mt-[40px]" button-class="primary">{{
+    <base-button class="mt-[40px]" button-class="primary">{{
       $t("add_movie")
     }}</base-button>
   </vee-validate-form>
@@ -96,7 +97,7 @@ export default {
       formData.set("quote_ka", quote.value.quote.ka);
       formData.append("_method", "patch");
       await movieStore.editQuote(route.params.quoteId, formData);
-      errorMessage.value = movieStore.getErrors();
+      errorMessage.value = movieStore.getErrors;
       router.back();
     });
 

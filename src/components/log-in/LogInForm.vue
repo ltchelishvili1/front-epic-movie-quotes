@@ -1,10 +1,10 @@
 <template>
   <vee-validate-form v-slot="{ meta }" @submit="handleClick()">
     <base-input
-      :title="$t('email')"
+      :title="$t('email_or_username_placeholder')"
       name="username"
-      :placeholder="$t('email_placeholder')"
-      rules="required|email"
+      :placeholder="$t('email_or_username_placeholder')"
+      rules="required"
       type="email"
       @set-input-value="setInputValue"
     ></base-input>
@@ -87,10 +87,12 @@ export default {
         }
 
         userStore.setAuth(true);
+        userStore.setUser(response.data.user);
+
         router.push({ name: "news-feed" });
       } catch (error) {
         errorMessage.value = error.response.data.errors.password[0];
-      }
+      } 
     });
 
     return {

@@ -2,7 +2,7 @@
   <auth-layout>
     <icon-email-verification></icon-email-verification>
     <h1 class="text-white text-[32px] font-medium mt-[20px]">
-      Check your email
+      {{ $t('check_your_email') }}
     </h1>
     <p class="text-white text-[17px] font-medium mt-[30px] text-center">
       {{ description }}
@@ -12,7 +12,7 @@
       button-class="primary"
       @click-button="redirectToEmail"
     >
-      Go to my email</base-button
+     {{ $t('go_to_my_email') }}</base-button
     >
   </auth-layout>
 </template>

@@ -130,7 +130,7 @@ export default {
       });
 
       await movieStore.editMovie(route.params.id, formData);
-      errorMessage.value = movieStore.getErrors();
+      errorMessage.value = movieStore.getErrors;
       router.back();
     });
 
@@ -144,7 +144,7 @@ export default {
     };
 
     const selectedGenres = computed(() => (locale) => {
-      return movie?.value?.genres.map((val) => {
+      return movie.value.genres && movie?.value?.genres.map((val) => {
         return {
           value: val?.name[locale],
           id: val.id,

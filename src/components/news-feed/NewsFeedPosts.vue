@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section v-if="posts">
     <div
       v-for="post in posts"
       :key="post.id"
@@ -110,7 +110,7 @@
                 :disabled="!meta.valid"
                 class="absolute right-[10px] bottom-[15px] text-white"
               >
-                send
+                {{ $t('send') }}
               </button>
             </vee-validate-form>
           </div>
