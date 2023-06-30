@@ -75,7 +75,6 @@ export const useMovieStore = defineStore({
         });
 
         this.movie.quotes.push(response.data.quote);
-
         if (response.status !== 201) {
           throw new Error("Request failed with status " + response.status);
         }
@@ -148,5 +147,6 @@ export const useMovieStore = defineStore({
     getMovie: (state) => state.movie,
     getMovies: (state) => state.movies,
     getQuote: (state) => state.quote,
+    getErrors: (state) => state.errors
   },
 });

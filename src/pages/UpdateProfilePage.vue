@@ -1,5 +1,6 @@
 <template>
   <authorized-user-layout>
+    <router-view></router-view>
     <p class="text-white mt-[60px]">{{ $t("my_profile") }}</p>
     <update-profile-page-form class="mt-[60px]"></update-profile-page-form>
   </authorized-user-layout>

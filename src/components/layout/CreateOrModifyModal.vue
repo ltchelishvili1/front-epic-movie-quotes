@@ -25,15 +25,15 @@
             class="border-r translate-y-[25px]"
           ></div>
           <button
-            @click="deleteQuote(quoteId)"
             class="text-white text-center mt-[25px] translate-x-[15px]"
+            @click="deleteQuote(quoteId)"
           >
             <icon-delete></icon-delete>
           </button>
         </div>
         <button
-          @click="handleOuterClick"
           class="absolute text-white top-[40px] right-[30px]"
+          @click="handleOuterClick"
         >
           X
         </button>
@@ -76,10 +76,12 @@ export default {
     title: {
       type: String,
       required: false,
+      default: ''
     },
     isQuote: {
       type: String,
       required: false,
+      default: ''
     },
   },
 

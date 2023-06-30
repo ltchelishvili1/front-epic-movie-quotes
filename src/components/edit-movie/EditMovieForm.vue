@@ -1,5 +1,5 @@
 <template>
-  <vee-validate-form v-if="movie" @submit="updateMovie">
+  <vee-validate-form v-if="movie" v-slot="{meta}" @submit="updateMovie">
     <add-movie-input
       title="Movie Name"
       name="title_en"
@@ -18,8 +18,8 @@
     ></add-movie-input>
 
     <add-movie-caategories-input
-      @set-categories="setCategories"
       :value="selectedGenres(locale)"
+      @set-categories="setCategories"
     ></add-movie-caategories-input>
 
     <add-movie-input
@@ -66,12 +66,12 @@
     ></add-movie-input>
 
     <upload-file-input
-      @upload-image="uploadImage"
       :image="movie?.thumbnail"
+      @upload-image="uploadImage"
     ></upload-file-input>
 
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
-    <base-button class="mt-[40px]" buttonClass="primary">{{
+    <base-button :disabled="!meta.valid" class="mt-[40px]" button-class="primary">{{
       $t("add_movie")
     }}</base-button>
   </vee-validate-form>
@@ -130,6 +130,7 @@ export default {
       });
 
       await movieStore.editMovie(route.params.id, formData);
+      errorMessage.value = movieStore.getErrors;
       router.back();
     });
 
@@ -143,7 +144,7 @@ export default {
     };
 
     const selectedGenres = computed(() => (locale) => {
-      return movie?.value?.genres.map((val) => {
+      return movie.value.genres && movie?.value?.genres.map((val) => {
         return {
           value: val?.name[locale],
           id: val.id,

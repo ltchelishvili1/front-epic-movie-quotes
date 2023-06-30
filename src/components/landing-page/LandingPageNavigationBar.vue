@@ -2,13 +2,13 @@
   <nav
     class="flex items-center justify-between px-[26px] md:px-[70px] lg:px-[70px] py-[30px]"
   >
-    <router-link :to="{ name: 'main' }" class="text-[#DDCCAA]">{{
+    <router-link :to="{ name: 'main' }" class="text-[#DDCCAA] mt-6">{{
       $t("movie_quotes")
     }}</router-link>
     <div class="flex items-center justify-center h-[38px]">
       <div v-if="userStore.authenticated">
         <base-button
-          buttonClass="primary"
+          button-class="primary"
           class="md:w-[120px] lg:w-[120px] w-[72px] h-[38px] mr-[15px]"
           @click-button="logOutUser"
           >{{ $t("log_out") }}</base-button
@@ -18,7 +18,7 @@
       <div v-else class="flex items-center justify-center">
         <change-language></change-language>
         <base-button
-          buttonClass="primary"
+          button-class="primary"
           class="md:w-[120px] lg:w-[120px] w-[72px] h-[38px] mr-[15px]"
           @click-button="openSignUpModal"
           >{{ $t("sign_up") }}</base-button
@@ -26,7 +26,7 @@
 
         <base-button
           class="md:w-[120px] lg:w-[120px] w-[72px] h-[38px]"
-          buttonClass="google"
+          button-class="google"
           @click-button="openLogInModal"
         >
           {{ $t("log_in") }}</base-button

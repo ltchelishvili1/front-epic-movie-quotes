@@ -10,7 +10,7 @@
     <div class="flex items-center justify-center">
       <base-button
         class="flex items-center justify-center lg:text-normal md:text-normal text-[13px]"
-        buttonClass="primary"
+        button-class="primary"
         @click-button="openAddMovieModal"
       >
         <span class="absolute mt-[4px]"
@@ -28,15 +28,15 @@ import IconAddMoviePlus from "@/components/icons/IconAddMoviePlus.vue";
 
 import { useRouter } from "vue-router";
 export default {
+  components: {
+    BaseButton,
+    IconAddMoviePlus,
+  },
   props: {
     length: {
       type: Number,
       default: 0,
     },
-  },
-  components: {
-    BaseButton,
-    IconAddMoviePlus,
   },
   setup() {
     const router = useRouter();

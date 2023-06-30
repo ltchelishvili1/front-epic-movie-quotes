@@ -3,17 +3,17 @@
     <div class="mb-[16px]">
       <div class="flex items-center">
         <Field
+          :id="name"
           :as="isTextArea"
           :rules="rules"
           :name="name"
-          :id="name"
           :class="fieldClasses"
           class="w-full text-white bg-transparent p-4 mt-[8px] z-[10]"
           :type="type"
           :placeholder="title"
           :value="readOnly ? value : inputData"
+          :readonly="readOnly ? true : false"
           @input="updateInputData"
-          :readonly="readOnly? true : false"
         />
         <p
           v-if="value && !isQuote"
@@ -38,14 +38,20 @@ import { Field, ErrorMessage, useField } from "vee-validate";
 import { computed, ref, watch } from "vue";
 
 export default {
+  components: {
+    Field,
+    ErrorMessage,
+  },
   props: {
     title: {
       type: String,
       required: false,
+      default: "",
     },
     rules: {
       type: String,
       required: false,
+      default: "",
     },
     name: {
       type: String,
@@ -64,10 +70,12 @@ export default {
     errors: {
       type: Object,
       required: false,
+      default: () => {},
     },
     value: {
       type: String || Number,
       required: false,
+      default: "",
     },
     isQuote: {
       type: Boolean,
@@ -79,11 +87,9 @@ export default {
     },
   },
 
-  components: {
-    Field,
-    ErrorMessage,
+  emits: {
+    "set-input-value": (val) => typeof val === "object",
   },
-
   setup(props, { emit }) {
     const prefix = ref(props.title + ":  ");
     const inputData = ref(props.value);

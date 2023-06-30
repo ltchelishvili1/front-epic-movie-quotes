@@ -1,5 +1,5 @@
 <template>
-  <vee-validate-form @submit="handleClick">
+  <vee-validate-form v-slot="{meta}"  @submit="handleClick">
     <base-input
       :title="$t('name')"
       name="username"
@@ -34,10 +34,11 @@
       @set-input-value="setInputValue"
     ></base-input>
     <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
-    <base-button buttonClass="primary">{{ $t("get_started") }}</base-button>
+    <base-button :disabled="!meta.valid" button-class="primary">{{ $t("get_started") }}</base-button>
     <base-button
-      buttonClass="google"
-      displayIcon
+    type="button"
+      button-class="google"
+      display-icon
       @click-button="handleGoogleAuth"
     >
       {{ $t("sign_up_with_google") }}</base-button

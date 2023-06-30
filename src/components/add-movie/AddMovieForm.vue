@@ -1,5 +1,5 @@
 <template>
-  <vee-validate-form @submit="addMovie">
+  <vee-validate-form v-slot="{ meta }" @submit="addMovie">
     <add-movie-input
       title="Movie Name"
       name="title_en"
@@ -56,13 +56,14 @@
       lang="ქარ"
       @set-input-value="setInputValue"
     ></add-movie-input>
-
     <upload-file-input @upload-image="uploadImage"></upload-file-input>
-
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
-    <base-button class="mt-[40px]" buttonClass="primary">{{
-      $t("add_movie")
-    }}</base-button>
+    <base-button
+      :disabled="!meta.valid || categoryIds.length === 0"
+      class="mt-[40px]"
+      button-class="primary"
+      >{{ $t("add_movie") }}</base-button
+    >
   </vee-validate-form>
 </template>
 
@@ -86,6 +87,7 @@ export default {
     AddMovieCaategoriesInput,
   },
   setup() {
+    let categoryIds = ref([]);
     const formData = new FormData();
     const errorMessage = ref(null);
     const router = useRouter();
@@ -101,14 +103,14 @@ export default {
     };
 
     const addMovie = handleSubmit(async () => {
-
       await movieStore.addMovie(formData);
+      errorMessage.value = movieStore?.getErrors;
       router.push({ name: "movies" });
     });
 
     const setCategories = (selectedCategories) => {
-      const categoryIds = selectedCategories.map((category) => category.id);
-      formData.set("genres", JSON.stringify(categoryIds));
+      categoryIds.value = selectedCategories.map((category) => category.id);
+      formData.set("genres", JSON.stringify(categoryIds.value));
     };
 
     return {
@@ -117,6 +119,8 @@ export default {
       setCategories,
       errors: errorMessage,
       addMovie,
+      formData,
+      categoryIds
     };
   },
 };

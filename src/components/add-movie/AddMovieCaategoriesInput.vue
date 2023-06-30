@@ -8,9 +8,9 @@
         {{ $t("genres") }}
       </p>
       <div
-        class="text-white bg-[#6C757D] flex justify-center items-center m-[3px]"
         v-for="cat in displaySelectedCategories"
         :key="cat.value"
+        class="text-white bg-[#6C757D] flex justify-center items-center m-[3px]"
       >
         <p class="text-center m-[4px]">
           {{ cat.value }} <span @click="removeCategory(cat.value)">X</span>
@@ -44,6 +44,10 @@ export default {
       default: () => [],
     },
   },
+  emits: {
+    "set-categories": (val) => Array.isArray(val) 
+  },
+
   setup(props, { emit }) {
     const locale = getLocale();
     const showCategoriesRef = ref(false);

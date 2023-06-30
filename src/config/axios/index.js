@@ -19,10 +19,12 @@ axiosInstance.interceptors.response.use(
     if (error.response.status == 401) {
       const userStore = useUserStore();
       userStore.authenticated = false;
-      router.push({ name: "main" });
     }
     if (error.response.status == 403) {
-      router.back();
+      router.push({ name: "not-authorized" });
+    }
+    if(error.response.status == 404){
+      router.push({ name: "not-found" });
     }
     return Promise.reject(error);
   }

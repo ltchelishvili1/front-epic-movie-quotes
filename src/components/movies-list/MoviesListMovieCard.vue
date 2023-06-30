@@ -30,7 +30,7 @@ export default {
 
     const countComments = computed(() => {
       let count = 0;
-      if (props.movie?.quotes.length) {
+      if (props.movie?.quotes?.length) {
         props.movie.quotes.forEach((quote) => (count += quote.comments.length));
       }
       return count;

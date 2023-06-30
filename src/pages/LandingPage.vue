@@ -9,9 +9,9 @@
     </div>
 
     <landing-page-card
+      id="landing-card"
       :paralax="true"
       class="pt-[200px]"
-      id="landing-card"
       quote=" “You have to leave somethig
             behind to go forward”"
       movie="Interstellar, 2014"

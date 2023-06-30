@@ -1,5 +1,5 @@
 <template>
-  <create-or-modify-modal isQuote="quote-edit" :title="$t('edit_quote')">
+  <create-or-modify-modal is-quote="quote-edit" :title="$t('edit_quote')">
     <edit-quote-form></edit-quote-form>
   </create-or-modify-modal>
 </template>
