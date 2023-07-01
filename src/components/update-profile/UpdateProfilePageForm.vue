@@ -218,7 +218,7 @@ export default {
 
       if (formData.value.get("email")) {
         try {
-          const resp = await axios.post("user-email-update", formData.value, {
+           await axios.post("user-email-update", formData.value, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -297,7 +297,7 @@ export default {
       return true;
     });
 
-    watch(isSuccesfullyUpdated, (newValue) => {
+    watch(isSuccesfullyUpdated, () => {
       setTimeout(() => {
         isSuccesfullyUpdated.value = false;
       }, 3000);
