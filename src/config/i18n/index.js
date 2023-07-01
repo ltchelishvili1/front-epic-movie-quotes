@@ -104,9 +104,8 @@ const messages = {
     years_ago: "years_ago",
     send: "send",
     are_you_sure_to_make_changes: "Are you sure to make changes?",
-    cancel: "cancel",
-    confirm: 'confirm',
-    changes_updated_sucessfully: 'Changes updated successfuly'
+    confirm: "confirm",
+    changes_updated_sucessfully: "Changes updated successfuly",
   },
   ka: {
     email: "გამოიყენეთ ელ-ფოსტა",
@@ -209,9 +208,8 @@ const messages = {
     years_ago: "წლის წინ",
     send: "გაგზავნა",
     are_you_sure_to_make_changes: "დარწმუნებული ხარ რომ გინდა შეცვლა?",
-     cancel: 'გაუქმება',
-     confirm: 'დადასტურება',
-     changes_updated_sucessfully: 'წარმატებით შეიცვალა'
+    confirm: "დადასტურება",
+    changes_updated_sucessfully: "წარმატებით შეიცვალა",
   },
 };
 
