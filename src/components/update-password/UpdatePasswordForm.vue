@@ -1,5 +1,5 @@
 <template>
-  <vee-validate-form v-slot="{meta}" @submit="handleClick">
+  <vee-validate-form v-slot="{ meta }" @submit="handleClick">
     <base-input
       :title="$t('password')"
       name="password"
@@ -17,7 +17,9 @@
       @set-input-value="setInputValue"
     ></base-input>
     <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
-    <base-button :disabled="!meta.valid" button-class="primary">{{ $t("reset_password") }}</base-button>
+    <base-button :disabled="!meta.valid" button-class="primary">{{
+      $t("reset_password")
+    }}</base-button>
     <nav class="flex items-center justify-center">
       <router-link :to="{ name: 'landing' }">
         <icon-navigate-back></icon-navigate-back>
@@ -48,9 +50,11 @@ export default {
     const errorMessage = ref(null);
     const route = useRoute();
     const router = useRouter();
+    const isLoading = ref(false);
 
     const handleClick = async () => {
       const { email, token } = route.params;
+      isLoading.value = true;
       try {
         await axios.post("reset-password", {
           token,
@@ -60,7 +64,8 @@ export default {
         router.push({ name: "update-password-success" });
       } catch (err) {
         errorMessage.value = err.response.data.errors.password[0];
-        throw new Error(err);
+      } finally {
+        isLoading.value = false;
       }
     };
 

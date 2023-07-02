@@ -2,6 +2,7 @@
   <section>
     <are-you-sure-modal
       v-if="isOpenAreYouSure"
+      :is-loading="isLoading"
       @cancel="toggleAreYouSure"
       @update-profile="updateProfile"
     ></are-you-sure-modal>
@@ -168,8 +169,9 @@ export default {
         password: false,
       }
     );
-
     const isMobile = ref(false);
+      const isLoading = ref(false);
+
     const updateScreen = () => {
       isMobile.value = window.matchMedia("(max-width: 768px)").matches;
     };
@@ -215,7 +217,7 @@ export default {
 
     const updateProfile = handleSubmit(async () => {
       formData.value.append("_method", "patch");
-
+      isLoading.value = true;
       if (formData.value.get("email")) {
         try {
            await axios.post("user-email-update", formData.value, {
@@ -253,6 +255,7 @@ export default {
       } catch (error) {
         errorMessage.value = error.response.data.message;
       }
+      isLoading.value = false;
     });
 
     const displayImage = computed(() =>
@@ -323,6 +326,7 @@ export default {
       isOpenAreYouSure,
       toggleIsSucessfullyUpdated,
       isSuccesfullyUpdated,
+      isLoading
     };
   },
 };

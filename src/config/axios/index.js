@@ -23,9 +23,6 @@ axiosInstance.interceptors.response.use(
     if (error.response.status == 403) {
       router.push({ name: "not-authorized" });
     }
-    if(error.response.status == 404){
-      router.push({ name: "not-found" });
-    }
     return Promise.reject(error);
   }
 );

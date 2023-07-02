@@ -9,7 +9,7 @@
       name="image"
       type="file"
       :rules="rules"
-      accept="image/*"
+      accept=".png, .jpg"
       style="display: none"
       @input="uploadImage($event.target.files[0])"
     />

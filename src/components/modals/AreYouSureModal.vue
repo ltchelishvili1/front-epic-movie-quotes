@@ -7,17 +7,25 @@
       <div class="w-full h-[0.1px] bg-[#EFEFEF] opacity-[0.3] mt-[24px]"></div>
       <div class="flex items-center justify-between">
         <button class="text-white" @click="cancel">{{ $t("cancel") }}</button>
-        <base-button button-class="primary" @click="updateProfile">{{
-          $t("confirm")
-        }}</base-button>
+        <base-button button-class="primary" @click="updateProfile">
+          <span v-if="!isLoading"> {{ $t("confirm") }} </span>
+          <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
+        </base-button>
       </div>
     </div>
   </section>
 </template>
 <script>
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
+import LoadSpinner from "@/components/LoadSpinner.vue";
 export default {
-  components: { BaseButton },
+  components: { BaseButton,LoadSpinner },
+  props: {
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+  },
   emits: {
     cancel: null,
     "update-profile": null,

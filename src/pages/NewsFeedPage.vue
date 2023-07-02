@@ -1,26 +1,38 @@
 <template>
   <authorized-user-layout>
-    <router-view> </router-view>
-    <news-feed-search
-      :search-key="searchKey"
-      @set-search-key="setSearchKey"
-    ></news-feed-search>
-    <div v-if="posts">
-      <news-feed-posts :posts="posts"></news-feed-posts>
-    </div>
+    <load-spinner
+      v-if="isLoading.searchResult"
+      class="absolute top-0 left-0"
+      classes="h-[100px] w-[100px]"
+    ></load-spinner>
+    <div v-else>
+      <router-view> </router-view>
+      <news-feed-search
+        :search-key="searchKey"
+        @set-search-key="setSearchKey"
+      ></news-feed-search>
+      <div v-if="posts">
+        <news-feed-posts :posts="posts"></news-feed-posts>
+      </div>
 
-    <div v-else-if="quotes">
-      <news-feed-quotes :quotes="quotes"></news-feed-quotes>
-    </div>
+      <div v-else-if="quotes">
+        <news-feed-quotes :quotes="quotes"></news-feed-quotes>
+      </div>
 
-    <div
-      v-if="movies"
-      class="mt-[100px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-[50px]"
-    >
-      <div v-for="movie in movies" :key="movie.id">
-        <movies-list-movie-card :movie="movie"></movies-list-movie-card>
+      <div
+        v-if="movies"
+        class="mt-[100px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-[50px]"
+      >
+        <div v-for="movie in movies" :key="movie.id">
+          <movies-list-movie-card :movie="movie"></movies-list-movie-card>
+        </div>
       </div>
     </div>
+    <load-spinner
+      v-if="isLoading.pagination"
+      class="fixed top-0 left-0"
+      classes="h-[100px] w-[100px]"
+    ></load-spinner>
   </authorized-user-layout>
 </template>
 <script>
@@ -38,6 +50,7 @@ import { useRoute } from "vue-router";
 import NewsFeedSearch from "@/components/news-feed/NewsFeedSearch.vue";
 import NewsFeedPosts from "@/components/news-feed/NewsFeedPosts.vue";
 import NewsFeedQuotes from "@/components/news-feed/NewsFeedQuotes.vue";
+import LoadSpinner from "@/components/LoadSpinner.vue";
 
 export default {
   components: {
@@ -46,6 +59,7 @@ export default {
     NewsFeedSearch,
     NewsFeedPosts,
     NewsFeedQuotes,
+    LoadSpinner,
   },
   setup() {
     let searchTimeout = null;
@@ -54,7 +68,6 @@ export default {
     const movies = ref([]);
     const quotes = ref([]);
     let isEventListenerAdded = false;
-
     const route = useRoute();
     const page = ref({
       posts: 2,
@@ -62,6 +75,10 @@ export default {
       movies: 2,
     });
     const searchKey = ref("");
+    const isLoading = ref({
+      searchResult: false,
+      pagination: false,
+    });
 
     onMounted(() => {
       instantiatePusher();
@@ -92,6 +109,7 @@ export default {
     }
 
     const fetchSearchResult = async (search, page = 1) => {
+      isLoading.value.searchResult = true;
       try {
         const response = await axios.get(
           `${searchKey.value[0] === "@" ? "movies" : "quotes"}?page=${page}`,
@@ -118,6 +136,8 @@ export default {
         }
       } catch (error) {
         //
+      } finally {
+        isLoading.value.searchResult = false;
       }
     };
 
@@ -154,6 +174,8 @@ export default {
             : searchKey.value.trim()[0] === "#"
             ? page.value.quotes
             : page.value.posts;
+
+        isLoading.value.pagination = true;
         try {
           const response = await axios.get(
             `${
@@ -191,6 +213,8 @@ export default {
           }
         } catch (error) {
           //
+        } finally {
+          isLoading.value.pagination = false;
         }
       }
     };
@@ -219,6 +243,7 @@ export default {
       messages: notificationStore.getNotifications,
       route,
       setSearchKey,
+      isLoading,
     };
   },
 };

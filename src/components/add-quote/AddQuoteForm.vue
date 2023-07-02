@@ -1,5 +1,7 @@
 <template>
-  <vee-validate-form v-slot="{meta}" @submit="addQuote">
+  <section>
+    <load-spinner v-if="isLoading.movies" classes="w-[100px] h-[100px]"></load-spinner>
+    <vee-validate-form v-else v-slot="{ meta }" @submit="addQuote">
     <add-movie-input
       title='"Quote in English."'
       name="quote_en"
@@ -18,12 +20,11 @@
     ></add-movie-input>
 
     <upload-file-input @upload-image="uploadImage"></upload-file-input>
-    <div class="flex">
+    <div v-if="!route.params.id" class="flex">
       <icon-list-of-movies
         class="absolute mt-[50px] ml-[10px]"
       ></icon-list-of-movies>
       <select
-        v-if="!route.params.id"
         id=""
         class="w-full mt-[28px] h-[86px] bg-[#000000] text-white px-[50px]"
         as="select"
@@ -38,10 +39,17 @@
     </div>
 
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
-    <base-button :disabled="!meta.valid" class="mt-[40px]" button-class="primary">{{
-      $t("add_quote")
-    }}</base-button>
+    <base-button
+      :disabled="!meta.valid"
+      class="mt-[40px]"
+      button-class="primary"
+      >
+    <span v-if="!isLoading.submit">      {{ $t("add_quote") }}</span>
+      <load-spinner v-else classes="w-[25px] h-[25px]"></load-spinner>
+      </base-button
+    >
   </vee-validate-form>
+  </section>
 </template>
 
 <script>
@@ -57,6 +65,7 @@ import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
 import IconListOfMovies from "@/components/icons/IconListOfMovies.vue";
 import { useMovieStore } from "@/stores/movie/index";
 import { useRoute, useRouter } from "vue-router";
+import LoadSpinner from '@/components/LoadSpinner.vue';
 
 export default {
   components: {
@@ -65,6 +74,7 @@ export default {
     VeeValidateForm: Form,
     UploadFileInput,
     IconListOfMovies,
+    LoadSpinner,
   },
   setup() {
     const formData = new FormData();
@@ -76,6 +86,10 @@ export default {
     const route = useRoute();
     const locale = getLocale();
     const movieStore = useMovieStore();
+    const isLoading = ref({
+      movies: false,
+      submit: false,
+    });
 
     const setInputValue = ({ key, value }) => {
       formData.set(key, value);
@@ -90,13 +104,18 @@ export default {
         formData.set("movie_id", route.params.id);
       }
 
+      isLoading.value.submit = true;
       await movieStore.addQuote(formData);
+      isLoading.value.submit = false;
       errorMessage.value = movieStore.getErrors;
-      router.back();
+      if (!movieStore.getErrors) {
+        router.back();
+      }
     });
 
-    onMounted(() => {
-      const fetchMovies = async () => {
+    onMounted(async () => {
+      if (!route.params.id) {
+        isLoading.value.movies = true;
         try {
           const response = await axios.get("movies");
           movies.value = response.data.movies.map((movie) => {
@@ -104,11 +123,9 @@ export default {
           });
         } catch (error) {
           errorMessage.value = error.response.data.message;
+        } finally {
+          isLoading.value.movies = false;
         }
-      };
-
-      if (!route.params.id) {
-        fetchMovies();
       }
     });
 
@@ -125,6 +142,7 @@ export default {
       movies,
       route,
       selectMovieId,
+      isLoading
     };
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <vee-validate-form v-slot="{meta}"  @submit="handleClick">
+  <vee-validate-form v-slot="{ meta }" @submit="handleClick">
     <base-input
       :title="$t('name')"
       name="username"
@@ -34,9 +34,12 @@
       @set-input-value="setInputValue"
     ></base-input>
     <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
-    <base-button :disabled="!meta.valid" button-class="primary">{{ $t("get_started") }}</base-button>
+    <base-button :disabled="!meta.valid" button-class="primary">
+      <span v-if="!isLoading"> {{ $t("get_started") }} </span>
+      <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
+    </base-button>
     <base-button
-    type="button"
+      type="button"
       button-class="google"
       display-icon
       @click-button="handleGoogleAuth"
@@ -56,13 +59,15 @@ import { ref, computed } from "vue";
 
 import axios from "@/config/axios/index";
 import { useRouter } from "vue-router";
+import LoadSpinner from "@/components/LoadSpinner.vue";
 
 export default {
-  components: { BaseInput, BaseButton, VeeValidateForm: Form },
+  components: { BaseInput, BaseButton, VeeValidateForm: Form, LoadSpinner },
   setup() {
     const signUpData = ref({});
     const errorMessage = ref(null);
     const router = useRouter();
+    const isLoading = ref(false);
 
     const setInputValue = ({ key, value }) => {
       errorMessage.value = null;
@@ -73,14 +78,11 @@ export default {
       return "required|confirmed:" + signUpData.value.password;
     });
     const handleClick = async () => {
+      isLoading.value = true;
       try {
-        const response = await axios.post(
-          "register",
-          {
-            ...signUpData.value,
-          },
-          {}
-        );
+        const response = await axios.post("register", {
+          ...signUpData.value,
+        });
         if (response.status !== 201) {
           throw new Error("Request failed with status " + response.status);
         }
@@ -92,6 +94,8 @@ export default {
         errorMessage.value = error.response.data.errors.email
           ? error.response.data.errors.email[0]
           : error.response.data.errors.username[0];
+      } finally {
+        isLoading.value - false;
       }
     };
 
@@ -101,6 +105,7 @@ export default {
       handleGoogleAuth,
       error: errorMessage,
       passwordConfirmationRules,
+      isLoading,
     };
   },
 };

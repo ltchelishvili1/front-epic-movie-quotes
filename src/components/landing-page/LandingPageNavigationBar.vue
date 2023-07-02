@@ -6,16 +6,7 @@
       $t("movie_quotes")
     }}</router-link>
     <div class="flex items-center justify-center h-[38px]">
-      <div v-if="userStore.authenticated">
-        <base-button
-          button-class="primary"
-          class="md:w-[120px] lg:w-[120px] w-[72px] h-[38px] mr-[15px]"
-          @click-button="logOutUser"
-          >{{ $t("log_out") }}</base-button
-        >
-      </div>
-
-      <div v-else class="flex items-center justify-center">
+      <div  class="flex items-center justify-center">
         <change-language></change-language>
         <base-button
           button-class="primary"
@@ -38,10 +29,8 @@
 
 <script>
 import ChangeLanguage from "@/components/LanguageSwitch.vue";
-import { useUserStore } from "@/stores/user/index";
 import { useRouter } from "vue-router";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
-import axios from "@/config/axios/index";
 
 export default {
   components: {
@@ -49,7 +38,6 @@ export default {
     ChangeLanguage,
   },
   setup() {
-    const userStore = useUserStore();
     const router = useRouter();
 
     const openSignUpModal = () => {
@@ -59,20 +47,10 @@ export default {
       router.push({ name: "log-in" });
     };
 
-    const logOutUser = async () => {
-      try {
-        await axios.get("logout");
-        userStore.setAuth(false);
-      } catch (error) {
-        throw new Error(error);
-      }
-    };
 
     return {
       openSignUpModal,
       openLogInModal,
-      userStore,
-      logOutUser,
     };
   },
 };

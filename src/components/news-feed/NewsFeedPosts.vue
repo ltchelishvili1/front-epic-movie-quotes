@@ -40,9 +40,14 @@
             >
               {{ post?.likes?.length || 0 }}
               <icon-likes
+                v-if="!isLoading.like"
                 :is-selected="hasUserLikedPost(post?.likes)"
                 class="ml-3"
               ></icon-likes>
+              <load-spinner
+                v-else
+                classes="h-[30px] w-[30px] ml-3"
+              ></load-spinner>
             </button>
           </div>
 
@@ -77,6 +82,7 @@
               </div>
             </div>
             <button
+              v-if="post?.comments?.length > 2"
               class="text-[12px] absolute right-[0px] -translate-x-[100%]"
               @click="toggleComments"
             >
@@ -108,9 +114,12 @@
               />
               <button
                 :disabled="!meta.valid"
-                class="absolute right-[10px] bottom-[15px] text-white"
+                class="absolute right-[10px] bottom-[15px] text-white text-[14px]"
               >
-                {{ $t('send') }}
+                <span v-if="!isLoading.comment">
+                  {{ $t("send") }}
+                </span>
+                <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
               </button>
             </vee-validate-form>
           </div>
@@ -128,6 +137,7 @@ import { useUserStore } from "@/stores/user/index";
 import IconLikes from "@/components/icons/IconLikes.vue";
 import IconComments from "@/components/icons/IconComments.vue";
 import { getLocale } from "@/config/helpers/index";
+import LoadSpinner from "@/components/LoadSpinner.vue";
 
 export default {
   components: {
@@ -135,6 +145,7 @@ export default {
     IconLikes,
     IconComments,
     Field,
+    LoadSpinner,
   },
   props: {
     posts: {
@@ -147,6 +158,10 @@ export default {
     const comment = ref("");
     const userStore = useUserStore();
     const locale = getLocale();
+    const isLoading = ref({
+      like: false,
+      comment: false,
+    });
 
     const handleLikePost = async (
       quote_id,
@@ -154,6 +169,7 @@ export default {
       hasAlreadyLiked,
       likes
     ) => {
+      isLoading.value.like = true;
       if (!hasAlreadyLiked) {
         try {
           await axios.post("likes", {
@@ -180,6 +196,7 @@ export default {
           //
         }
       }
+      isLoading.value.like = false;
     };
 
     const hasUserLikedPost = computed(() => (likes) => {
@@ -187,7 +204,7 @@ export default {
     });
 
     const addComment = async (quote_id, quote_user_id) => {
-      displayComments.value = true;
+      isLoading.value.comment = true;
       try {
         await axios.post("comments", {
           quote_id,
@@ -196,6 +213,10 @@ export default {
         });
       } catch (error) {
         //
+      } finally {
+        displayComments.value = true;
+        comment.value = "";
+        isLoading.value.comment = false;
       }
     };
 
@@ -217,6 +238,7 @@ export default {
       userStore,
       locale,
       setComment,
+      isLoading,
     };
   },
 };

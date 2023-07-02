@@ -106,6 +106,10 @@ const messages = {
     are_you_sure_to_make_changes: "Are you sure to make changes?",
     confirm: "confirm",
     changes_updated_sucessfully: "Changes updated successfuly",
+    recover_instructions_sent: 'We have sent a password recover instructions to your email,',
+    shall_not_pass: 'Shall not pass',
+    do_not_have_permission: 'Do not have permission',
+    return_home: 'Return home'
   },
   ka: {
     email: "გამოიყენეთ ელ-ფოსტა",
@@ -210,6 +214,11 @@ const messages = {
     are_you_sure_to_make_changes: "დარწმუნებული ხარ რომ გინდა შეცვლა?",
     confirm: "დადასტურება",
     changes_updated_sucessfully: "წარმატებით შეიცვალა",
+    recover_instructions_sent: 'პაროლის აღდგენის ინსტრუქცია გაიგზავნა ელ-ფოსტაზე',
+    shall_not_pass: 'შესვლა აკრძალულია',
+    do_not_have_permission: 'არ გაქვთ ამ გვერდის გამოყენების უფლება',
+    return_home: 'დაბრუნება'
+
   },
 };
 

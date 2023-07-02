@@ -4,7 +4,7 @@
       id="image"
       name="image"
       type="file"
-      accept="image/*"
+      accept=".png, .jpg"
 
       style="display: none"
       @input="uploadImage($event.target.files[0])"
