@@ -83,7 +83,6 @@ export const useMovieStore = defineStore({
 
         return response;
       } catch (error) {
-        console.log(error)
         this.errors = error.response.data.message;
       }
     },

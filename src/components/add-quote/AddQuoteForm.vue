@@ -114,7 +114,6 @@ export default {
       isLoading.value.submit = false;
       errorMessage.value = movieStore.getErrors;
       if (!movieStore.getErrors) {
-        console.log(response);
         router.push({
           name: "view-quote",
           params: {

@@ -33,7 +33,7 @@
     <base-button class="mt-[40px]" button-class="primary">
     <span v-if="!isLoading.submit">
       {{
-      $t("add_movie")
+      $t("edit_quote")
     }}
     </span>
     <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>

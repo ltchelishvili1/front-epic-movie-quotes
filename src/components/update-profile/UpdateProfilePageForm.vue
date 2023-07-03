@@ -232,7 +232,6 @@ export default {
     );
 
     const setInputValue = ({ key, value }) => {
-      console.log(key, value);
       formData.value.set(key, value);
     };
 
@@ -270,7 +269,7 @@ export default {
           withCredentials: true,
         });
 
-        userStore.setUser(response.data);
+        userStore.setUser(response.data.user);
 
         if (response.status !== 200) {
           throw new Error("Request failed with status " + response.status);

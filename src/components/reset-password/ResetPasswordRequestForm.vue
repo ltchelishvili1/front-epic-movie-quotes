@@ -73,7 +73,6 @@ export default {
           params: { email: resetPasswordData.value.email },
         });
       } catch (error) {
-        console.log(error);
         errorMessage.value = error.response.data.errors.email
           ? error.response.data.errors.email[0]
           : "";

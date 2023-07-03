@@ -134,7 +134,6 @@ export default {
             },
           }
         );
-        console.log(response)
         if (response.data.posts) {
           posts.value = response.data.posts;
           movies.value = null;

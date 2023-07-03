@@ -82,7 +82,7 @@
         button-class="primary"
       >
         <span v-if="!isLoading.submit">
-          {{ $t("add_movie") }}
+          {{ $t("edit_movie") }}
         </span>
         <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
       </base-button>
