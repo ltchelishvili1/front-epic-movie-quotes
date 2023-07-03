@@ -109,7 +109,16 @@ const messages = {
     recover_instructions_sent: 'We have sent a password recover instructions to your email,',
     shall_not_pass: 'Shall not pass',
     do_not_have_permission: 'Do not have permission',
-    return_home: 'Return home'
+    return_home: 'Return home',
+    data_not_added: 'Data not added yet...',
+    not_added_yet: 'You have not added movie yet...',
+    no_notifications_yet: 'No notifications yet...',
+    enter: 'Enter',
+    to_search_movies: 'to search movies, ',
+    to_search_quotes: 'to search quotes',
+    whoops: 'Whoops',
+    not_found: 'Page not found',
+
   },
   ka: {
     email: "გამოიყენეთ ელ-ფოსტა",
@@ -217,7 +226,15 @@ const messages = {
     recover_instructions_sent: 'პაროლის აღდგენის ინსტრუქცია გაიგზავნა ელ-ფოსტაზე',
     shall_not_pass: 'შესვლა აკრძალულია',
     do_not_have_permission: 'არ გაქვთ ამ გვერდის გამოყენების უფლება',
-    return_home: 'დაბრუნება'
+    return_home: 'დაბრუნება',
+    data_not_added: 'ინფორმაცია არ არის დამატებული...',
+    not_added_yet: 'ჯერ ფილმი არ დაგიმატებიათ...',
+    no_notifications_yet: 'ჯერ არ გაქვთ შეტყობინება...',
+    enter: 'შეიყბანე',
+    to_search_movies: 'ფილმების საძებნელად, ',
+    to_search_quotes: 'ფრაზების საძებნელად',
+    whoops: 'უფს',
+    not_found: 'გვერდი ვერ მოიძებნა',
 
   },
 };

@@ -17,9 +17,12 @@
       @set-input-value="setInputValue"
     ></base-input>
     <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
-    <base-button :disabled="!meta.valid" button-class="primary">{{
-      $t("reset_password")
-    }}</base-button>
+    <base-button
+      :disabled="!meta.valid"
+      button-class="primary"
+      :class="!meta.valid ? 'opacity-30' : ''"
+      >{{ $t("reset_password") }}</base-button
+    >
     <nav class="flex items-center justify-center">
       <router-link :to="{ name: 'landing' }">
         <icon-navigate-back></icon-navigate-back>

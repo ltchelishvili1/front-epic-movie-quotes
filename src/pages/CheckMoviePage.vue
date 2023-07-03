@@ -34,7 +34,10 @@
                     ><icon-edit></icon-edit
                   ></router-link>
                   <div class="border-r"></div>
-                  <icon-delete class="cursor-pointer" @click="deleteMovie"></icon-delete>
+                  <icon-delete
+                    class="cursor-pointer"
+                    @click="deleteMovie"
+                  ></icon-delete>
                 </div>
               </div>
               <div
@@ -88,6 +91,13 @@
               @toggle-quote-menu="toggleQuoteMenu"
             ></check-movie-quote-card>
           </div>
+          <div v-if="!movie?.quotes.length">
+            <div class="">
+          <icon-not-found></icon-not-found>
+          <icon-eclipse></icon-eclipse>
+          <h1 class="text-white mt-8 italic">{{ $t('data_not_added') }}</h1>
+        </div>
+          </div>
         </div>
       </div>
     </div>
@@ -104,7 +114,9 @@ import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import CheckMovieQuoteCard from "@/components/CheckMovieQuoteCard.vue";
 import { useMovieStore } from "@/stores/movie/index";
 import LoadSpinner from "@/components/LoadSpinner.vue";
-import {useUserStore} from '@/stores/user/index'
+import { useUserStore } from "@/stores/user/index";
+import IconNotFound from "@/components/icons/IconNotFound.vue";
+import IconEclipse from "@/components/icons/IconEclipse.vue";
 
 export default {
   components: {
@@ -114,6 +126,8 @@ export default {
     BaseButton,
     CheckMovieQuoteCard,
     LoadSpinner,
+    IconNotFound,
+    IconEclipse
   },
   setup() {
     const displayQuote = ref({});
@@ -122,7 +136,7 @@ export default {
     const router = useRouter();
     const movieStore = useMovieStore();
     const isLoading = ref(false);
-    const {getUser} = useUserStore();
+    const { getUser } = useUserStore();
 
     const movie = computed(() => movieStore.getMovie);
 
@@ -153,7 +167,7 @@ export default {
       displayQuote.value[id + "quote"] = !displayQuote.value[id + "quote"];
     };
 
-    const checkPermission = computed(() => (id) => getUser.id === parseInt(id))
+    const checkPermission = computed(() => (id) => getUser.id === parseInt(id));
 
     return {
       movie,
@@ -165,7 +179,7 @@ export default {
       deleteQuote,
       isLoading,
       getUser,
-      checkPermission
+      checkPermission,
     };
   },
 };

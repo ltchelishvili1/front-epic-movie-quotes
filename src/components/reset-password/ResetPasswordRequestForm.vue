@@ -9,7 +9,7 @@
       @set-input-value="setInputValue"
     ></base-input>
     <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
-    <base-button :disabled="!meta.valid" button-class="primary">
+    <base-button :disabled="!meta.valid" button-class="primary"  :class="!meta.valid ? 'opacity-30' : ''">
     <span v-if="!isLoading">
       {{
       $t("send_insturctions")

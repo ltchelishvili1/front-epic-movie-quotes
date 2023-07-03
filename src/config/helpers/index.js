@@ -19,6 +19,7 @@ export const authUser = async (userStore) => {
   if (userStore.authenticated === null) {
     try {
       const response = await axios.get("user");
+      console.log(response)
       userStore.authenticated = true;
       userStore.setUser(response.data.user);
     } catch (err) {

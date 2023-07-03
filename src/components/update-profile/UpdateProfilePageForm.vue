@@ -15,7 +15,7 @@
       @submit="toggleAreYouSure"
     >
       <div
-        class="-translate-x-[10px] bg-[#11101A] mt-[100px] flex flex-col items-center justify-center py-[60px] min-w-[100%]"
+        class="-translate-x-[10px] bg-[#11101A] mt-[100px] flex flex-col items-center justify-center md:px-0 lg:px-0 px-12 py-[60px] min-w-[100%]"
       >
         <update-profile-input-image
           :display-image="displayImage"
@@ -59,6 +59,7 @@
             :is-mobile="isMobile"
           ></update-profile-display-input>
           <template #update-input>
+            <p class="text-white">{{}}</p>
             <update-profile-input
               v-if="display.email"
               :title="$t('new_email')"
@@ -97,6 +98,17 @@
               :is-mobile="isMobile"
               @set-input-value="setInputValue"
             ></update-profile-input>
+            <update-profile-input
+              v-if="display.password"
+              :title="$t('confirm_password')"
+              name="confirm_password"
+              type="password"
+              :placeholder="$t('password_placeholder')"
+              :rules="passwordConfirmationRules(formData.get('password'))"
+              :hide="hideExtraFields"
+              :is-mobile="isMobile"
+              @set-input-value="setInputValue"
+            ></update-profile-input>
           </template>
         </update-profile-input-wrapper>
       </div>
@@ -113,7 +125,19 @@
         >
           {{ $t("cancel") }}
         </button>
-        <base-button class="w-[160px] sm:w-auto" button-class="primary">
+        <p class="text-white">
+          {{ formData.get("password")?.length }}
+        </p>
+        <base-button
+          :disabled="
+            disableButton(
+              formData.get('password'),
+              formData.get('confirm_password')
+            )
+          "
+          class="w-[160px] sm:w-auto"
+          button-class="primary"
+        >
           {{ $t("save_changes") }}
         </base-button>
       </div>
@@ -170,7 +194,7 @@ export default {
       }
     );
     const isMobile = ref(false);
-      const isLoading = ref(false);
+    const isLoading = ref(false);
 
     const updateScreen = () => {
       isMobile.value = window.matchMedia("(max-width: 768px)").matches;
@@ -208,6 +232,7 @@ export default {
     );
 
     const setInputValue = ({ key, value }) => {
+      console.log(key, value);
       formData.value.set(key, value);
     };
 
@@ -220,7 +245,7 @@ export default {
       isLoading.value = true;
       if (formData.value.get("email")) {
         try {
-           await axios.post("user-email-update", formData.value, {
+          await axios.post("user-email-update", formData.value, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -300,6 +325,12 @@ export default {
       return true;
     });
 
+    const passwordConfirmationRules = computed(() => (password) => {
+      return "required|confirmed:" + password;
+    });
+
+    const disableButton = computed(() => (pass, new_pass) => pass !== new_pass);
+
     watch(isSuccesfullyUpdated, () => {
       setTimeout(() => {
         isSuccesfullyUpdated.value = false;
@@ -326,7 +357,10 @@ export default {
       isOpenAreYouSure,
       toggleIsSucessfullyUpdated,
       isSuccesfullyUpdated,
-      isLoading
+      isLoading,
+      passwordConfirmationRules,
+      formData,
+      disableButton,
     };
   },
 };

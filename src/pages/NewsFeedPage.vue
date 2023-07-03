@@ -11,21 +11,32 @@
         :search-key="searchKey"
         @set-search-key="setSearchKey"
       ></news-feed-search>
-      <div v-if="posts">
+      <div v-if="posts && posts.length">
         <news-feed-posts :posts="posts"></news-feed-posts>
       </div>
 
-      <div v-else-if="quotes">
+      <div v-else-if="quotes && quotes.length">
         <news-feed-quotes :quotes="quotes"></news-feed-quotes>
       </div>
 
       <div
-        v-if="movies"
+        v-else-if="movies && movies.length"
         class="mt-[100px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-[50px]"
       >
         <div v-for="movie in movies" :key="movie.id">
           <movies-list-movie-card :movie="movie"></movies-list-movie-card>
         </div>
+      </div>
+      <div
+        v-else
+        class=" absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]"
+      >
+        <div class="flex flex-col items-center justify-center">
+          <icon-not-found></icon-not-found>
+          <icon-eclipse></icon-eclipse>
+          <h1 class="text-white mt-8 italic">{{ $t('data_not_added') }}</h1>
+        </div>
+
       </div>
     </div>
     <load-spinner
@@ -36,6 +47,8 @@
   </authorized-user-layout>
 </template>
 <script>
+import IconNotFound from "@/components/icons/IconNotFound.vue";
+import IconEclipse from "@/components/icons/IconEclipse.vue";
 import AuthorizedUserLayout from "@/components/layout/AuthorizedUserLayout.vue";
 
 import axios from "@/config/axios/index";
@@ -60,6 +73,8 @@ export default {
     NewsFeedPosts,
     NewsFeedQuotes,
     LoadSpinner,
+    IconNotFound,
+    IconEclipse,
   },
   setup() {
     let searchTimeout = null;
@@ -119,6 +134,7 @@ export default {
             },
           }
         );
+        console.log(response)
         if (response.data.posts) {
           posts.value = response.data.posts;
           movies.value = null;

@@ -10,7 +10,7 @@
         <change-language></change-language>
         <base-button
           button-class="primary"
-          class="md:w-[120px] lg:w-[120px] w-[72px] h-[38px] mr-[15px]"
+          class="md:w-[120px] lg:w-[120px]  h-[38px] mr-[15px]"
           @click-button="openSignUpModal"
           >{{ $t("sign_up") }}</base-button
         >

@@ -60,6 +60,7 @@
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
     <base-button
       :disabled="!meta.valid || categoryIds.length === 0"
+      :class="!meta.valid ? 'opacity-30' : ''"
       class="mt-[40px]"
       button-class="primary"
     >

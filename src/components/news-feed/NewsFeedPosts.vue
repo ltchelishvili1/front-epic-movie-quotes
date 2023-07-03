@@ -114,6 +114,7 @@
               />
               <button
                 :disabled="!meta.valid"
+                :class="!meta.valid ? 'opacity-30' : ''"
                 class="absolute right-[10px] bottom-[15px] text-white text-[14px]"
               >
                 <span v-if="!isLoading.comment">

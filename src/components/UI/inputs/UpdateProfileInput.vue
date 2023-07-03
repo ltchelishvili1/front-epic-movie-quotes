@@ -25,9 +25,9 @@
       </div>
     </div>
     <div v-if="title" class="mt-[32px]">
-      <label :for="name" class="font-semibold text-[16px] text-white">{{
+      <p class="font-semibold text-[16px] text-white">{{
         title
-      }}</label>
+      }}</p>
     </div>
 
     <div class="flex items-center pb-[30px]">

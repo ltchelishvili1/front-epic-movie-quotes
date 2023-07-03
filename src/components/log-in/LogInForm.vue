@@ -34,13 +34,12 @@
       >
     </div>
 
-    <base-button button-class="primary" :disabled="!meta.valid">
+    <base-button button-class="primary" :disabled="!meta.valid"  :class="!meta.valid ? 'opacity-30' : ''">
       <span v-if="!isLoading">
         {{ $t("log_in") }}
       </span>
       <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
-      </base-button
-    >
+    </base-button>
     <base-button
       type="button"
       button-class="google"

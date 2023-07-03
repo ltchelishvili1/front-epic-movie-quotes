@@ -4,7 +4,7 @@
     @click="handleOuterClick"
   >
     <div
-      class="px-[32px] rounded-[10px] py-[36px] md:w-[600px] lg:w-[600px] w-full absolute left-[50%] top-[50%] -translate-x-[50%] h-[800px] overflow-y-scroll -translate-y-[50%] h-[1000px] scale-[.9] bg-[#11101A]"
+      class=" scrollbar   scrollbar-thumb-gray-100 scrollbar-track-gray-900 px-[32px] rounded-[10px] py-[36px] md:w-[600px] lg:w-[600px] w-full absolute left-[50%] top-[50%] -translate-x-[50%] h-[800px] overflow-y-scroll -translate-y-[50%] h-[1000px] scale-[.9] bg-[#11101A]"
       @click="handleInnerClick"
     >
       <div class="flex items-center justify-center">
