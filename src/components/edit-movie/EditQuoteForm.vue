@@ -1,5 +1,7 @@
 <template>
-  <vee-validate-form v-if="quote" @submit="updateQuote">
+<section>
+  <load-spinner v-if="isLoading.quote" classes="w-[100px] h-[100px]"></load-spinner>
+  <vee-validate-form v-else @submit="updateQuote">
     <add-movie-input
       title='"Quote in English."'
       name="quote_en"
@@ -28,10 +30,16 @@
     ></upload-file-input>
 
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
-    <base-button class="mt-[40px]" button-class="primary">{{
-      $t("add_movie")
-    }}</base-button>
+    <base-button class="mt-[40px]" button-class="primary">
+    <span v-if="!isLoading.submit">
+      {{
+      $t("edit_quote")
+    }}
+    </span>
+    <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
+  </base-button>
   </vee-validate-form>
+</section>
 </template>
 
 <script>
@@ -46,6 +54,7 @@ import { onBeforeMount, ref } from "vue";
 import { useMovieStore } from "@/stores/movie/index";
 import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
 import { useRoute, useRouter } from "vue-router";
+import LoadSpinner from '@/components/LoadSpinner.vue';
 
 export default {
   components: {
@@ -53,6 +62,7 @@ export default {
     BaseButton,
     VeeValidateForm: Form,
     UploadFileInput,
+    LoadSpinner,
   },
   setup() {
     const formData = new FormData();
@@ -63,6 +73,10 @@ export default {
     const route = useRoute();
     const locale = getLocale();
     const router = useRouter();
+    const isLoading = ref({
+      quote: false,
+      submit: false
+    });
 
     const setInputValue = ({ key, value }) => {
       quote.value[key.split("_")[0]][key.split("_")[1]] = value;
@@ -73,6 +87,7 @@ export default {
     };
 
     onBeforeMount(() => {
+      isLoading.value.quote = true;
       const fetchQuote = async () => {
         try {
           const response = await axios.get(`movies/${route.params.id}`);
@@ -84,6 +99,8 @@ export default {
           });
         } catch (error) {
           //
+        }finally{
+          isLoading.value.quote = false
         }
       };
 
@@ -96,7 +113,9 @@ export default {
       formData.set("quote_en", quote.value.quote.en);
       formData.set("quote_ka", quote.value.quote.ka);
       formData.append("_method", "patch");
+      isLoading.value.submit = true;
       await movieStore.editQuote(route.params.quoteId, formData);
+      isLoading.value.submit = false;
       errorMessage.value = movieStore.getErrors;
       router.back();
     });
@@ -108,6 +127,7 @@ export default {
       locale,
       updateQuote,
       quote,
+      isLoading
     };
   },
 };

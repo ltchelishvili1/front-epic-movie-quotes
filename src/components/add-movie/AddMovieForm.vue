@@ -60,10 +60,13 @@
     <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
     <base-button
       :disabled="!meta.valid || categoryIds.length === 0"
+      :class="!meta.valid ? 'opacity-30' : ''"
       class="mt-[40px]"
       button-class="primary"
-      >{{ $t("add_movie") }}</base-button
     >
+      <span v-if="!isLoading"> {{ $t("add_movie") }}</span>
+      <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
+    </base-button>
   </vee-validate-form>
 </template>
 
@@ -77,6 +80,7 @@ import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
 import AddMovieCaategoriesInput from "@/components/add-movie/AddMovieCaategoriesInput.vue";
 import { useMovieStore } from "@/stores/movie/index";
 import { useRouter } from "vue-router";
+import LoadSpinner from '@/components/LoadSpinner.vue';
 
 export default {
   components: {
@@ -85,14 +89,17 @@ export default {
     VeeValidateForm: Form,
     UploadFileInput,
     AddMovieCaategoriesInput,
+    LoadSpinner
   },
   setup() {
+  
     let categoryIds = ref([]);
     const formData = new FormData();
     const errorMessage = ref(null);
     const router = useRouter();
     const { handleSubmit } = useForm();
     const movieStore = useMovieStore();
+    const isLoading = ref(false);
 
     const setInputValue = ({ key, value }) => {
       formData.set(key, value);
@@ -103,9 +110,13 @@ export default {
     };
 
     const addMovie = handleSubmit(async () => {
+      isLoading.value = true;
       await movieStore.addMovie(formData);
+      isLoading.value = false;
       errorMessage.value = movieStore?.getErrors;
-      router.push({ name: "movies" });
+      if (!movieStore.getErrors) {
+        router.push({ name: "movies" });
+      }
     });
 
     const setCategories = (selectedCategories) => {
@@ -120,7 +131,8 @@ export default {
       errors: errorMessage,
       addMovie,
       formData,
-      categoryIds
+      categoryIds,
+      isLoading,
     };
   },
 };

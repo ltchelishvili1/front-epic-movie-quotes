@@ -9,9 +9,14 @@
       @set-input-value="setInputValue"
     ></base-input>
     <p v-if="error" class="text-red-500 ml-4">{{ error }}</p>
-    <base-button :disabled="!meta.valid" button-class="primary">{{
+    <base-button :disabled="!meta.valid" button-class="primary"  :class="!meta.valid ? 'opacity-30' : ''">
+    <span v-if="!isLoading">
+      {{
       $t("send_insturctions")
-    }}</base-button>
+    }}
+    </span>
+    <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
+  </base-button>
     <nav class="flex items-center justify-center">
       <router-link :to="{ name: 'log-in' }">
         <icon-navigate-back></icon-navigate-back>
@@ -30,6 +35,7 @@ import axios from "@/config/axios/index";
 import { Form } from "vee-validate";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import LoadSpinner from '@/components/LoadSpinner.vue';
 
 export default {
   components: {
@@ -37,13 +43,17 @@ export default {
     BaseInput,
     VeeValidateForm: Form,
     IconNavigateBack,
+    LoadSpinner
   },
   setup() {
+  
     const resetPasswordData = ref({});
     const errorMessage = ref(null);
     const router = useRouter();
+    const isLoading = ref(false)
 
     const handleClick = async () => {
+      isLoading.value = true;
       try {
         const response = await axios.post(
           "forgot-password",
@@ -63,10 +73,11 @@ export default {
           params: { email: resetPasswordData.value.email },
         });
       } catch (error) {
-        console.log(error);
         errorMessage.value = error.response.data.errors.email
           ? error.response.data.errors.email[0]
           : "";
+      } finally{
+        isLoading.value = false;
       }
     };
 
@@ -79,6 +90,7 @@ export default {
       setInputValue,
       handleClick,
       error: errorMessage,
+      isLoading
     };
   },
 };

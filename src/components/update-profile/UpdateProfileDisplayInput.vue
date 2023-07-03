@@ -1,9 +1,9 @@
 <template>
   <div>
     <div v-if="title">
-      <label :for="name" class="font-semibold text-[16px] text-white">{{
+      <p  class="font-semibold text-[16px] text-white">{{
         title
-      }}</label>
+      }}</p>
     </div>
     <input
       :class="

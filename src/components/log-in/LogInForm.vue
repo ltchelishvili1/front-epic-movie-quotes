@@ -33,10 +33,15 @@
         </p></router-link
       >
     </div>
-    
-    <base-button button-class="primary" :disabled="!meta.valid">{{ $t("log_in") }}</base-button>
+
+    <base-button button-class="primary" :disabled="!meta.valid"  :class="!meta.valid ? 'opacity-30' : ''">
+      <span v-if="!isLoading">
+        {{ $t("log_in") }}
+      </span>
+      <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
+    </base-button>
     <base-button
-    type="button"
+      type="button"
       button-class="google"
       display-icon
       @click-button="handleGoogleAuth"
@@ -58,14 +63,22 @@ import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user/index";
 
 import axios from "@/config/axios/index";
+import LoadSpinner from "@/components/LoadSpinner.vue";
 
 export default {
-  components: { BaseInput, BaseButton, VeeValidateForm: Form, BaseCheckBox },
+  components: {
+    BaseInput,
+    BaseButton,
+    VeeValidateForm: Form,
+    BaseCheckBox,
+    LoadSpinner,
+  },
   setup() {
     const logInData = ref({});
     const userStore = useUserStore();
     const errorMessage = ref(null);
     const { handleSubmit } = useForm();
+    const isLoading = ref(false);
 
     const router = useRouter();
     const setInputValue = ({ key, value }) => {
@@ -73,6 +86,7 @@ export default {
     };
 
     const handleButtonClick = handleSubmit(async () => {
+      isLoading.value = true;
       try {
         await axios.get("sanctum/csrf-cookie");
         const response = await axios.post("login", {
@@ -92,7 +106,9 @@ export default {
         router.push({ name: "news-feed" });
       } catch (error) {
         errorMessage.value = error.response.data.errors.password[0];
-      } 
+      } finally {
+        isLoading.value = false;
+      }
     });
 
     return {
@@ -100,6 +116,7 @@ export default {
       handleGoogleAuth,
       setInputValue,
       errors: errorMessage,
+      isLoading,
     };
   },
 };

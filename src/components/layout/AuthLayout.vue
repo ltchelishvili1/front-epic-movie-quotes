@@ -38,7 +38,7 @@ export default {
     const router = useRouter();
 
     const handleOuterClick = () => {
-      router.back();
+      router.push({name: 'main'});
     };
     const handleInnerClick = (event) => {
       event.stopPropagation();

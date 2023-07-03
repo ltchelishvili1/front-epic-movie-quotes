@@ -1,9 +1,12 @@
 <template>
-  <section class="flex flex-col items-center justify-center">
+  <section
+    class="flex flex-col items-center justify-center"
+  >
     <div
       v-for="quote in quotes"
       :key="quote.id"
       class="text-white flex items-center justify-center mt-[40px] p-[50px] bg-[#11001A] w-[70%] rounded-xl"
+      @click="navigateToQuote(quote.id,quote.movie_id)"
     >
       <div class="flex flex-col items-center justify -center">
         <h3 class="text-white mb-[30px] italic">
@@ -21,6 +24,7 @@
 
 <script>
 import { getLocale } from "@/config/helpers/index";
+import { useRouter } from "vue-router";
 export default {
   props: {
     quotes: {
@@ -30,8 +34,21 @@ export default {
   },
   setup() {
     const locale = getLocale();
+    const router = useRouter();
+
+    const navigateToQuote = (quoteId, id) => {
+      router.push({
+        name: "view-quote",
+        params: {
+          quoteId,
+          id,
+        },
+      });
+    };
+
     return {
       locale,
+      navigateToQuote,
     };
   },
 };

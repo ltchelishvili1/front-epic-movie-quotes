@@ -9,7 +9,7 @@
       name="image"
       type="file"
       :rules="rules"
-      accept="image/*"
+      accept=".png, .jpg"
       style="display: none"
       @input="uploadImage($event.target.files[0])"
     />
@@ -20,9 +20,9 @@
       :src="displayImage"
       @click="openFileInput"
     />
-    <label v-if="!readOnly" class="text-white text-center cursor-pointer">
+    <p v-if="!readOnly" class="text-white text-center cursor-pointer">
       {{ $t("drag_and_drop_image") }}
-    </label>
+    </p>
     <button
       v-if="!readOnly"
       type="button"

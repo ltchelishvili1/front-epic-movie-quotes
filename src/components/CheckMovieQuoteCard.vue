@@ -18,7 +18,10 @@
           >{{ $t("view_quote") }}</router-link
         >
       </div>
-      <div class="flex items-center justify-start mb-[32px]">
+      <div
+        v-if="hasPermission"
+        class="flex items-center justify-start mb-[32px]"
+      >
         <icon-edit></icon-edit>
         <router-link
           :to="{ name: 'edit-quote', params: { quoteId: quote?.id } }"
@@ -27,6 +30,7 @@
         >
       </div>
       <div
+        v-if="hasPermission"
         class="flex items-center justify-start"
         @click="deleteQuote(quote.id)"
       >
@@ -87,6 +91,10 @@ export default {
     quote: {
       type: Object,
       required: true,
+    },
+    hasPermission: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: {

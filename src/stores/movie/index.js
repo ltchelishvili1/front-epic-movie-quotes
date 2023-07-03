@@ -74,10 +74,14 @@ export const useMovieStore = defineStore({
           withCredentials: true,
         });
 
-        this.movie.quotes.push(response.data.quote);
+        if(this?.movie?.quotes){
+          this.movie.quotes.unshift(response.data.quote);
+        }
         if (response.status !== 201) {
           throw new Error("Request failed with status " + response.status);
         }
+
+        return response;
       } catch (error) {
         this.errors = error.response.data.message;
       }

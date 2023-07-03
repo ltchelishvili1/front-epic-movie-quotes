@@ -1,11 +1,19 @@
 <template>
   <div>
     <div
-      class="w-full min-h-[38px] border border-[#6C757D] px-[16px] py-[5px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4"
+      class="cursor-pointer w-full min-h-[50px] border border-[#6C757D] px-[16px] py-[5px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4"
       @click="showCategories"
     >
-      <p v-if="!displaySelectedCategories.length" class="text-white">
-        {{ $t("genres") }}
+      <p
+        v-if="!displaySelectedCategories.length"
+        class="text-white mt-[5px] relative"
+      >
+        <span v-if="!isLoading" > {{ $t("genres") }}</span>
+        <load-spinner
+          v-else
+          class="absolute -translate-x-[40px]"
+          classes="h-[25px] w-[25px]"
+        ></load-spinner>
       </p>
       <div
         v-for="cat in displaySelectedCategories"
@@ -13,7 +21,10 @@
         class="text-white bg-[#6C757D] flex justify-center items-center m-[3px]"
       >
         <p class="text-center m-[4px]">
-          {{ cat.value }} <span @click="removeCategory(cat.value)">X</span>
+          {{ cat.value }}
+          <span class="cursor-pointer" @click="removeCategory(cat.value)"
+            >X</span
+          >
         </p>
       </div>
     </div>
@@ -22,7 +33,7 @@
         v-for="category in displayCategories"
         :key="category.id"
         :value="category.name[locale]"
-        class="text-white bg-transparent"
+        class="text-white bg-transparent p-2 cursor-pointer hover:bg-[#22203099]"
         :name="category.id"
         readonly
         @click="addCategory"
@@ -36,8 +47,10 @@ import { computed, onMounted, ref } from "vue";
 import axios from "@/config/axios/index";
 import { getLocale } from "@/config/helpers/index";
 import { useMovieStore } from "@/stores/movie/index";
+import LoadSpinner from "@/components/LoadSpinner.vue";
 
 export default {
+  components: { LoadSpinner },
   props: {
     value: {
       type: Array,
@@ -45,7 +58,7 @@ export default {
     },
   },
   emits: {
-    "set-categories": (val) => Array.isArray(val) 
+    "set-categories": (val) => Array.isArray(val),
   },
 
   setup(props, { emit }) {
@@ -54,27 +67,28 @@ export default {
     const selectedCategories = ref(props.value);
     const categories = ref([]);
     const movieStore = useMovieStore();
+    const isLoading = ref(false);
 
     const movie = computed(() => movieStore.getMovie);
 
     const showCategories = () => {
-      showCategoriesRef.value = true;
+      showCategoriesRef.value = !showCategoriesRef.value;
     };
 
-    onMounted(() => {
-      const fetchCategories = async () => {
-        try {
-          const response = await axios.get("genres");
-          categories.value = response.data.genres;
+    onMounted(async () => {
+      isLoading.value = true;
+      try {
+        const response = await axios.get("genres");
+        categories.value = response.data.genres;
 
-          if (response.status !== 200) {
-            throw new Error("Request failed with status " + response.status);
-          }
-        } catch (error) {
-          //
+        if (response.status !== 200) {
+          return;
         }
-      };
-      fetchCategories();
+      } catch (error) {
+        //
+      } finally {
+        isLoading.value = false;
+      }
     });
 
     const displayCategories = computed(() => categories.value);
@@ -91,8 +105,6 @@ export default {
         value: event.target.value,
         id: event.target.name,
       });
-
-      
 
       movie.value?.genres.push(
         categories.value.filter((cat) => cat.id == event.target.name)[0]
@@ -120,6 +132,7 @@ export default {
       displaySelectedCategories,
       removeCategory,
       locale,
+      isLoading,
     };
   },
 };

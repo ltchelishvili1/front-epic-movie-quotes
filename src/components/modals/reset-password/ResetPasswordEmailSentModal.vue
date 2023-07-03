@@ -2,17 +2,17 @@
   <auth-layout>
     <icon-email-verification></icon-email-verification>
     <h1 class="text-white text-[32px] font-medium mt-[20px]">
-      Check your email
+     {{ $t('check_your_email') }}
     </h1>
     <p class="text-white text-[17px] font-medium mt-[30px] text-center">
-      "We have sent a password recover instructions to your email",
+      {{ $t('recover_instructions_sent') }}
     </p>
     <base-button
       class="mt-[40px]"
       button-class="primary"
       @click-button="redirectToEmail"
     >
-      Go to my email</base-button
+     {{ $t('go_to_email') }}</base-button
     >
   </auth-layout>
 </template>

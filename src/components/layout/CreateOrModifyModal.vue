@@ -4,12 +4,12 @@
     @click="handleOuterClick"
   >
     <div
-      class="px-[32px] rounded-[10px] py-[36px] md:w-[600px] lg:w-[600px] w-full absolute left-[50%] top-[50%] -translate-x-[50%] h-[800px] overflow-y-scroll -translate-y-[50%] h-[1000px] scale-[.9] bg-[#11101A]"
+      class=" scrollbar   scrollbar-thumb-gray-100 scrollbar-track-gray-900 px-[32px] rounded-[10px] py-[36px] md:w-[600px] lg:w-[600px] w-full absolute left-[50%] top-[50%] -translate-x-[50%] h-[800px] overflow-y-scroll -translate-y-[50%] h-[1000px] scale-[.9] bg-[#11101A]"
       @click="handleInnerClick"
     >
       <div class="flex items-center justify-center">
         <div
-          v-if="isQuote"
+          v-if="isQuote && checkPermission(authorId)"
           class="absolute h-[40px] left-8 flex md:space-x-3 lg:space-x-3 rounded-xl p-2 mb-[40px] -translate-x-[20px] md:-translate-x-[0px] lg:-translate-x-[0px]"
         >
           <router-link
@@ -66,6 +66,7 @@ import { displayImage } from "@/config/helpers";
 import IconEdit from "@/components/icons/IconEdit.vue";
 import IconDelete from "@/components/icons/IconDelete.vue";
 import axios from "@/config/axios/index";
+import { computed, onMounted, ref } from "vue";
 
 export default {
   components: {
@@ -76,18 +77,19 @@ export default {
     title: {
       type: String,
       required: false,
-      default: ''
+      default: "",
     },
     isQuote: {
       type: String,
       required: false,
-      default: ''
+      default: "",
     },
   },
 
   setup(props) {
     const router = useRouter();
     const route = useRoute();
+    const authorId = ref(null);
     const userStore = useUserStore();
     const handleOuterClick = () => {
       if (props.isQuote) {
@@ -107,6 +109,19 @@ export default {
       }
     };
 
+    onMounted(async () => {
+      if (props.isQuote) {
+        try {
+          const resp = await axios.get("quotes/" + route.params.quoteId);
+          authorId.value = resp.data.quote.author_id;
+        } catch (error) {
+          //
+        }
+      }
+    });
+
+    const checkPermission = computed(() => (id) => userStore.getUser.id === id);
+
     return {
       handleInnerClick,
       handleOuterClick,
@@ -114,6 +129,8 @@ export default {
       quoteId: route.params.quoteId,
       userName: userStore.getUser.username,
       deleteQuote,
+      checkPermission,
+      authorId,
     };
   },
 };

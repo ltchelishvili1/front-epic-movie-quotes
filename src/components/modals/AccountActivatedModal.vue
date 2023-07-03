@@ -21,6 +21,7 @@
 import AuthLayout from "@/components/layout/AuthLayout.vue";
 import IconAccountActivated from "@/components/icons/IconAccountActivated.vue";
 import BaseButton from "@/components/UI/inputs/BaseButton.vue";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
@@ -29,7 +30,11 @@ export default {
     BaseButton,
   },
   setup() {
-    const redirectToNewsFeed = () => {};
+    const router = useRouter();
+
+    const redirectToNewsFeed = () => {
+      router.push({ name: "log-in" });
+    };
 
     return {
       redirectToNewsFeed,

@@ -21,7 +21,7 @@
         :ruels="[]"
         name="search"
         class="bg-transparent h-[50px] text-white w-full px-[20px]"
-        placeholder="Enter @ to search movies, Enter # to search quotes "
+        :placeholder="$t('enter') + ' @ ' + $t('to_search_movies') + $t('enter') + ' # ' + $t('to_search_quotes')"
         :value="searchKey"
         @input="handleInput"
       />

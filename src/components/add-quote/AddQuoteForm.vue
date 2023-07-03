@@ -1,47 +1,60 @@
 <template>
-  <vee-validate-form v-slot="{meta}" @submit="addQuote">
-    <add-movie-input
-      title='"Quote in English."'
-      name="quote_en"
-      rules="required|min:3|lcase"
-      lang="Eng"
-      type="textarea"
-      @set-input-value="setInputValue"
-    ></add-movie-input>
-    <add-movie-input
-      title="“ციტატა ქართულ ენაზე”"
-      name="quote_ka"
-      rules="required|min:3|geo"
-      type="textarea"
-      lang="ქარ"
-      @set-input-value="setInputValue"
-    ></add-movie-input>
+  <section>
+    <vee-validate-form v-slot="{ meta }" @submit="addQuote">
+      <add-movie-input
+        title='"Quote in English."'
+        name="quote_en"
+        rules="required|min:3|lcase"
+        lang="Eng"
+        type="textarea"
+        @set-input-value="setInputValue"
+      ></add-movie-input>
+      <add-movie-input
+        title="“ციტატა ქართულ ენაზე”"
+        name="quote_ka"
+        rules="required|min:3|geo"
+        type="textarea"
+        lang="ქარ"
+        @set-input-value="setInputValue"
+      ></add-movie-input>
 
-    <upload-file-input @upload-image="uploadImage"></upload-file-input>
-    <div class="flex">
-      <icon-list-of-movies
-        class="absolute mt-[50px] ml-[10px]"
-      ></icon-list-of-movies>
-      <select
-        v-if="!route.params.id"
-        id=""
-        class="w-full mt-[28px] h-[86px] bg-[#000000] text-white px-[50px]"
-        as="select"
-        name="movie_id"
-        @change="selectMovieId"
+      <upload-file-input @upload-image="uploadImage"></upload-file-input>
+      <div v-if="!route.params.id" class="flex relative" @click="displayMovies">
+        <icon-list-of-movies
+          class="absolute mt-[50px] ml-[10px]"
+        ></icon-list-of-movies>
+
+        <select
+          id=""
+          class="w-full mt-[28px] h-[86px] bg-[#000000] text-white px-[50px]"
+          as="select"
+          name="movie_id"
+          @change="selectMovieId"
+        >
+          <option selected disabled>{{ $t("choose_movie") }}</option>
+          <option v-for="movie in movies" :key="movie" :value="movie?.id">
+            {{ movie?.title[locale] }}
+          </option>
+        </select>
+        <load-spinner
+          v-if="isLoading.movies"
+          class="absolute translate-y-[12px]"
+          classes="w-[25px] h-[25px]"
+        ></load-spinner>
+      </div>
+
+      <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
+      <base-button
+        :disabled="!meta.valid"
+        class="mt-[40px]"
+        button-class="primary"
+        :class="!meta.valid ? 'opacity-30' : ''"
       >
-        <option selected disabled>{{ $t("choose_movie") }}</option>
-        <option v-for="movie in movies" :key="movie" :value="movie?.id">
-          {{ movie?.title[locale] }}
-        </option>
-      </select>
-    </div>
-
-    <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
-    <base-button :disabled="!meta.valid" class="mt-[40px]" button-class="primary">{{
-      $t("add_quote")
-    }}</base-button>
-  </vee-validate-form>
+        <span v-if="!isLoading.submit"> {{ $t("add_quote") }}</span>
+        <load-spinner v-else classes="w-[25px] h-[25px]"></load-spinner>
+      </base-button>
+    </vee-validate-form>
+  </section>
 </template>
 
 <script>
@@ -52,11 +65,12 @@ import { getLocale } from "@/config/helpers/index";
 import axios from "@/config/axios/index";
 
 import { Form, useForm } from "vee-validate";
-import { onMounted, ref } from "vue";
+import {  ref } from "vue";
 import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
 import IconListOfMovies from "@/components/icons/IconListOfMovies.vue";
 import { useMovieStore } from "@/stores/movie/index";
 import { useRoute, useRouter } from "vue-router";
+import LoadSpinner from "@/components/LoadSpinner.vue";
 
 export default {
   components: {
@@ -65,6 +79,7 @@ export default {
     VeeValidateForm: Form,
     UploadFileInput,
     IconListOfMovies,
+    LoadSpinner,
   },
   setup() {
     const formData = new FormData();
@@ -76,6 +91,10 @@ export default {
     const route = useRoute();
     const locale = getLocale();
     const movieStore = useMovieStore();
+    const isLoading = ref({
+      movies: false,
+      submit: false,
+    });
 
     const setInputValue = ({ key, value }) => {
       formData.set(key, value);
@@ -90,27 +109,40 @@ export default {
         formData.set("movie_id", route.params.id);
       }
 
-      await movieStore.addQuote(formData);
+      isLoading.value.submit = true;
+      const response = await movieStore.addQuote(formData);
+      isLoading.value.submit = false;
       errorMessage.value = movieStore.getErrors;
-      router.back();
+      if (!movieStore.getErrors) {
+        router.push({
+          name: "view-quote",
+          params: {
+            id: response.data.quote.movie.id,
+            quoteId: response.data.quote.id,
+          },
+        });
+      }
     });
 
-    onMounted(() => {
-      const fetchMovies = async () => {
+    const displayMovies = async () => {
+      if (!route.params.id) {
+        isLoading.value.movies = true;
         try {
-          const response = await axios.get("movies");
+          const response = await axios.get("movies", {
+            params: {
+              getAllMovies: true,
+            },
+          });
           movies.value = response.data.movies.map((movie) => {
             return { title: movie.title, id: movie.id };
           });
         } catch (error) {
           errorMessage.value = error.response.data.message;
+        } finally {
+          isLoading.value.movies = false;
         }
-      };
-
-      if (!route.params.id) {
-        fetchMovies();
       }
-    });
+    };
 
     const selectMovieId = (e) => {
       formData.set("movie_id", e.target.value);
@@ -125,6 +157,8 @@ export default {
       movies,
       route,
       selectMovieId,
+      isLoading,
+      displayMovies,
     };
   },
 };
