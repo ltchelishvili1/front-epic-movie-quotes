@@ -1,4 +1,3 @@
-
 import axios from "@/config/axios";
 import { useUserStore } from "@/stores/user/index";
 import { authUser } from "@/config/helpers";
@@ -39,6 +38,12 @@ export const checkPasswordUpdateToken = async (to, from, next) => {
       return next();
     }
   } catch (err) {
+    if (err.response.status === 404) {
+      return next({ name: "not-found", params: { catchAll: "wrong-token" } });
+    }
+    if (err.response.status === 401) {
+      return next({ name: "email-verify-token-expired", params: { email } });
+    }
     throw new Error(err);
   }
 

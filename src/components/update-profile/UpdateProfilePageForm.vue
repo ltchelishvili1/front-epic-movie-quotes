@@ -253,11 +253,11 @@ export default {
         } catch (error) {
           errorMessage.value = error.response.data.message;
         } finally {
-          formData.value.delete("email");
           router.push({
             name: "edit-email-request-send",
-            params: { email: "fegre" },
+            params: { email: formData.value.get('email') },
           });
+          formData.value.delete("email");
         }
       }
 
@@ -333,7 +333,7 @@ export default {
     watch(isSuccesfullyUpdated, () => {
       setTimeout(() => {
         isSuccesfullyUpdated.value = false;
-      }, 3000);
+      }, 1000);
     });
 
     return {

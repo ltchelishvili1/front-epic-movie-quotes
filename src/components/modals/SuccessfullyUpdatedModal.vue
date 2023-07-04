@@ -9,7 +9,7 @@
       <p class="text-white p-2 text-[#0F5132]">
         {{ $t("changes_updated_sucessfully") }}
       </p>
-      <span class="ml-20 text-gray" @click="cancel">X</span>
+      <span class="ml-20 text-white" @click="cancel">X</span>
     </div>
   </section>
 </template>
