@@ -5,6 +5,7 @@
     @dragover.prevent
   >
     <Field
+      v-if="!readOnly"
       id="image"
       name="image"
       type="file"
@@ -15,8 +16,11 @@
     />
     <img
       v-if="displayImage"
-      :class="readOnly ? 'w-full' : ''"
-      class="md:w-[188px] lg:w-[188px] lg:h-[188px] md:h-[188px] w-[50px] h-[50px] cursor-pointer"
+      :class="
+        readOnly
+          ? 'w-full'
+          : 'cursor-pointer md:w-[188px] lg:w-[188px] lg:h-[188px] md:h-[188px] w-[50px] h-[50px]'
+      "
       :src="displayImage"
       @click="openFileInput"
     />
@@ -32,18 +36,18 @@
       {{ $t("choose_file") }}
     </button>
     <div class="mt-[6px]">
-        <ErrorMessage class="text-red-500 ml-4" name="image" />
-      </div>
+      <ErrorMessage class="text-red-500 ml-4" name="image" />
+    </div>
   </div>
 </template>
 
 <script>
 import { computed, ref } from "vue";
-import { Field ,ErrorMessage} from "vee-validate";
+import { Field, ErrorMessage } from "vee-validate";
 export default {
   components: {
     Field,
-    ErrorMessage
+    ErrorMessage,
   },
   props: {
     image: {
@@ -56,8 +60,8 @@ export default {
     },
     rules: {
       type: String,
-      default: 'required'
-    }
+      default: "required",
+    },
   },
   emits: {
     "upload-image": (val) => typeof val instanceof File,
