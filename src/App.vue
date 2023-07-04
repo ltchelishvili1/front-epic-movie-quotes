@@ -1,6 +1,6 @@
 <template>
   <router-view v-slot="slotProps">
-    <transition name="fade-button" mode="out-in">
+    <transition name="fade" mode="out-in">
       <component :is="slotProps.Component"></component>
     </transition>
   </router-view>
@@ -29,21 +29,21 @@ export default {
 </script>
 
 <style>
-.fade-button-enter-from,
-.fade-button-leave-to {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0.9;
 }
 
-.fade-button-enter-active {
+.fade-enter-active {
   transition: opacity 0.3s ease-out;
 }
 
-.fade-button-leave-active {
+.fade-leave-active {
   transition: opacity 0.3s ease-in;
 }
 
-.fade-button-enter-to,
-.fade-button-leave-from {
+.fade-enter-to,
+.fade-leave-from {
   opacity: 1;
 }
 </style>
