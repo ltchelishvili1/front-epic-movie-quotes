@@ -20,19 +20,17 @@
     ></landing-page-card>
 
     <landing-page-card
-      quote=" “I think we’re just gonna have
-to be secretly in love with earch other
-and leave it that”"
+      quote=" “I think we’re just gonna have  
+      to be secretly in love with earch other
+      and leave it that”"
       movie="The Royal Tenenbaums,2001 "
       background="bg-[url('@/assets/images/TheRoyalTenebaumsBackground.jpg')]"
       :bg="TheRoyalTenebaumsBackground"
     ></landing-page-card>
 
     <landing-page-card
-      quote=" “I think we’re just gonna have
-to be secretly in love with earch other
-and leave it that”"
-      movie="The Royal Tenenbaums,2001 "
+      quote=" “Death Is Just Another Path, One That We All Must Take.”"
+      movie="The Lord Of The Rings,2001 "
       background="bg-[url('@/assets/images/LordOfTheRignsBackground.jpg')]"
       :bg="LordOfTheRignsBackground"
     ></landing-page-card>
