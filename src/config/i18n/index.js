@@ -118,6 +118,10 @@ const messages = {
     to_search_quotes: 'to search quotes',
     whoops: 'Whoops',
     not_found: 'Page not found',
+    link_expired: 'Link Expired',
+    link_has_expired: 'Login link has expired, because you haven’t used it',
+    request_another_link: 'Request another link'
+
 
   },
   ka: {
@@ -235,6 +239,9 @@ const messages = {
     to_search_quotes: 'ფრაზების საძებნელად',
     whoops: 'უფს',
     not_found: 'გვერდი ვერ მოიძებნა',
+    link_expired: 'ლინკი ვადაგასულია',
+    link_has_expired: 'გამოუყენებლობისგან ლინკი ვადაგასულია',
+    request_another_link: 'ლინკის მიღება'
 
   },
 };

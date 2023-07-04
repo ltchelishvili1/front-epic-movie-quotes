@@ -4,6 +4,7 @@ import LogInPage from "@/pages/authentication/log-in/LogInPage.vue";
 import LandingPage from "@/pages/LandingPage.vue";
 import VerificationEmailSendModal from "@/components/modals/VerificationEmailSendModal.vue";
 import ResetPasswordEmailSentModal from "@/components/modals/reset-password/ResetPasswordEmailSentModal.vue";
+import UpdatePasswordExpiredTokenModal from "@/components/modals/reset-password/UpdatePasswordExpiredTokenModal.vue";
 import AccountActivated from "@/components/modals/AccountActivatedModal.vue";
 import ResetPasswordRequest from "@/components/modals/reset-password/ResetPasswordRequestModal.vue";
 import UpdatePassword from "@/components/modals/reset-password/UpdatePasswordModal.vue";
@@ -37,7 +38,7 @@ const router = createRouter({
     },
 
     {
-      path: "/:catchAll(.*)", 
+      path: "/:catchAll(.*)",
       name: "not-found",
       component: NotFoundPage,
     },
@@ -93,6 +94,11 @@ const router = createRouter({
           name: "reset-password-email-send",
           beforeEnter: Guest,
           component: ResetPasswordEmailSentModal,
+        },
+        {
+          path: "/email-verify-token-expired/email=:email",
+          name: "email-verify-token-expired",
+          component: UpdatePasswordExpiredTokenModal,
         },
       ],
     },
