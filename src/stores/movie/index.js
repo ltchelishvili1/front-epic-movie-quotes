@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 
 import axios from "@/config/axios/index";
+import { useUserStore } from "@/stores/user/index";
 
 export const useMovieStore = defineStore({
   id: "movie",
@@ -49,6 +50,7 @@ export const useMovieStore = defineStore({
     },
 
     async addMovie(formData) {
+      const userStore = useUserStore()
       try {
         const response = await axios.post("movies", formData, {
           headers: {
@@ -56,7 +58,13 @@ export const useMovieStore = defineStore({
           },
           withCredentials: true,
         });
-        this.movies.push(response.data.movie);
+        const movieToPush = {
+          author_id: userStore.getUser.id,
+          ...response.data.movie,
+        };
+        this.movies.push(movieToPush);
+
+        console.log(this.movies);
         if (response.status !== 200) {
           throw new Error("Request failed with status " + response.status);
         }
@@ -74,7 +82,7 @@ export const useMovieStore = defineStore({
           withCredentials: true,
         });
 
-        if(this?.movie?.quotes){
+        if (this?.movie?.quotes) {
           this.movie.quotes.unshift(response.data.quote);
         }
         if (response.status !== 201) {
@@ -151,6 +159,6 @@ export const useMovieStore = defineStore({
     getMovie: (state) => state.movie,
     getMovies: (state) => state.movies,
     getQuote: (state) => state.quote,
-    getErrors: (state) => state.errors
+    getErrors: (state) => state.errors,
   },
 });
