@@ -19,7 +19,7 @@
       ></add-movie-input>
 
       <upload-file-input @upload-image="uploadImage"></upload-file-input>
-      <div v-if="!route.params.id" class="flex relative" @click="displayMovies">
+      <div v-if="!route.params.id" class="flex relative">
         <icon-list-of-movies
           class="absolute mt-[50px] ml-[10px]"
         ></icon-list-of-movies>
@@ -65,7 +65,7 @@ import { getLocale } from "@/config/helpers/index";
 import axios from "@/config/axios/index";
 
 import { Form, useForm } from "vee-validate";
-import {  ref } from "vue";
+import {  onMounted, ref } from "vue";
 import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
 import IconListOfMovies from "@/components/icons/IconListOfMovies.vue";
 import { useMovieStore } from "@/stores/movie/index";
@@ -124,7 +124,8 @@ export default {
       }
     });
 
-    const displayMovies = async () => {
+
+    onMounted(async () =>{
       if (!route.params.id) {
         isLoading.value.movies = true;
         try {
@@ -142,7 +143,10 @@ export default {
           isLoading.value.movies = false;
         }
       }
-    };
+
+    })
+
+
 
     const selectMovieId = (e) => {
       formData.set("movie_id", e.target.value);
@@ -158,7 +162,6 @@ export default {
       route,
       selectMovieId,
       isLoading,
-      displayMovies,
     };
   },
 };
