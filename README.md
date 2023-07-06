@@ -27,7 +27,7 @@ Epic Movie Quotes is a website where we may sign up, go through authorisation (a
 
 ## Getting Started
 
-clone project from githun repository
+clone project from github repository
 
 ```bash
   git clone https://github.com/RedberryInternship/levan-tchelishvili-epic-movie-quotes-front
@@ -43,6 +43,12 @@ Install JS dependencies
 
 ```bash
   npm run dev
+```
+
+Now we need to set our env file. Go to the root of your project and execute this command.
+
+```bash
+cp .env.example .env
 ```
 
 #### Now, you should be good to go!
