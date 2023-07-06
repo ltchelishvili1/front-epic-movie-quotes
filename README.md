@@ -1,57 +1,48 @@
-# epic-movie-quotes-front
+# Epic Movie Quotes
 
-This template should help get you started developing with Vue 3 in Vite.
+Epic Movie Quotes is a website where we may sign up, go through authorisation (and retrieve our passwords if we forget them), and search out quotes of movies, add movies. add quotes, comment and like them and also have our own profile page
 
-## Recommended IDE Setup
+## Table of Contents
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- [Prerequisites](#prerequisites)
 
-## Customize configuration
+- [Tech Stack](#tech-stack)
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- [Getting Started](#getting-started)
 
-## Project Setup
+## Prerequisites
 
-```sh
-npm install
+- npm@6 and up
+
+## Tech Stack
+
+- Tailwind3.3.1@up - styling package
+- VeeValidate4.x@up - package for validation
+- Pinia2.x@up" - package for state managment
+- VuRouter4.x@up - package for routing
+- VueI18n9.x@up - package for translations
+- Axios1.x@up - package for requests
+- VeeValidate/I18n - package for translations/validations
+- VeeValidate/I18n - package for validation
+
+## Getting Started
+
+clone project from githun repository
+
+```bash
+  git clone https://github.com/RedberryInternship/levan-tchelishvili-epic-movie-quotes-front
 ```
 
-### Compile and Hot-Reload for Development
+Run npm install to install dependencies
 
-```sh
-npm run dev
+```bash
+  npm install
 ```
 
-### Compile and Minify for Production
+Install JS dependencies
 
-```sh
-npm run build
+```bash
+  npm run dev
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
-
-```sh
-npm run test:e2e:dev
-```
-
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
-
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
-
-```sh
-npm run build
-npm run test:e2e
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+#### Now, you should be good to go!
