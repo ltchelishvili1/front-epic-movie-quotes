@@ -1,6 +1,7 @@
 <template>
   <div
-    class="flex items-center justify-start border border-[#6C757D] px-4 py-[10px]"
+    class="flex items-center  border border-[#6C757D] px-4 py-[0.625rem]"
+    :class="image ? 'justify-between' : 'justify-start'"
     @drop.prevent="uploadImage($event.dataTransfer.files[0])"
     @dragover.prevent
   >
@@ -19,7 +20,7 @@
       :class="
         readOnly
           ? 'w-full'
-          : 'cursor-pointer md:w-[188px] lg:w-[188px] lg:h-[188px] md:h-[188px] w-[50px] h-[50px]'
+          : 'cursor-pointer md:w-[50%] lg:w-[50%] lg:h-[11.75rem] md:h-[11.75rem] w-[3.1rem] h-[3.1rem]'
       "
       :src="displayImage"
       @click="openFileInput"
@@ -30,12 +31,12 @@
     <button
       v-if="!readOnly"
       type="button"
-      class="ml-[20px] text-white text-center cursor-pointer bg-[#9747FF66] p-[10px] rounded"
+      class="ml-[1.25rem] text-white text-center cursor-pointer bg-[#9747FF66] p-[0.625rem] rounded"
       @click="openFileInput"
     >
       {{ $t("choose_file") }}
     </button>
-    <div class="mt-[6px]">
+    <div class="mt-[0.375rem]">
       <ErrorMessage class="text-red-500 ml-4" name="image" />
     </div>
   </div>

@@ -1,55 +1,56 @@
 <template>
   <div
-    class="fixed top-[30px] left-0 w-[100vw] h-[100vh] bg-transparent z-50"
+    class="fixed top-[1.9rem] -translate-y-[1.9rem] left-0 w-[100vw] h-[100vh] bg-transparent z-50"
+    style="background: rgba(0, 0, 0, 0.38)"
     @click="handleOuterClick"
   >
     <div
-      class=" scrollbar   scrollbar-thumb-gray-100 scrollbar-track-gray-900 px-[32px] rounded-[10px] py-[36px] md:w-[600px] lg:w-[600px] w-full absolute left-[50%] top-[50%] -translate-x-[50%] h-[800px] overflow-y-scroll -translate-y-[50%] h-[1000px] scale-[.9] bg-[#11101A]"
+      class="scrollbar scrollbar-thumb-gray-100 scrollbar-track-gray-900 px-[2rem] rounded-[.6rem] py-[2.4rem] md:w-[62.5rem] lg:w-[62.5rem] w-full absolute left-[50%] top-[50%] -translate-x-[50%] h-[50rem] overflow-y-scroll -translate-y-[50%] h-[63.5] scale-[.9] bg-[#11101A]"
       @click="handleInnerClick"
     >
       <div class="flex items-center justify-center">
         <div
           v-if="isQuote && checkPermission(authorId)"
-          class="absolute h-[40px] left-8 flex md:space-x-3 lg:space-x-3 rounded-xl p-2 mb-[40px] -translate-x-[20px] md:-translate-x-[0px] lg:-translate-x-[0px]"
+          class="absolute h-[2.5rem] left-8 flex md:space-x-3 lg:space-x-3 rounded-xl p-2 mb-[2.5rem] -translate-x-[1.25rem] md:-translate-x-[0rem] lg:-translate-x-[0rem]"
         >
           <router-link
             v-if="isQuote === 'view-quote'"
             :to="{ name: 'edit-quote', params: { quoteId } }"
-            class="text-white text-center mt-[25px] mr-[15px]"
+            class="text-white text-center mt-[1.5rem] mr-[.9rem]"
           >
             <icon-edit></icon-edit
           ></router-link>
 
           <div
             v-if="isQuote === 'view-quote'"
-            class="border-r translate-y-[25px]"
+            class="border-r translate-y-[1.6rem]"
           ></div>
           <button
-            class="text-white text-center mt-[25px] translate-x-[15px]"
+            class="text-white text-center mt-[1.6rem] translate-x-[.9rem]"
             @click="deleteQuote(quoteId)"
           >
             <icon-delete></icon-delete>
           </button>
         </div>
         <button
-          class="absolute text-white top-[40px] right-[30px]"
+          class="absolute text-white top-[2.5rem] right-[1.9rem]"
           @click="handleOuterClick"
         >
           X
         </button>
-        <h1 v-if="title" class="text-white font-medium text-[24px]">
+        <h1 v-if="title" class="text-white font-medium text-[1.5rem]">
           {{ title }}
         </h1>
 
         <div
-          class="absolute w-full h-[0.1px] bg-[#EFEFEF] opacity-[0.3] mt-[100px]"
+          class="absolute w-full h-[0.1px] bg-[#EFEFEF] opacity-[0.3] mt-[6.25rem]"
         ></div>
       </div>
       <div
-        class="flex text-white items-center justify-start pt-[60px] mb-[28px]"
+        class="flex text-white items-center justify-start pt-[3.75rem] mb-[1.75rem]"
       >
         <img
-          class="mr-[20px] w-[60px] h-[60px] rounded-full"
+          class="mr-[1.25rem] w-[3.75rem] h-[3.75rem] rounded-full"
           :src="displayImage"
         />
         <p class="text-white">{{ userName }}</p>
@@ -84,6 +85,10 @@ export default {
       required: false,
       default: "",
     },
+    link: {
+      type: String,
+      default: null,
+    },
   },
 
   setup(props) {
@@ -91,9 +96,13 @@ export default {
     const route = useRoute();
     const authorId = ref(null);
     const userStore = useUserStore();
+
     const handleOuterClick = () => {
-      if (props.isQuote) {
-        router.push({ name: "checkmovie", params: { id: route.params.id } });
+      if (
+        router.options.history.state.back.includes("view-quote") ||
+        router.options.history.state.back.includes("add-quote")
+      ) {
+        router.go(-2);
       } else {
         router.back();
       }
@@ -106,6 +115,8 @@ export default {
         await axios.delete(`quotes/${id}`);
       } catch (error) {
         //
+      } finally {
+        handleOuterClick();
       }
     };
 

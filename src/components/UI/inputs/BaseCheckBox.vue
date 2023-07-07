@@ -1,17 +1,17 @@
 <template>
   <div class="flex items-center">
-    <div class="mr-[4px]">
+    <div class="mr-[.25rem]">
       <Field
         :id="name"
         v-model="inputData"
-        class="bg-[#CED4DA] border border-[#232323] p-4 mt-[8px]"
+        class="bg-[#CED4DA] border border-[#232323] p-4 mt-[.5rem]"
         :name="name"
         type="checkbox"
         :value="value"
       />
     </div>
     <div v-if="title">
-      <label :for="name" class="font-semibold text-[16px] text-white">{{
+      <label :for="name" class="font-semibold text-[1rem] text-white">{{
         title
       }}</label>
     </div>

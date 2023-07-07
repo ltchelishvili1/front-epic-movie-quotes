@@ -9,7 +9,9 @@ export const useMovieStore = defineStore({
     movies: null,
     movie: null,
     quote: null,
+    posts: null,
     errors: null,
+    searchResult: null
   }),
   actions: {
     async fetchMovie(id) {
@@ -49,8 +51,20 @@ export const useMovieStore = defineStore({
       }
     },
 
+    searchMovie(searchVal) {
+      this.searchResult =
+        this.movies &&
+        this.movies
+          .filter((movie) => movie.author_id == 1)
+          .filter(
+            (movie) =>
+              movie.title.en.includes(searchVal) ||
+              movie.title.ka.includes(searchVal)
+          );
+    },
+
     async addMovie(formData) {
-      const userStore = useUserStore()
+      const userStore = useUserStore();
       try {
         const response = await axios.post("movies", formData, {
           headers: {
@@ -64,7 +78,6 @@ export const useMovieStore = defineStore({
         };
         this.movies.push(movieToPush);
 
-        console.log(this.movies);
         if (response.status !== 200) {
           throw new Error("Request failed with status " + response.status);
         }
@@ -103,12 +116,6 @@ export const useMovieStore = defineStore({
           },
           withCredentials: true,
         });
-
-        const newArray = this.movie.quotes.map((quote) =>
-          quote.id == id ? response.data.quote : quote
-        );
-
-        this.movie.quotes = newArray;
 
         if (response.status !== 200) {
           throw new Error("Request failed with status " + response.status);

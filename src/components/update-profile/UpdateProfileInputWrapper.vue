@@ -1,17 +1,17 @@
 <template>
   <div>
     <div v-if="hideExtraFields" class="flex relative">
-      <div class="mr-[10px] md:mr-[30px]">
+      <div class="mr-[0.625rem] md:mr-[1.9rem]">
         <slot></slot>
       </div>
 
-      <button v-if="!googleId" type="button" class="absolute -right-[35px] translate-y-[10px] text-white mt-[30px]" @click="displayForm">
+      <button v-if="!googleId" type="button" class="absolute -right-[2.1875rem] translate-y-[0.625rem] text-white mt-[1.9rem]" @click="displayForm">
         {{ $t("edit") }}
       </button>
     </div>
     <div
       v-if="hideExtraFields && isMobile"
-      class="w-full h-[2px] my-[10px] bg-[#CED4DA80]"
+      class="w-full h-[.12rem] my-[0.625rem] bg-[#CED4DA80]"
     ></div>
     <div>
       <slot name="update-input"></slot>

@@ -1,21 +1,21 @@
 <template>
   <section
-    class="flex flex-col items-center justify-center"
+    class="mt-[6.25rem] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-[3.1rem]"
   >
     <div
       v-for="quote in quotes"
       :key="quote.id"
-      class="text-white flex items-center justify-center mt-[40px] p-[50px] bg-[#11001A] w-[70%] rounded-xl"
+      class="cursor-pointer"
       @click="navigateToQuote(quote.id,quote.movie_id)"
     >
-      <div class="flex flex-col items-center justify -center">
-        <h3 class="text-white mb-[30px] italic">
+      <div class="w-full px-[3.1rem] md:px-0 lg:px-0 flex flex-col items-center justify-center">
+        <h3 class="text-white mb-[1.9rem] italic ">
           " {{ quote.quote[locale] }} "
         </h3>
         <img
           :src="quote.image"
           :alt="quote.quote[locale]"
-          class="w-[70%] h-[400px]"
+          class="md:h-[23.1875rem] lg:h-[23.1875rem] w-full"
         />
       </div>
     </div>
@@ -36,12 +36,11 @@ export default {
     const locale = getLocale();
     const router = useRouter();
 
-    const navigateToQuote = (quoteId, id) => {
+    const navigateToQuote = (quoteId) => {
       router.push({
         name: "view-quote",
         params: {
           quoteId,
-          id,
         },
       });
     };

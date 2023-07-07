@@ -3,17 +3,17 @@
     <div
       :style="displayBackground"
       :class="displayParalax"
-      class="h-[100vh] fit pt-[80%] pl-[10%] lg:pt-[200px] lg:pl-44"
+      class="h-[100vh] fit pt-[80%] pl-[10%] lg:pt-[12.5rem] lg:pl-44"
     >
-      <icon-line class="mt-[10px] mr-[10px]"></icon-line>
+      <icon-line class="mt-[.9rem] mr-[.9rem]"></icon-line>
       <div>
         <p
-          class="md:text-3xl lg:text-6xl text-[20px] text-white bg-transparent font-bold lg:w-[60%] md:w-[70%] w-[75%]"
+          class="md:text-3xl lg:text-6xl text-[1.25rem] text-white bg-transparent font-bold lg:w-[60%] md:w-[70%] w-[75%]"
         >
           {{ quote }}
         </p>
 
-        <p class="text-[16px] text-[#D9D9D9]">{{ movie }}</p>
+        <p class="text-[1rem] text-[#D9D9D9]">{{ movie }}</p>
       </div>
     </div>
     <div class="relative z-[-50]">

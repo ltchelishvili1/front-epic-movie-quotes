@@ -42,7 +42,7 @@ export const checkPasswordUpdateToken = async (to, from, next) => {
       return next({ name: "not-found", params: { catchAll: "wrong-token" } });
     }
     if (err.response.status === 401) {
-      return next({ name: "email-verify-token-expired", params: { email } });
+      return next({ name: "email-verify-token-expired", query: { email } });
     }
     throw new Error(err);
   }

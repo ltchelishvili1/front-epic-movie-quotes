@@ -1,6 +1,6 @@
 <template>
   <section>
-    <load-spinner v-if="isLoading" classes="w-[100px] h-[100px]"></load-spinner>
+    <load-spinner v-if="isLoading" classes="w-[6.25rem] h-[6.25rem]"></load-spinner>
     <vee-validate-form v-else @submit="null">
       <add-movie-input
         title='"Quote in English."'

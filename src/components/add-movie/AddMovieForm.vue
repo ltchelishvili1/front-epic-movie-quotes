@@ -61,11 +61,11 @@
     <base-button
       :disabled="!meta.valid || categoryIds.length === 0"
       :class="!meta.valid ? 'opacity-30' : ''"
-      class="mt-[40px]"
+      class="mt-[2.5rem]"
       button-class="primary"
     >
       <span v-if="!isLoading"> {{ $t("add_movie") }}</span>
-      <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
+      <load-spinner v-else classes="h-[1.5rem] w-[1.5rem]"></load-spinner>
     </base-button>
   </vee-validate-form>
 </template>

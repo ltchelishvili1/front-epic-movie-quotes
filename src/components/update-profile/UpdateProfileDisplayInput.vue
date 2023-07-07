@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="title">
-      <p  class="font-semibold text-[16px] text-white">{{
+      <p  class="font-semibold text-[1rem] text-white">{{
         title
       }}</p>
     </div>
@@ -11,7 +11,7 @@
           ? ' bg-[#CED4DA] border border-[#232323] '
           : ' text-white bg-transparent'
       "
-      class="md:w-[460px] h-[38px] p-4 mt-[8px]"
+      class="md:w-[28.75rem] h-[2.4rem] p-4 mt-[.5rem]"
       :value="value"
       :type="type"
       readonly

@@ -19,14 +19,14 @@
       ></add-movie-input>
 
       <upload-file-input @upload-image="uploadImage"></upload-file-input>
-      <div v-if="!route.params.id" class="flex relative">
+      <div v-if="!route.query.id" class="flex relative">
         <icon-list-of-movies
-          class="absolute mt-[50px] ml-[10px]"
+          class="absolute mt-[3.1rem] ml-[0.6rem]"
         ></icon-list-of-movies>
 
         <select
           id=""
-          class="w-full mt-[28px] h-[86px] bg-[#000000] text-white px-[50px]"
+          class="w-full mt-[1.75rem] h-[5.5rem] bg-[#000000] text-white px-[3.1rem]"
           as="select"
           name="movie_id"
           @change="selectMovieId"
@@ -38,20 +38,20 @@
         </select>
         <load-spinner
           v-if="isLoading.movies"
-          class="absolute translate-y-[12px]"
-          classes="w-[25px] h-[25px]"
+          class="absolute translate-y-4"
+          classes="w-[1.5rem] h-[1.5rem]"
         ></load-spinner>
       </div>
 
       <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
       <base-button
         :disabled="!meta.valid"
-        class="mt-[40px]"
+        class="mt-[2.5rem]"
         button-class="primary"
         :class="!meta.valid ? 'opacity-30' : ''"
       >
         <span v-if="!isLoading.submit"> {{ $t("add_quote") }}</span>
-        <load-spinner v-else classes="w-[25px] h-[25px]"></load-spinner>
+        <load-spinner v-else classes="w-[1.5rem] h-[1.5rem]"></load-spinner>
       </base-button>
     </vee-validate-form>
   </section>
@@ -65,7 +65,7 @@ import { getLocale } from "@/config/helpers/index";
 import axios from "@/config/axios/index";
 
 import { Form, useForm } from "vee-validate";
-import {  onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
 import IconListOfMovies from "@/components/icons/IconListOfMovies.vue";
 import { useMovieStore } from "@/stores/movie/index";
@@ -105,8 +105,8 @@ export default {
     };
 
     const addQuote = handleSubmit(async () => {
-      if (route.params.id) {
-        formData.set("movie_id", route.params.id);
+      if (route.query.id) {
+        formData.set("movie_id", route.query.id);
       }
 
       isLoading.value.submit = true;
@@ -114,19 +114,24 @@ export default {
       isLoading.value.submit = false;
       errorMessage.value = movieStore.getErrors;
       if (!movieStore.getErrors) {
-        router.push({
-          name: "view-quote",
-          params: {
-            id: response.data.quote.movie.id,
-            quoteId: response.data.quote.id,
-          },
-        });
+        if (
+          router.options.history.state.back.includes("view-quote") ||
+          router.options.history.state.back.includes("add-quote")
+        ) {
+          router.go(-2);
+        } else if (router.options.history.state.back.includes("news-feed")) {
+          router.push({
+            name: "news-feed",
+            state: { quote: JSON.stringify(response.data.quote) },
+          });
+        } else {
+          router.back();
+        }
       }
     });
 
-
-    onMounted(async () =>{
-      if (!route.params.id) {
+    onMounted(async () => {
+      if (!route.query.id) {
         isLoading.value.movies = true;
         try {
           const response = await axios.get("movies", {
@@ -143,10 +148,7 @@ export default {
           isLoading.value.movies = false;
         }
       }
-
-    })
-
-
+    });
 
     const selectMovieId = (e) => {
       formData.set("movie_id", e.target.value);

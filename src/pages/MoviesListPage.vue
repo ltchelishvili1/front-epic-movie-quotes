@@ -8,7 +8,10 @@
     ></load-spinner>
 
     <div v-else>
-      <movies-list-nav :length="movies?.length"></movies-list-nav>
+      <movies-list-nav
+        :length="movies?.length"
+        @search-movies="searchMovies"
+      ></movies-list-nav>
       <div
         v-if="movies?.length"
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-[50px]"
@@ -40,7 +43,8 @@ import MoviesListNav from "@/components/movies-list/MoviesListNav.vue";
 import MoviesListMovieCard from "@/components/movies-list/MoviesListMovieCard.vue";
 import { useMovieStore } from "@/stores/movie/index";
 import LoadSpinner from "@/components/LoadSpinner.vue";
-import { useUserStore } from "@/stores/user/index";
+import router from "../router";
+import { useRoute } from "vue-router";
 
 export default {
   components: {
@@ -54,7 +58,10 @@ export default {
   setup() {
     const movieStore = useMovieStore();
     const isLoading = ref(false);
-    const userStore = useUserStore();
+    const route = useRoute();
+    const movies = computed(() =>
+      route.query.searchVal ? movieStore.searchResult : movieStore.movies
+    );
 
     onMounted(async () => {
       isLoading.value = true;
@@ -62,17 +69,15 @@ export default {
       isLoading.value = false;
     });
 
-    const movies = computed(
-      () =>
-        movieStore.movies &&
-        movieStore?.movies.filter(
-          (movie) => movie.author_id == userStore.user.id
-        )
-    );
+    const searchMovies = (searchVal) => {
+      movieStore.searchMovie(searchVal);
+      router.push({ name: "movies", query: { searchVal } });
+    };
 
     return {
       movies,
       isLoading,
+      searchMovies,
     };
   },
 };

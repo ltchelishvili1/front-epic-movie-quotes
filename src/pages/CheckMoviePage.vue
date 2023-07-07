@@ -4,25 +4,25 @@
     <load-spinner
       v-if="isLoading"
       class="absolute top-0 left-0"
-      classes="h-[100px] w-[100px]"
+      classes="h-[6.25rem] w-[6.25rem]"
     ></load-spinner>
     <div v-else>
-      <p class="text-white mx-[30px] my-[30px]">
+      <p class="text-white mx-[1.9rem] my-[1.9rem]">
         {{ $t("movie_description") }}
       </p>
       <div class="gap-0">
-        <div class="w-full px-[20px] lg:grid lg:grid-cols-2">
+        <div class="w-full px-[1.25rem] lg:grid lg:grid-cols-2">
           <div
             :style="{
               backgroundImage: `url(${movie?.thumbnail})`,
               backgroundSize: 'cover',
             }"
-            class="lg:w-full lg:h-[441px] w-full h-[300px]"
+            class="lg:w-full lg:h-[27.5625rem] w-full h-[19rem]"
           ></div>
-          <div class="lg:mx-[42px]">
-            <div class="grow mx-[21px]">
+          <div class="lg:mx-[2.6rem]">
+            <div class="grow mx-[1.3rem]">
               <div class="flex items-center justify-between">
-                <p class="text-[#DDCCAA] text-[24px]">
+                <p class="text-[#DDCCAA] text-[1.5rem]">
                   {{ movie?.title[locale] }} ({{ movie?.release_year }})
                 </p>
 
@@ -41,23 +41,25 @@
                 </div>
               </div>
               <div
-                class="mt-[24px] grid md:grid-cols-3 lg:grid-cols-3 grid-cols-2 text-center items-center gap-[10px] w-[300px] lg:w-[480px] md:w-[480px]"
+                v-if="movie?.genres.length"
+                class="mt-[1.5rem] grid md:grid-cols-3 lg:grid-cols-3 grid-cols-2 text-center items-center gap-[0.625rem]"
               >
-                <div v-for="genre in movie?.genres" :key="genre">
+                <div v-for="genre in sortedGenres(movie?.genres)" :key="genre">
                   <p
-                    class="max-w-[150px] text-center text-white w-[auto] bg-[#6C757D] font-bold p-[5px]"
+                    class="bg-[#6C757D] flex items-center justify-center text-center text-white w-full font-bold min-h-[3.1rem] max-w-[12.5rem]"
                   >
                     {{ genre.name[locale] }}
                   </p>
                 </div>
               </div>
-              <p class="text-white mt-[26px] font-bold text-[16px]">
-                {{ $t("director") }}:<span class="font-normal ml-[10px]">
+
+              <p class="text-white mt-[1.625rem] font-bold text-[1rem]">
+                {{ $t("director") }}:<span class="font-normal ml-[0.625rem]">
                   {{ movie?.director[locale] }}</span
                 >
               </p>
               <p
-                class="md:w-[400px] lg:w-[400px] mt-[20px] text-white break-word"
+                class="md:w-[25rem] lg:w-[25rem] mt-[1.25rem] text-white break-word"
                 style="word-wrap: break-word"
               >
                 {{ movie?.description[locale] }}
@@ -65,14 +67,14 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-col p-2 gap-[40px] px-[40px]">
-          <div class="h-[40px] flex space-x-3 rounded-xl p-2 mb-[40px]">
-            <p class="text-white text-center mt-[25px]">
+        <div class="flex flex-col p-2 gap-[2.5rem] px-[2.5rem]">
+          <div class="h-[2.5rem] flex space-x-3 rounded-xl p-2 mb-[2.5rem]">
+            <p class="text-white text-center mt-[1.6rem]">
               {{ $t("quotes_total") }} ({{ movie?.quotes.length }})
             </p>
-            <div class="border-r translate-y-[25px]"></div>
+            <div class="border-r translate-y-[1.6rem]"></div>
             <base-button
-              class="py-[0px] py-[0px]"
+              class="py-[0rem] py-[0rem]"
               button-class="primary"
               @click="openAddQuoteModal"
               >{{ $t("add_quote") }}</base-button
@@ -93,10 +95,10 @@
           </div>
           <div v-if="!movie?.quotes.length">
             <div class="">
-          <icon-not-found></icon-not-found>
-          <icon-eclipse></icon-eclipse>
-          <h1 class="text-white mt-8 italic">{{ $t('data_not_added') }}</h1>
-        </div>
+              <icon-not-found></icon-not-found>
+              <icon-eclipse></icon-eclipse>
+              <h1 class="text-white mt-8 italic">{{ $t("data_not_added") }}</h1>
+            </div>
           </div>
         </div>
       </div>
@@ -127,7 +129,7 @@ export default {
     CheckMovieQuoteCard,
     LoadSpinner,
     IconNotFound,
-    IconEclipse
+    IconEclipse,
   },
   setup() {
     const displayQuote = ref({});
@@ -160,7 +162,10 @@ export default {
     };
 
     const openAddQuoteModal = () => {
-      router.push({ name: "add-quote" });
+      router.push({
+        name: "add-quote",
+        query: { id: movie.value.id },
+      });
     };
 
     const toggleQuoteMenu = (id) => {
@@ -168,6 +173,20 @@ export default {
     };
 
     const checkPermission = computed(() => (id) => getUser.id === parseInt(id));
+    const sortedGenres = computed(
+      () => (genres) =>
+        genres.sort((a, b) => {
+          const genreA = a.name[locale.value].toLowerCase();
+          const genreB = b.name[locale.value].toLowerCase();
+          if (genreA < genreB) {
+            return -1;
+          }
+          if (genreA > genreB) {
+            return 1;
+          }
+          return 0;
+        })
+    );
 
     return {
       movie,
@@ -180,6 +199,7 @@ export default {
       isLoading,
       getUser,
       checkPermission,
+      sortedGenres,
     };
   },
 };

@@ -1,19 +1,19 @@
 <template>
   <auth-layout>
     <icon-token-expired></icon-token-expired>
-    <h1 class="text-white text-[32px] font-medium mt-[20px]">
+    <h1 class="text-white text-[2rem] font-medium mt-[1.25rem]">
       {{ $t("link_expired") }}
     </h1>
-    <p class="text-white text-[17px] font-medium mt-[30px] text-center">
+    <p class="text-white text-[1.1rem] font-medium mt-[1.9rem] text-center">
       {{ $t("link_has_expired") }}
     </p>
     <base-button
-      class="mt-[40px] w-[180px]"
+      class="mt-[2.5rem] w-[11.25rem]"
       button-class="primary"
       @click-button="sendLink"
     >
       <span v-if="!isLoading"> {{ $t("request_another_link") }}</span>
-      <load-spinner v-else classes="w-[25px] h-[25px]"></load-spinner>
+      <load-spinner v-else classes="w-[1.6rem] h-[1.6rem]"></load-spinner>
     </base-button>
   </auth-layout>
 </template>
@@ -54,7 +54,7 @@ export default {
         }
         router.push({
           name: "reset-password-email-send",
-          params: { email },
+          query: { email },
         });
       } catch (error) {
         //

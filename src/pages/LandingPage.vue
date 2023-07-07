@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-dark-bg h-[1700px]">
+  <div class="bg-dark-bg h-[106.25rem]">
     <router-view></router-view>
     <div>
       <div>
@@ -11,7 +11,7 @@
     <landing-page-card
       id="landing-card"
       :paralax="true"
-      class="pt-[200px]"
+      class="pt-[12.5rem]"
       quote=" “You have to leave somethig
             behind to go forward”"
       movie="Interstellar, 2014"

@@ -2,7 +2,7 @@
   <section>
     <load-spinner
       v-if="isLoading.movies"
-      classes="w-[100px] h-[100px]"
+      classes="w-[6.25rem] h-[6.25rem]"
     ></load-spinner>
     <vee-validate-form v-else @submit="updateMovie">
       <add-movie-input
@@ -32,7 +32,7 @@
         name="release_year"
         rules="required"
         type="number"
-        :value="movie?.release_year"
+        :value="JSON.stringify(movie?.release_year)"
         @set-input-value="setInputValue"
       ></add-movie-input>
       <add-movie-input
@@ -77,14 +77,11 @@
       ></upload-file-input>
 
       <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
-      <base-button
-        class="mt-[40px]"
-        button-class="primary"
-      >
+      <base-button class="mt-[2.5rem]" button-class="primary">
         <span v-if="!isLoading.submit">
           {{ $t("edit_movie") }}
         </span>
-        <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
+        <load-spinner v-else classes="h-[1.5rem] w-[1.5rem]"></load-spinner>
       </base-button>
     </vee-validate-form>
   </section>

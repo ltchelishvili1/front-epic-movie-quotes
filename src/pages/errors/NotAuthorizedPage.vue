@@ -10,8 +10,8 @@
         class="absolute -translate-y-[100%] -translate-x-[50%]"
       ></icon-not-authorized>
     </div>
-    <p class="text-white text-[47px] py-4">{{ $t("shall_not_pass") }}</p>
-    <p class="text-white text-[24px] py-4">
+    <p class="text-white text-[3rem] py-4">{{ $t("shall_not_pass") }}</p>
+    <p class="text-white text-[1.5rem] py-4">
       {{ $t("do_not_have_permission") }}
     </p>
     <base-button button-class="primary" @click="handleClick">{{

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-[16px]">
+    <div class="mb-[1rem]">
       <div class="flex items-center">
         <Field
           :id="name"
@@ -8,7 +8,7 @@
           :rules="rules"
           :name="name"
           :class="fieldClasses"
-          class="w-full text-white bg-transparent p-4 mt-[8px] z-[10]"
+          class="w-full text-white bg-transparent p-4 mt-[.5rem] z-[10]"
           :type="type"
           :placeholder="title"
           :value="readOnly ? value : inputData"
@@ -17,16 +17,16 @@
         />
         <p
           v-if="value && !isQuote"
-          class="absolute text-white w-[200px] p-4 mt-[8px]"
+          class="absolute text-white w-[12.5rem] p-4 mt-[.5rem]"
         >
           {{ prefix }}
         </p>
 
-        <span class="absolute text-[#6C757D] right-0 mr-[50px] mt-[4px]">{{
+        <span class="absolute text-[#6C757D] right-0 mr-[3.1rem] mt-[.25rem]">{{
           lang
         }}</span>
       </div>
-      <div class="mt-[6px]">
+      <div class="mt-[0.375rem]">
         <ErrorMessage class="text-red-500 ml-4" :name="name" />
       </div>
     </div>
@@ -103,7 +103,7 @@ export default {
 
     const displayValidationBorder = computed(() =>
       meta.valid && meta.touched && meta.value && meta.value.length
-        ? `border-[1.5px] border-[#198754]`
+        ? `border-[0.09375rem] border-[#198754]`
         : (!meta.valid && meta.touched) || meta.errors.length
         ? `border border-[#E31221] `
         : `border border-[#6C757D]`
@@ -128,7 +128,7 @@ export default {
       const classes = [displayValidationBorder.value];
 
       if (props.value) {
-        classes.push("pl-[150px]");
+        classes.push("pl-[9.375rem]");
       }
 
       return classes.join(" ");

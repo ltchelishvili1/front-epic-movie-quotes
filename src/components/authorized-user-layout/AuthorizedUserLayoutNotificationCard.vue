@@ -3,7 +3,7 @@
     <load-spinner
       v-if="isLoading.not"
       class="absolute top-0 left-0"
-      classes="h-[30px] w-[30px]"
+      classes="h-[2rem] w-[2rem]"
     ></load-spinner>
 
     <div
@@ -16,7 +16,7 @@
       <div class="flex">
         <img
           :src="notification.notification_sender.thumbnail"
-          class="w-[60px] h-[60px] rounded-full border-4 border-solid mx-4"
+          class="w-[3.75rem] h-[3.75rem] rounded-full border-4 border-solid mx-4"
           :class="!notification.has_user_seen ? ' border-green-600' : ''"
         />
         <div>
@@ -25,16 +25,16 @@
           </p>
           <p
             v-if="notification.type === 'comment'"
-            class="break-words text-white flex items-center mt-2 md:text-normal lg:text-normal text-[14px]"
+            class="break-words text-white flex items-center mt-2 md:text-normal lg:text-normal text-[.9rem]"
           >
-            <icon-comments class="h-[20px] mr-2"></icon-comments>
+            <icon-comments class="h-[1.25rem] mr-2"></icon-comments>
 
             {{ $t("commented_to_your_movie_quote") }}
           </p>
           <p v-else class="text-white flex items-center mt-2">
             <icon-likes
               :is-selected="true"
-              class="w-[20px] h-[20px] mr-2"
+              class="w-[1.25rem] h-[1.25rem] mr-2"
             ></icon-likes>
             {{ $t("reacted_to_your_quote") }}
           </p>
@@ -48,7 +48,7 @@
 
         <p
           v-if="!notification.has_user_seen"
-          class="text-white float-right -translate-y-[25px] md:-translate-y-[0px] lg:-translate-y-[0px]"
+          class="text-white float-right -translate-y-[1.5rem] md:-translate-y-[0rem] lg:-translate-y-[0rem]"
         >
           {{ $t("new") }}
         </p>
@@ -96,7 +96,6 @@ export default {
           name: "view-quote",
           params: {
             quoteId: notification.quote.quote_id,
-            id: notification.quote.movie_id,
           },
         });
       } catch (error) {

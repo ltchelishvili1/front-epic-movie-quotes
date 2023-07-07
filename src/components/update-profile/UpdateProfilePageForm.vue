@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="md:-translate-x-[10rem]">
     <are-you-sure-modal
       v-if="isOpenAreYouSure"
       :is-loading="isLoading"
@@ -11,11 +11,11 @@
       @cancel="toggleIsSucessfullyUpdated"
     ></successfully-updated-modal>
     <vee-validate-form
-      class="-translate-y-[100px] flex flex-col items-center justify-center"
+      class="-translate-y-[10rem] flex flex-col items-center justify-center "
       @submit="toggleAreYouSure"
     >
       <div
-        class="-translate-x-[10px] bg-[#11101A] mt-[100px] flex flex-col items-center justify-center md:px-0 lg:px-0 px-12 py-[60px] min-w-[100%]"
+        class="-translate-x-[0.625rem] bg-[#11101A] mt-[10rem] flex flex-col gap-4 items-center justify-center md:px-0 lg:px-0 px-12 py-[6rem] min-w-[80%]"
       >
         <update-profile-input-image
           :display-image="displayImage"
@@ -113,13 +113,13 @@
         </update-profile-input-wrapper>
       </div>
 
-      <p v-if="errors" class="ml-[300px] text-red-500 ml-4">{{ errors }}</p>
+      <p v-if="errors" class="ml-[19rem] text-red-500 ml-4">{{ errors }}</p>
       <div
         v-if="displayFormButtons"
-        class="absolute -bottom-[80px] flex items-center justify-end"
+        class="absolute -bottom-[5rem] flex items-center justify-end"
       >
         <button
-          class="text-white pt-[20px] pr-[30px] mb-2 sm:mb-0"
+          class="text-white pt-[1.25rem] pr-[1.9rem] mb-2 sm:mb-0"
           type="button"
           @click="clearData"
         >
@@ -135,7 +135,7 @@
               formData.get('confirm_password')
             )
           "
-          class="w-[160px] sm:w-auto"
+          class="w-[10rem] sm:w-auto"
           button-class="primary"
         >
           {{ $t("save_changes") }}
@@ -197,7 +197,7 @@ export default {
     const isLoading = ref(false);
 
     const updateScreen = () => {
-      isMobile.value = window.matchMedia("(max-width: 768px)").matches;
+      isMobile.value = window.matchMedia("(max-width: 48rem)").matches;
     };
 
     const toggleAreYouSure = () => {
@@ -255,7 +255,7 @@ export default {
         } finally {
           router.push({
             name: "edit-email-request-send",
-            params: { email: formData.value.get('email') },
+            query: { email: formData.value.get('email') },
           });
           formData.value.delete("email");
         }

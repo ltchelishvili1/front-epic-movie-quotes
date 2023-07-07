@@ -10,8 +10,8 @@
           class="absolute -translate-y-[130%] -translate-x-[50%]"
         ></icon-not-found>
       </div>
-      <p class="text-white text-[47px] py-4">{{ $t("whoops") }}</p>
-      <p class="text-white text-[24px] py-4">
+      <p class="text-white text-[3rem] py-4">{{ $t("whoops") }}</p>
+      <p class="text-white text-[1.5rem] py-4">
         {{ $t("not_found") }}
       </p>
       <base-button button-class="primary" @click="handleClick">{{
