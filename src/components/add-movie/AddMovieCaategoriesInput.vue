@@ -1,26 +1,26 @@
 <template>
   <div>
     <div
-      class="cursor-pointer w-full min-h-[50px] border border-[#6C757D] px-[16px] py-[5px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4"
+      class="cursor-pointer w-full min-h-[3rem] border border-[#6C757D] px-4 py-[0.3rem] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4"
       @click="showCategories"
     >
       <p
         v-if="!displaySelectedCategories.length"
-        class="text-white mt-[5px] relative"
+        class="text-white mt-[0.3rem] relative"
       >
         <span v-if="!isLoading" > {{ $t("genres") }}</span>
         <load-spinner
           v-else
-          class="absolute -translate-x-[40px]"
-          classes="h-[25px] w-[25px]"
+          class="absolute -translate-x-[2.5rem]"
+          classes="h-[1.5rem] w-[1.5rem]"
         ></load-spinner>
       </p>
       <div
         v-for="cat in displaySelectedCategories"
         :key="cat.value"
-        class="text-white bg-[#6C757D] flex justify-center items-center m-[3px]"
+        class="text-white bg-[#6C757D] flex justify-center items-center m-[.18rem]"
       >
-        <p class="text-center m-[4px]">
+        <p class="text-center m-1">
           {{ cat.value }}
           <span class="cursor-pointer" @click="removeCategory(cat.value)"
             >X</span

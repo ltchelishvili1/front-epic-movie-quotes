@@ -14,7 +14,7 @@
           :display-screen-navbar="displayScreenNavbar"
         ></authorized-user-layout-side-bar>
         <div
-          class="flex grow flex-col md:mx-[10%] lg:mx-[10%] mt-[30px]"
+          class="flex grow flex-col md:mx-[10%] lg:mx-[10%] mt-[1.9rem]"
           :class="hideNavbar"
         >
           <slot></slot>
@@ -69,7 +69,7 @@ export default {
     });
 
     const updateScreen = () => {
-      isMobile.value = window.matchMedia("(max-width: 768px)").matches;
+      isMobile.value = window.matchMedia("(max-width: 48rem)").matches;
     };
 
     updateScreen();

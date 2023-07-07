@@ -13,7 +13,7 @@
       <router-link :to="{ name: 'add-quote' }" class="text-white flex items-center relative"
         >
         <icon-write-new-quote class="absolute md:left-[1rem] lg:left-[1rem] left-[2rem]"></icon-write-new-quote>
-        <p class="p-4 lg:mx-0 md:mx-0 mx-6 translate-x-[30px]">
+        <p class="p-4 lg:mx-0 md:mx-0 mx-6 translate-x-[1.9rem]">
           {{ $t("write_new_quote") }}
         </p></router-link
       >
@@ -22,18 +22,18 @@
       <Field
         :ruels="[]"
         name="search"
-        class="bg-transparent h-[50px] text-white w-full px-[20px]"
+        class="bg-transparent h-[3.1rem] text-white w-full px-[1.25rem]"
         :placeholder="$t('enter') + ' @ ' + $t('to_search_movies') + $t('enter') + ' # ' + $t('to_search_quotes')"
         :value="searchKey"
         @input="handleInput"
       />
       <button
-        class="text-white absolute curson-pointer mt-[15px] opacity-[.6] md:-translate-x-[30px] lg:-translate-x-[30px] -translate-x-[10px]"
+        class="text-white absolute curson-pointer mt-[.9rem] opacity-[.6] md:-translate-x-[1.9rem] lg:-translate-x-[1.9rem] -translate-x-[0.625rem]"
         @click="hideSearchInput"
       >
         <span v-if="!route.query.openSearch">X</span>
       </button>
-      <div class="w-full h-[0.1px] bg-[#EFEFEF] opacity-[0.3]"></div>
+      <div class="w-full h-[0.07rem] bg-[#EFEFEF] opacity-[0.3]"></div>
     </div>
 
     <div v-if="!isSearhOpen">

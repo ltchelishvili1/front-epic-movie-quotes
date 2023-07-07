@@ -120,7 +120,8 @@ const messages = {
     not_found: 'Page not found',
     link_expired: 'Link Expired',
     link_has_expired: 'Login link has expired, because you haven’t used it',
-    request_another_link: 'Request another link'
+    request_another_link: 'Request another link',
+    press_enter: 'Press enter'
 
 
   },
@@ -241,7 +242,8 @@ const messages = {
     not_found: 'გვერდი ვერ მოიძებნა',
     link_expired: 'ლინკი ვადაგასულია',
     link_has_expired: 'გამოუყენებლობისგან ლინკი ვადაგასულია',
-    request_another_link: 'ლინკის მიღება'
+    request_another_link: 'ლინკის მიღება',
+    press_enter: 'დააჭირე ენტერს '
 
   },
 };

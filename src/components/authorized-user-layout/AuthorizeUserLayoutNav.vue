@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="px-[70px] h-[82px] bg-[#22203099] flex items-center justify-between"
+    class="px-[4.5rem] h-[5.1rem] bg-[#22203099] flex items-center justify-between"
   >
     <router-link
       :to="{ name: 'news-feed' }"
@@ -20,28 +20,28 @@
         @click="openSearch"
       ></icon-search>
       <div
-        class="flex translate-x-[100%] md:translate-x-[0px] lg:translate-x-[0px] cursor-pointer"
+        class="flex translate-x-[100%] md:translate-x-[0rem] lg:translate-x-[0rem] cursor-pointer"
         @click="openNotifications"
       >
         <icon-notification></icon-notification>
         <span
-          class="flex items-center justify-center text-white -translate-x-[90%] -translate-y-[10%] bg-[#E33812] rounded-full w-[20px] h-[20px]"
+          class="flex items-center justify-center text-white -translate-x-[90%] -translate-y-[10%] bg-[#E33812] rounded-full w-[1.25rem] h-[1.25rem]"
         >
           <span v-if="!isLoading.not">
             {{ displayNewNotificationsLength }}
           </span>
-          <load-spinner v-else classes="h-[5px] w-[5px]"></load-spinner>
+          <load-spinner v-else classes="h-[.3rem] w-[.3rem]"></load-spinner>
         </span>
       </div>
       <div
         v-if="isNotificationsOpen"
-        class="w-full h-screen bg-black fixed z-[90] top-[0px] left-[0px] opacity-60"
+        class="w-full h-screen bg-black fixed z-[90] top-[0rem] left-[0rem] opacity-60"
         @click="openNotifications"
       ></div>
 
       <div
         v-if="isNotificationsOpen"
-        class="absolute top-[80px] md:w-[50%] lg:w-[50%] w-full right-[5%] left-[0px] rounded-lg md:left-auto lg:left-auto z-[100] bg-[#11101A] opacity-100"
+        class="absolute top-[5rem] md:w-[50%] lg:w-[50%] w-full right-[5%] left-[0rem] rounded-lg md:left-auto lg:left-auto z-[100] bg-[#11101A] opacity-100"
       >
         <div v-if="notifications.length">
             <authorized-user-layout-notification-card
@@ -58,15 +58,15 @@
         </div>
       </div>
 
-      <language-switch class="mb-[20px]"></language-switch>
+      <language-switch class="mb-[1.25rem]"></language-switch>
       <base-button
         button-class="google"
-        class="mb-[17px] hidden md:block lg:block"
+        class="mb-[1.1rem] hidden md:block lg:block"
         @click="logOutUser"
       >
         <span v-if="!isLoading.lOut">{{ $t("log_out") }}</span>
 
-        <load-spinner v-else classes="h-[30px] w-[30px]"></load-spinner>
+        <load-spinner v-else classes="h-[1,9rem] w-[1.9rem]"></load-spinner>
       </base-button>
     </div>
   </nav>

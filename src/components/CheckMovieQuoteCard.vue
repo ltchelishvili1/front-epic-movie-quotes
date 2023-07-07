@@ -1,16 +1,16 @@
 <template>
   <div>
     <button
-      class="absolute text-white right-[30px] cursor-pointer text-[30px]"
+      class="absolute text-white right-[2rem] cursor-pointer text-[2rem]"
       @click="toggleQuoteMenu(quote?.id)"
     >
       ...
     </button>
     <div
       v-if="displayQuote[quote.id + 'quote']"
-      class="p-[40px] absolute text-white right-[55px] z-[10] lg:translate-x-[100%] md:translate-x-[100%] translate-x-[10%] top-[40px] bg-[#24222F] rounded-lg cursor-pointer"
+      class="p-[2.5rem] absolute text-white right-[3.5rem] z-[10] lg:translate-x-[100%] md:translate-x-[100%] translate-x-[10%] top-[2.5rem] bg-[#24222F] rounded-lg cursor-pointer"
     >
-      <div class="flex items-center justify-start mb-[32px]">
+      <div class="flex items-center justify-start mb-8">
         <icon-view></icon-view>
         <router-link
           :to="{ name: 'view-quote', params: { quoteId: quote?.id } }"
@@ -18,10 +18,7 @@
           >{{ $t("view_quote") }}</router-link
         >
       </div>
-      <div
-        v-if="hasPermission"
-        class="flex items-center justify-start mb-[32px]"
-      >
+      <div v-if="hasPermission" class="flex items-center justify-start mb-8">
         <icon-edit></icon-edit>
         <router-link
           :to="{ name: 'edit-quote', params: { quoteId: quote?.id } }"
@@ -39,28 +36,30 @@
       </div>
     </div>
 
-    <div class="bg-[#11101A] w-full px-[32px] py-[24px]">
+    <div class="bg-[#11101A] w-full px-8 py-6">
       <div class="md:flex lg:flex items-center justify-space-evenly">
         <img
-          class="w-[220px] h-[140px] rounded"
+          class="w-[14rem] h-[9rem] rounded"
           :src="quote?.image"
           :alt="quote.quote[locale]"
         />
-        <h3 class="text-white ml-[34px] italic text-[24px]">
+        <h3 class="text-white ml-[2.1rem] italic text-6">
           "{{ quote.quote[locale] }}"
         </h3>
       </div>
-      <div class="w-full h-[0.1px] bg-[#EFEFEF] opacity-[0.3] mt-[24px]"></div>
+      <div class="w-full h-[0.06rem] bg-[#EFEFEF] opacity-[0.3] mt-6"></div>
 
-      <div class="flex mt-[25px]">
+      <div class="flex mt-6">
         <div class="flex">
-          <p class="text-white mx-4 text-[20px]">
+          <p class="text-white mx-4 text-[1.25rem]">
             {{ quote?.comments?.length }}
           </p>
           <icon-comments></icon-comments>
         </div>
         <div class="flex">
-          <p class="text-white mx-4 text-[20px]">{{ quote?.likes?.length }}</p>
+          <p class="text-white mx-4 text-[1.25rem]">
+            {{ quote?.likes?.length }}
+          </p>
           <icon-likes></icon-likes>
         </div>
       </div>

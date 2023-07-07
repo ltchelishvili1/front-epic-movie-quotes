@@ -36,14 +36,15 @@
 <script>
 import AuthorizedUserLayout from "@/components/layout/AuthorizedUserLayout.vue";
 
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import IconNotFound from "@/components/icons/IconNotFound.vue";
 import IconEclipse from "@/components/icons/IconEclipse.vue";
 import MoviesListNav from "@/components/movies-list/MoviesListNav.vue";
 import MoviesListMovieCard from "@/components/movies-list/MoviesListMovieCard.vue";
 import { useMovieStore } from "@/stores/movie/index";
 import LoadSpinner from "@/components/LoadSpinner.vue";
-import { useUserStore } from "@/stores/user/index";
+import router from "../router";
+import { useRoute } from "vue-router";
 
 export default {
   components: {
@@ -57,8 +58,10 @@ export default {
   setup() {
     const movieStore = useMovieStore();
     const isLoading = ref(false);
-    const userStore = useUserStore();
-    const movies = ref([]);
+    const route = useRoute();
+    const movies = computed(() =>
+      route.query.searchVal ? movieStore.searchResult : movieStore.movies
+    );
 
     onMounted(async () => {
       isLoading.value = true;
@@ -67,15 +70,8 @@ export default {
     });
 
     const searchMovies = (searchVal) => {
-      movies.value =
-        movieStore.movies &&
-        movieStore?.movies
-          .filter((movie) => movie.author_id == userStore.user.id)
-          .filter(
-            (movie) =>
-              movie.title.en.includes(searchVal) ||
-              movie.title.ka.includes(searchVal)
-          );
+      movieStore.searchMovie(searchVal);
+      router.push({ name: "movies", query: { searchVal } });
     };
 
     return {

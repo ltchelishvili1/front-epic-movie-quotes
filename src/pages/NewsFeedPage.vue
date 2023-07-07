@@ -3,7 +3,7 @@
     <load-spinner
       v-if="isLoading.searchResult"
       class="absolute top-0 left-0"
-      classes="h-[100px] w-[100px]"
+      classes="h-[6.25rem] w-[6.25rem]"
     ></load-spinner>
     <div v-else>
       <router-view> </router-view>
@@ -22,7 +22,7 @@
 
       <div
         v-else-if="movies && movies.length"
-        class="mt-[100px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-[50px]"
+        class="mt-[6.25rem] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-[3.1rem]"
       >
         <div v-for="movie in movies" :key="movie.id">
           <movies-list-movie-card :movie="movie"></movies-list-movie-card>
@@ -43,7 +43,7 @@
     <load-spinner
       v-if="isLoading.pagination"
       class="fixed top-0 left-0"
-      classes="h-[100px] w-[100px]"
+      classes="h-[6.25rem] w-[6.25rem]"
     ></load-spinner>
   </authorized-user-layout>
 </template>

@@ -11,6 +11,7 @@ export const useMovieStore = defineStore({
     quote: null,
     posts: null,
     errors: null,
+    searchResult: null
   }),
   actions: {
     async fetchMovie(id) {
@@ -50,6 +51,18 @@ export const useMovieStore = defineStore({
       }
     },
 
+    searchMovie(searchVal) {
+      this.searchResult =
+        this.movies &&
+        this.movies
+          .filter((movie) => movie.author_id == 1)
+          .filter(
+            (movie) =>
+              movie.title.en.includes(searchVal) ||
+              movie.title.ka.includes(searchVal)
+          );
+    },
+
     async addMovie(formData) {
       const userStore = useUserStore();
       try {
@@ -65,7 +78,6 @@ export const useMovieStore = defineStore({
         };
         this.movies.push(movieToPush);
 
-        console.log(this.movies);
         if (response.status !== 200) {
           throw new Error("Request failed with status " + response.status);
         }

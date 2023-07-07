@@ -1,12 +1,12 @@
 <template>
-  <div class="mt-[16px]" @click="handleClick">
+  <div class="mt-[1rem]" @click="handleClick">
     <button
       :disabled="disabled"
       :class="getButtonClass"
       :type="type"
       class="flex items-center justify-center"
     >
-      <span v-if="displayIcon" class="mr-[8px]"
+      <span v-if="displayIcon" class="mr-[.5rem]"
         ><icon-google></icon-google>
       </span>
       <div>
@@ -53,9 +53,9 @@ export default {
 
     const getButtonClass = computed(() =>
       props.buttonClass === "primary"
-        ? "w-full bg-[#E31221] text-white px-[7px] py-[7px] rounded-[4px] my-[2px]"
+        ? "w-full bg-[#E31221] text-white px-[0.4375rem] py-[0.4375rem] rounded-[.25rem] my-[.12rem]"
         : props.buttonClass === "google"
-        ? "w-full bg-transparent text-white px-[7px] py-[7px] rounded-[4px] border border-white flex items-center justify-center"
+        ? "w-full bg-transparent text-white px-[0.4375rem] py-[0.4375rem] rounded-[.25rem] border border-white flex items-center justify-center"
         : ""
     );
 

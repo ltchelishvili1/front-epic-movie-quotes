@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="mb-[16px]">
+    <div class="mb-[1rem]">
       <div v-if="title">
-        <label :for="name" class="font-semibold text-[16px] text-white"
-          >{{ title }}<span class="text-[#DC3545] ml-[4px]">*</span></label
+        <label :for="name" class="font-semibold text-[1rem] text-white"
+          >{{ title }}<span class="text-[#DC3545] ml-[.25rem]">*</span></label
         >
       </div>
       <div class="flex items-center">
@@ -13,7 +13,7 @@
           :rules="rules"
           :name="name"
           :class="displayValidationBorder"
-          class="w-[360px] h-[38px] bg-[#CED4DA] border border-[#232323] p-4 mt-[8px]"
+          class="w-[22.5rem] h-[2.4rem] bg-[#CED4DA] border border-[#232323] p-4 mt-[.5rem]"
           :type="type"
           :placeholder="placeholder || name"
           :value="inputData"
@@ -22,14 +22,14 @@
 
         <icon-input-valid
           v-if="inputIsValid"
-          class="absolute left-[450px] mt-[10px]"
+          class="absolute left-[28.125] mt-[0.625rem]"
         ></icon-input-valid>
         <icon-input-invalid
           v-else-if="inputIsInvalid"
-          class="absolute left-[450px] mt-[10px]"
+          class="absolute left-[28.125] mt-[0.625rem]"
         ></icon-input-invalid>
       </div>
-      <div class="mt-[6px]">
+      <div class="mt-[0.375rem]">
         <ErrorMessage class="text-red-500 ml-4" :name="name" />
       </div>
     </div>
@@ -107,7 +107,7 @@ export default {
 
     const displayValidationBorder = computed(() =>
       meta.valid && meta.touched && meta.value.length
-        ? "border-[1.5px] border-[#198754]"
+        ? "border-[0.09375rem] border-[#198754]"
         : (!meta.valid && meta.touched) || meta.errors.length
         ? "border border-[#E31221]"
         : ""

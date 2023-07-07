@@ -1,8 +1,8 @@
 <template>
-  <div v-if="displayScreenNavbar" class="pl-[70px] min-w-[350px]">
-    <div class="flex mt-[30px]">
+  <div v-if="displayScreenNavbar" class="pl-[4.5rem] min-w-[22rem]">
+    <div class="flex mt-[1.9rem]">
       <img
-        class="mr-[20px] w-[60px] h-[60px] rounded-full border-2 border-solid "
+        class="mr-[1.25rem] w-[3.75rem] h-[3.75rem] rounded-full border-2 border-solid"
         :src="displayImage"
         :class="`border-[${displayIconBackground('update-profile')}]`"
       />
@@ -14,25 +14,25 @@
       </div>
     </div>
 
-    <div class="flex iems-center mt-[40px]">
+    <div class="flex iems-center mt-[2.5rem]">
       <icon-news-feed
         :color="displayIconBackground('news-feed')"
-        class="ml-[15px]"
+        class="ml-[.9rem]"
       ></icon-news-feed>
       <router-link
         :to="{ name: 'news-feed' }"
-        class="text-white text-2xl ml-[32px]"
+        class="text-white text-2xl ml-[2rem]"
         >{{ $t("news_feed") }}</router-link
       >
     </div>
-    <div class="flex iems-center mt-[40px]">
+    <div class="flex iems-center mt-[2.5rem]">
       <icon-list-of-movies
         :color="displayIconBackground('movies')"
-        class="ml-[15px]"
+        class="ml-[.9rem]"
       ></icon-list-of-movies>
       <router-link
         :to="{ name: 'movies' }"
-        class="text-white text-2xl ml-[32px]"
+        class="text-white text-2xl ml-[2rem]"
         >{{ $t("list_of_movies") }}</router-link
       >
     </div>
@@ -45,35 +45,34 @@ import IconNewsFeed from "@/components/icons/IconNewsFeed.vue";
 import IconListOfMovies from "@/components/icons/IconListOfMovies.vue";
 import { useUserStore } from "@/stores/user/index";
 
-import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
-    components:{
-        IconNewsFeed,
-        IconListOfMovies,
+  components: {
+    IconNewsFeed,
+    IconListOfMovies,
+  },
+  props: {
+    displayScreenNavbar: {
+      type: Boolean,
+      default: false,
     },
-    props:{
-        displayScreenNavbar: {
-            type: Boolean,
-            default: false
-        }
-    },
-    setup(){
-        const route = useRoute()
-        const userStore = useUserStore();
-        const displayUsername = computed(() => userStore.getUser?.username);
-
+  },
+  setup() {
+    const route = useRoute();
+    const userStore = useUserStore();
+    const displayUsername = computed(() => userStore.getUser?.username);
 
     const displayIconBackground = computed(
       () => (name) => route.fullPath.includes(name) ? "#E31221" : "white"
     );
 
-        return{
-            displayImage,
-            username: displayUsername,
-            displayIconBackground
-        }
-    }
-}
+    return {
+      displayImage,
+      username: displayUsername,
+      displayIconBackground,
+    };
+  },
+};
 </script>

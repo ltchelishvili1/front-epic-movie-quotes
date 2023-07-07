@@ -27,7 +27,7 @@
       <router-link :to="{ name: 'landing' }">
         <icon-navigate-back></icon-navigate-back>
       </router-link>
-      <p class="text-[#6C757D] ml-[10px]">{{ $t("back_to_login") }}</p>
+      <p class="text-[#6C757D] ml-[0.625rem]">{{ $t("back_to_login") }}</p>
     </nav>
   </vee-validate-form>
 </template>

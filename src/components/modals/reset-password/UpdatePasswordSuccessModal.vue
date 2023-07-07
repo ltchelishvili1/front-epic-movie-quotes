@@ -1,14 +1,14 @@
 <template>
   <auth-layout>
     <icon-account-activated></icon-account-activated>
-    <h1 class="text-white text-[32px] font-medium mt-[20px]">
+    <h1 class="text-white text-[2rem] font-medium mt-[1.25remrem]">
       {{ $t("success") }}
     </h1>
-    <p class="text-white text-[17px] font-medium mt-[30px] text-center">
+    <p class="text-white text-[1.1rem] font-medium mt-[1.9rem] text-center">
       {{ $t("password_changed_successfully") }}
     </p>
     <base-button
-      class="mt-[40px]"
+      class="mt-[2.5rem]"
       button-class="primary"
       @click-button="redirectTologin"
     >

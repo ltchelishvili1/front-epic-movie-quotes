@@ -15,13 +15,13 @@
       $t("send_insturctions")
     }}
     </span>
-    <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
+    <load-spinner v-else classes="h-[1.6rem] w-[1.6rem]"></load-spinner>
   </base-button>
     <nav class="flex items-center justify-center">
       <router-link :to="{ name: 'log-in' }">
         <icon-navigate-back></icon-navigate-back>
       </router-link>
-      <p class="text-[#6C757D] ml-[10px]">{{ $t("back_to_login") }}</p>
+      <p class="text-[#6C757D] ml-[0.625rem]">{{ $t("back_to_login") }}</p>
     </nav>
   </vee-validate-form>
 </template>

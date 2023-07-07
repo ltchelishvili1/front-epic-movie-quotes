@@ -10,17 +10,17 @@
       @input="uploadImage($event.target.files[0])"
     />
     <img
-      class="w-[188px] h-[188px] rounded-full cursor-pointer"
+      class="w-[11.75rem] h-[11.75rem] rounded-full cursor-pointer"
       :src="displayImage"
       @click="openFileInput"
     />
     <p
-      class="text-white text-center mt-[10px] cursor-pointer"
+      class="text-white text-center mt-[0.625rem] cursor-pointer"
       @click="openFileInput"
     >
       {{ $t("upload_new_photo") }}
     </p>
-    <div class="mt-[6px]">
+    <div class="mt-[0.375rem]">
         <ErrorMessage class="text-red-500 ml-4" name="image" />
       </div>
   </div>
@@ -57,7 +57,7 @@ export default {
     };
 
     const setMobilePosition = computed(() =>
-      props.isMobile ? "-translate-y-[50px]" : "-translate-y-[70%]"
+      props.isMobile ? "-translate-y-[3.1rem]" : "-translate-y-[70%]"
     );
 
     const openFileInput = () => {

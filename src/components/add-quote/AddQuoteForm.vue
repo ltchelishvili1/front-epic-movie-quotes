@@ -21,12 +21,12 @@
       <upload-file-input @upload-image="uploadImage"></upload-file-input>
       <div v-if="!route.query.id" class="flex relative">
         <icon-list-of-movies
-          class="absolute mt-[50px] ml-[10px]"
+          class="absolute mt-[3.1rem] ml-[0.6rem]"
         ></icon-list-of-movies>
 
         <select
           id=""
-          class="w-full mt-[28px] h-[86px] bg-[#000000] text-white px-[50px]"
+          class="w-full mt-[1.75rem] h-[5.5rem] bg-[#000000] text-white px-[3.1rem]"
           as="select"
           name="movie_id"
           @change="selectMovieId"
@@ -38,20 +38,20 @@
         </select>
         <load-spinner
           v-if="isLoading.movies"
-          class="absolute translate-y-[12px]"
-          classes="w-[25px] h-[25px]"
+          class="absolute translate-y-4"
+          classes="w-[1.5rem] h-[1.5rem]"
         ></load-spinner>
       </div>
 
       <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
       <base-button
         :disabled="!meta.valid"
-        class="mt-[40px]"
+        class="mt-[2.5rem]"
         button-class="primary"
         :class="!meta.valid ? 'opacity-30' : ''"
       >
         <span v-if="!isLoading.submit"> {{ $t("add_quote") }}</span>
-        <load-spinner v-else classes="w-[25px] h-[25px]"></load-spinner>
+        <load-spinner v-else classes="w-[1.5rem] h-[1.5rem]"></load-spinner>
       </base-button>
     </vee-validate-form>
   </section>

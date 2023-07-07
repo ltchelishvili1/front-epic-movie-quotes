@@ -4,9 +4,9 @@
     :description="$t('welcome_back')"
   >
     <log-in-form></log-in-form>
-    <p class="flex items-center justify-center mt-[40px]">
+    <p class="flex items-center justify-center mt-[2.5rem]">
       <span class="text-[#6C757D]">{{ $t("not_have_an_account") }}</span>
-      <router-link :to="{ name: 'sign-up' }" class="text-[#0D6EFD] ml-[4px]">{{
+      <router-link :to="{ name: 'sign-up' }" class="text-[#0D6EFD] ml-[.25rem]">{{
         $t("sign_up")
       }}</router-link>
     </p>

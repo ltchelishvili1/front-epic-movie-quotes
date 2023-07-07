@@ -1,17 +1,17 @@
 <template>
   <header
-    class="md:mt-[344px] mt-[130px] lg:mt-[344px] flex flex-col items-center justify-center"
+    class="md:mt-[21.5rem] mt-[8.1rem] lg:mt-[19rem] flex flex-col items-center justify-center"
   >
     <p
-      class="flex flex-col items-center justify-center text-[#DDCCAA] font-bold text-[24px] md:text-6xl lg:text-6xl"
+      class="flex flex-col items-center justify-center text-[#DDCCAA] font-bold text-[1.5rem] md:text-6xl lg:text-6xl"
     >
       {{ $t("find_any_quote") }} <br />
-      <span class="mt-[10px]">{{ $t("from_million_movies") }}</span>
+      <span class="mt-[.65rem]">{{ $t("from_million_movies") }}</span>
     </p>
     <base-button
       v-if="!userStore.authenticated"
       button-class="primary"
-      class="md:w-[133px] lg:w-[133px] w-[109px] h-[38px] mr-[15px] mt-[30px]"
+      class="md:w-[8.7rem] lg:w-[8.7rem] w-[7rem] h-[2.4rem] mr-[.9rem] mt-[1.9rem]"
       @click-button="openSignUpModal"
       >{{ $t("get_started") }}</base-button
     >

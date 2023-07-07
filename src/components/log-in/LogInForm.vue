@@ -38,7 +38,7 @@
       <span v-if="!isLoading">
         {{ $t("log_in") }}
       </span>
-      <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
+      <load-spinner v-else classes="h-[1.6rem] w-[1.6rem]"></load-spinner>
     </base-button>
     <base-button
       type="button"

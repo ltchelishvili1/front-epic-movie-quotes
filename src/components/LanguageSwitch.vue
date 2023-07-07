@@ -1,7 +1,7 @@
 <template>
   <select
     v-model="$i18n.locale"
-    class="mt-[20px] hidden lg:block md:block flex items-center justify-center p-[5px] mr-[40px] h-[38px] bg-transparent text-white"
+    class="mt-[1.25rem] hidden lg:block md:block flex items-center justify-center p-[0.3125rem] mr-[2.5rem] h-[2.375rem] bg-transparent text-white"
     @change="changeLanguage"
   >
     <option
@@ -33,7 +33,7 @@ export default {
     };
 
     const displayLocale = computed(
-      () => (locale) => locale === "ka" ? "ქარ" : 'Eng'
+      () => (locale) => locale === "ka" ? "ქარ" : "Eng"
     );
 
     return {

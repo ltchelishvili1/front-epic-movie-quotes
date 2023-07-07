@@ -1,20 +1,20 @@
 <template>
-  <div class="mt-[32px] flex flex-col">
+  <div class="mt-[2rem] flex flex-col">
     <div
       :class="customizeOrder"
-      class="border-[1.5px] border-[#CED4DA33] p-[16px] max-w-[460px]"
+      class="border-[0.09375rem] border-[#CED4DA33] p-[1rem] max-w-[28.75rem]"
     >
       <div v-for="(message, index) in messages" :key="message">
         <div
           v-if="displayShouldContain(index)"
-          class="text-white mb-[16px] mt-[10px]"
+          class="text-white mb-[1rem] mt-[0.625rem]"
         >
           {{ title }} {{ $t("should_contain") }}:
         </div>
         <div class="text-white flex items-center justify-start">
           <div
             :class="displayErrorBoxBackground(message)"
-            class="w-[4px] h-[4px] mr-[16px]"
+            class="w-[.25rem] h-[.25rem] mr-[1rem]"
           ></div>
           <p class="text-[#9C9A9A]">
             <span :class="displayErrorTextColor(message)">
@@ -24,19 +24,19 @@
         </div>
       </div>
     </div>
-    <div v-if="title" class="mt-[32px]">
-      <p class="font-semibold text-[16px] text-white">{{
+    <div v-if="title" class="mt-[2rem]">
+      <p class="font-semibold text-[1rem] text-white">{{
         title
       }}</p>
     </div>
 
-    <div class="flex items-center pb-[30px]">
+    <div class="flex items-center pb-[1.9rem]">
       <Field
         :id="name"
         v-model="inputData"
         :rules="rules"
         :name="name"
-        class="lg:w-[460px] md:w-[360px] w-full h-[38px] bg-[#CED4DA] border border-[#232323] p-4 mt-[8px]"
+        class="lg:w-[28.75rem] md:w-[22.5rem] w-full h-[2.4rem] bg-[#CED4DA] border border-[#232323] p-4 mt-[.5rem]"
         :class="displayFieldBg"
         :type="type"
         :placeholder="placeholder || name"

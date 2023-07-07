@@ -1,12 +1,12 @@
 <template>
   <nav
-    class="flex mb-[68px] items-center justify-between px-12 md:px-0 lg:px-0"
+    class="flex mb-[4.25rem] items-center justify-between px-12 md:px-0 lg:px-0"
   >
-    <div class="md:flex lg:flex mt-[25px]">
-      <p class="text-white w-[130px]">
+    <div class="md:flex lg:flex mt-[1.6rem]">
+      <p class="text-white w-[8.125rem]">
         {{ $t("my_list_of_movies") }}
       </p>
-      <p class="text-white md:ml-[10px] lg:ml-[10px]">
+      <p class="text-white md:ml-[0.625rem] lg:ml-[0.625rem]">
         ({{ $t("total") }} <span>{{ length }}</span
         >)
       </p>
@@ -17,35 +17,39 @@
         class="text-white flex items-center mt-4 mr-8 md:flex lg:flex hidden"
         @click="toggleSearch"
       >
-        <icon-search class="mx-2 w-[16px] h-[16px]"></icon-search>
+        <icon-search class="mx-2 w-[1rem] h-[1rem]"></icon-search>
         {{ $t("search_by") }}
       </button>
-      <div v-if="isSearchOpen" class="relative">
+      <div v-if="isSearchOpen" class="relative mr-12 -translate-y-[.2rem]">
         <Field
           id="search"
           name="search"
-          class="pl-[50px] border border-[#232323 -translate-x-[1.6rem] text-white bg-transparent flex rounded-lg mt-[1.3rem] z-[10] h-[2rem]"
+          class="pl-[3.1rem] border border-[#232323 -translate-x-[1.6rem] text-white bg-transparent flex rounded-lg mt-[1.3rem] z-[10] h-[2rem]"
           :value="searchVal"
+          :placeholder="$t('press_enter')"
+          @keydown.enter="submitSearch"
           @input="setSearchVal"
         />
         <icon-search
-          class="absolute opacity-50 w-[1.5rem] h-[1.5rem] -left-[15px] top-[25px]"
+          class="absolute opacity-50 w-[1.5rem] h-[1.5rem] -left-[.9rem] top-[1.6rem]"
         ></icon-search>
         <span
-          class="absolute opacity-50 w-[1.5rem] h-[1.5rem] -right-[5px] cursor-pointer top-[25px] text-white"
+          class="absolute opacity-50 w-[1.5rem] h-[1.5rem] text-[1.5rem] -right-[1rem] cursor-pointer top-[1.2rem] text-white"
           @click="toggleSearch"
           >X</span
         >
       </div>
       <base-button
-        class="flex items-center justify-center lg:text-normal md:text-normal text-[13px]"
+        class="flex items-center justify-center lg:text-normal md:text-normal text-[0.8125rem]"
         button-class="primary"
         @click-button="openAddMovieModal"
       >
-        <span class="absolute mt-[4px]"
-          ><icon-add-movie-plus class="-translate-y-[3px]"></icon-add-movie-plus
+        <span class="absolute mt-[.25rem]"
+          ><icon-add-movie-plus
+            class="-translate-y-[.2rem]"
+          ></icon-add-movie-plus
         ></span>
-        <span class="ml-[20px]"> {{ $t("add_movie") }}</span></base-button
+        <span class="ml-[1.25rem]"> {{ $t("add_movie") }}</span></base-button
       >
     </div>
   </nav>
@@ -78,8 +82,10 @@ export default {
   },
   setup(_, { emit }) {
     const router = useRouter();
-    const isSearchOpen = ref(false);
-    const searchVal = ref("");
+    const isSearchOpen = ref(
+      JSON.parse(localStorage.getItem("isMoviesListSearchOpen")) || false
+    );
+    const searchVal = ref(localStorage.getItem("moviesListSearchKey") || "");
 
     const openAddMovieModal = () => {
       router.push({ name: "add-movie" });
@@ -87,6 +93,7 @@ export default {
 
     const toggleSearch = () => {
       isSearchOpen.value = !isSearchOpen.value;
+      localStorage.setItem("isMoviesListSearchOpen", isSearchOpen.value);
     };
 
     const setSearchVal = (event) => {
@@ -94,17 +101,22 @@ export default {
     };
 
     onMounted(() => {
-      searchVal.value = localStorage.getItem("moviesListSearchKey") || "";
       emit("search-movies", searchVal.value);
     });
 
+    const submitSearch = () => {
+      emit("search-movies", searchVal.value);
+      localStorage.setItem("moviesListSearchKey", searchVal.value);
+    };
+
     watch(
-      () => searchVal.value,
+      () => isSearchOpen.value,
       (newValue) => {
-        setTimeout(() => {
-          emit("search-movies", newValue);
-          localStorage.setItem("moviesListSearchKey", newValue);
-        }, 500);
+        if (!newValue) {
+          localStorage.removeItem("moviesListSearchKey");
+          searchVal.value = "";
+          emit("search-movies", searchVal.value);
+        }
       }
     );
 
@@ -114,6 +126,7 @@ export default {
       isSearchOpen,
       setSearchVal,
       searchVal,
+      submitSearch,
     };
   },
 };
