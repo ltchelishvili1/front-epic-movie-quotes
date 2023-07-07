@@ -10,8 +10,10 @@
           : 'lg:w-[75%] md:w-[75%] w-[100%]'
       "
     >
-      <router-link :to="{ name: 'add-quote-news-feed' }" class="text-white"
-        ><p class="p-4 lg:mx-0 md:mx-0 mx-6">
+      <router-link :to="{ name: 'add-quote' }" class="text-white flex items-center relative"
+        >
+        <icon-write-new-quote class="absolute md:left-[1rem] lg:left-[1rem] left-[2rem]"></icon-write-new-quote>
+        <p class="p-4 lg:mx-0 md:mx-0 mx-6 translate-x-[30px]">
           {{ $t("write_new_quote") }}
         </p></router-link
       >
@@ -46,12 +48,17 @@
 </template>
 
 <script>
+
 import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { Field } from "vee-validate";
+import IconWriteNewQuote from '@/components/icons/IconWriteNewQuote.vue';
+
+
 export default {
   components: {
     Field,
+    IconWriteNewQuote
   },
   props: {
     searchKey: {

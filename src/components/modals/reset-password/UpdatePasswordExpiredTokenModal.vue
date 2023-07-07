@@ -54,7 +54,7 @@ export default {
         }
         router.push({
           name: "reset-password-email-send",
-          params: { email },
+          query: { email },
         });
       } catch (error) {
         //

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="md:-translate-x-[10rem]">
     <are-you-sure-modal
       v-if="isOpenAreYouSure"
       :is-loading="isLoading"
@@ -11,11 +11,11 @@
       @cancel="toggleIsSucessfullyUpdated"
     ></successfully-updated-modal>
     <vee-validate-form
-      class="-translate-y-[100px] flex flex-col items-center justify-center"
+      class="-translate-y-[10rem] flex flex-col items-center justify-center "
       @submit="toggleAreYouSure"
     >
       <div
-        class="-translate-x-[10px] bg-[#11101A] mt-[100px] flex flex-col items-center justify-center md:px-0 lg:px-0 px-12 py-[60px] min-w-[100%]"
+        class="-translate-x-[10px] bg-[#11101A] mt-[10rem] flex flex-col gap-4 items-center justify-center md:px-0 lg:px-0 px-12 py-[6rem] min-w-[80%]"
       >
         <update-profile-input-image
           :display-image="displayImage"
@@ -255,7 +255,7 @@ export default {
         } finally {
           router.push({
             name: "edit-email-request-send",
-            params: { email: formData.value.get('email') },
+            query: { email: formData.value.get('email') },
           });
           formData.value.delete("email");
         }

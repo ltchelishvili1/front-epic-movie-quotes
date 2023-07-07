@@ -70,7 +70,7 @@ export default {
         }
         router.push({
           name: "reset-password-email-send",
-          params: { email: resetPasswordData.value.email },
+          query: { email: resetPasswordData.value.email },
         });
       } catch (error) {
         errorMessage.value = error.response.data.errors.email

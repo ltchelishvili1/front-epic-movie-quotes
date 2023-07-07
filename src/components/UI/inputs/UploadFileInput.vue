@@ -1,6 +1,7 @@
 <template>
   <div
-    class="flex items-center justify-start border border-[#6C757D] px-4 py-[10px]"
+    class="flex items-center  border border-[#6C757D] px-4 py-[10px]"
+    :class="image ? 'justify-between' : 'justify-start'"
     @drop.prevent="uploadImage($event.dataTransfer.files[0])"
     @dragover.prevent
   >
@@ -19,7 +20,7 @@
       :class="
         readOnly
           ? 'w-full'
-          : 'cursor-pointer md:w-[188px] lg:w-[188px] lg:h-[188px] md:h-[188px] w-[50px] h-[50px]'
+          : 'cursor-pointer md:w-[50%] lg:w-[50%] lg:h-[188px] md:h-[188px] w-[50px] h-[50px]'
       "
       :src="displayImage"
       @click="openFileInput"

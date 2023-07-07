@@ -9,6 +9,7 @@ export const useMovieStore = defineStore({
     movies: null,
     movie: null,
     quote: null,
+    posts: null,
     errors: null,
   }),
   actions: {
@@ -50,7 +51,7 @@ export const useMovieStore = defineStore({
     },
 
     async addMovie(formData) {
-      const userStore = useUserStore()
+      const userStore = useUserStore();
       try {
         const response = await axios.post("movies", formData, {
           headers: {
@@ -103,12 +104,6 @@ export const useMovieStore = defineStore({
           },
           withCredentials: true,
         });
-
-        const newArray = this.movie.quotes.map((quote) =>
-          quote.id == id ? response.data.quote : quote
-        );
-
-        this.movie.quotes = newArray;
 
         if (response.status !== 200) {
           throw new Error("Request failed with status " + response.status);

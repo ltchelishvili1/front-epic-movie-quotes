@@ -62,7 +62,7 @@ const router = createRouter({
           beforeEnter: Guest,
         },
         {
-          path: "/verification-email-send/email=:email",
+          path: "/verification-email-send",
           name: "verification-email-send",
           component: VerificationEmailSendModal,
           beforeEnter: Guest,
@@ -90,13 +90,13 @@ const router = createRouter({
           beforeEnter: checkPasswordUpdateToken,
         },
         {
-          path: "/reset-password-email-send/email=:email",
+          path: "/reset-password-email-send",
           name: "reset-password-email-send",
           beforeEnter: Guest,
           component: ResetPasswordEmailSentModal,
         },
         {
-          path: "/email-verify-token-expired/email=:email",
+          path: "/email-verify-token-expired",
           name: "email-verify-token-expired",
           component: UpdatePasswordExpiredTokenModal,
         },
@@ -109,7 +109,7 @@ const router = createRouter({
       beforeEnter: authenticateUser,
       children: [
         {
-          path: "/edit-email-request-send/email=:email",
+          path: "/edit-email-request-send",
           name: "edit-email-request-send",
           component: VerificationEmailSendModal,
         },
@@ -146,39 +146,39 @@ const router = createRouter({
           component: EditMovieModal,
           beforeEnter: authenticateUser,
         },
-        {
-          path: "add-quote",
-          name: "add-quote",
-          component: AddQuoteModal,
-          beforeEnter: authenticateUser,
-        },
-        {
-          path: "edit-quote/:quoteId",
-          name: "edit-quote",
-          component: EditQuoteModal,
-          beforeEnter: authenticateUser,
-        },
-        {
-          path: "view-quote/:quoteId",
-          name: "view-quote",
-          component: ViewQuoteModal,
-          beforeEnter: authenticateUser,
-        },
+        // {
+        //   path: "add-quote",
+        //   name: "add-quote",
+        //   component: AddQuoteModal,
+        //   beforeEnter: authenticateUser,
+        // }
       ],
+    },
+
+    {
+      path: "/edit-quote/:quoteId",
+      name: "edit-quote",
+      component: EditQuoteModal,
+      beforeEnter: authenticateUser,
+    },
+    {
+      path: "/view-quote/:quoteId",
+      name: "view-quote",
+      component: ViewQuoteModal,
+      beforeEnter: authenticateUser,
     },
     {
       path: "/news-feed",
       name: "news-feed",
       component: NewsFeedPage,
       beforeEnter: [authenticateUser, Auth],
-      children: [
-        {
-          path: "add-quote",
-          name: "add-quote-news-feed",
-          component: AddQuoteModal,
-          beforeEnter: authenticateUser,
-        },
-      ],
+  
+    },
+    {
+      path: "/add-quote",
+      name: "add-quote",
+      component: AddQuoteModal,
+      beforeEnter: authenticateUser,
     },
   ],
 });

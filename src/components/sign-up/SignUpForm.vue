@@ -88,7 +88,7 @@ export default {
         }
         router.push({
           name: "verification-email-send",
-          params: { email: signUpData.value.email },
+          query: { email: signUpData.value.email },
         });
       } catch (error) {
         errorMessage.value = error.response.data.errors.email

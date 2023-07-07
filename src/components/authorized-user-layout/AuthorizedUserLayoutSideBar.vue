@@ -2,8 +2,9 @@
   <div v-if="displayScreenNavbar" class="pl-[70px] min-w-[350px]">
     <div class="flex mt-[30px]">
       <img
-        class="mr-[20px] w-[60px] h-[60px] rounded-full border-2 border-solid border-[#E31221]"
+        class="mr-[20px] w-[60px] h-[60px] rounded-full border-2 border-solid "
         :src="displayImage"
+        :class="`border-[${displayIconBackground('update-profile')}]`"
       />
       <div>
         <h1 class="text-white">{{ username }}</h1>

@@ -1,45 +1,46 @@
 <template>
-<section>
-  <load-spinner v-if="isLoading.quote" classes="w-[100px] h-[100px]"></load-spinner>
-  <vee-validate-form v-else @submit="updateQuote">
-    <add-movie-input
-      title='"Quote in English."'
-      name="quote_en"
-      rules="required|min:3|lcase"
-      lang="Eng"
-      :value="quote?.quote['en']"
-      type="textarea"
-      :is-quote="true"
-      @set-input-value="setInputValue"
-    ></add-movie-input>
-    <add-movie-input
-      title="“ციტატა ქართულ ენაზე”"
-      name="quote_ka"
-      rules="required|min:3|geo"
-      :value="quote?.quote['ka']"
-      type="textarea"
-      lang="ქარ"
-      :is-quote="true"
-      @set-input-value="setInputValue"
-    ></add-movie-input>
+  <section>
+    <load-spinner
+      v-if="isLoading.quote"
+      classes="w-[100px] h-[100px]"
+    ></load-spinner>
+    <vee-validate-form v-else @submit="updateQuote">
+      <add-movie-input
+        title='"Quote in English."'
+        name="quote_en"
+        rules="required|min:3|lcase"
+        lang="Eng"
+        :value="quote?.quote['en']"
+        type="textarea"
+        :is-quote="true"
+        @set-input-value="setInputValue"
+      ></add-movie-input>
+      <add-movie-input
+        title="“ციტატა ქართულ ენაზე”"
+        name="quote_ka"
+        rules="required|min:3|geo"
+        :value="quote?.quote['ka']"
+        type="textarea"
+        lang="ქარ"
+        :is-quote="true"
+        @set-input-value="setInputValue"
+      ></add-movie-input>
 
-    <upload-file-input
-      :image="quote?.image"
-      rules=""
-      @upload-image="uploadImage"
-    ></upload-file-input>
+      <upload-file-input
+        :image="quote?.image"
+        rules=""
+        @upload-image="uploadImage"
+      ></upload-file-input>
 
-    <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
-    <base-button class="mt-[40px]" button-class="primary">
-    <span v-if="!isLoading.submit">
-      {{
-      $t("edit_quote")
-    }}
-    </span>
-    <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
-  </base-button>
-  </vee-validate-form>
-</section>
+      <p v-if="errors" class="text-red-500 ml-4">{{ errors }}</p>
+      <base-button class="mt-[40px]" button-class="primary">
+        <span v-if="!isLoading.submit">
+          {{ $t("edit_quote") }}
+        </span>
+        <load-spinner v-else classes="h-[25px] w-[25px]"></load-spinner>
+      </base-button>
+    </vee-validate-form>
+  </section>
 </template>
 
 <script>
@@ -54,7 +55,7 @@ import { onBeforeMount, ref } from "vue";
 import { useMovieStore } from "@/stores/movie/index";
 import UploadFileInput from "@/components/UI/inputs/UploadFileInput.vue";
 import { useRoute, useRouter } from "vue-router";
-import LoadSpinner from '@/components/LoadSpinner.vue';
+import LoadSpinner from "@/components/LoadSpinner.vue";
 
 export default {
   components: {
@@ -75,7 +76,7 @@ export default {
     const router = useRouter();
     const isLoading = ref({
       quote: false,
-      submit: false
+      submit: false,
     });
 
     const setInputValue = ({ key, value }) => {
@@ -90,17 +91,16 @@ export default {
       isLoading.value.quote = true;
       const fetchQuote = async () => {
         try {
-          const response = await axios.get(`movies/${route.params.id}`);
-          quote.value = response.data.movie.quotes.filter(
-            (quote) => quote.id == route.params.quoteId
-          )[0];
+          const response = await axios.get(`quotes/${route.params.quoteId}`);
+          quote.value = response.data.quote;
+          formData.set("movie_id", quote.value.movie.id);
           Object.keys(quote.value).forEach((key) => {
             return formData.set(key, JSON.stringify(quote.value[key]));
           });
         } catch (error) {
           //
-        }finally{
-          isLoading.value.quote = false
+        } finally {
+          isLoading.value.quote = false;
         }
       };
 
@@ -108,7 +108,6 @@ export default {
     });
 
     const updateQuote = handleSubmit(async () => {
-      formData.set("movie_id", route.params.id);
       formData.set("quote_id", route.params.quoteId);
       formData.set("quote_en", quote.value.quote.en);
       formData.set("quote_ka", quote.value.quote.ka);
@@ -117,7 +116,9 @@ export default {
       await movieStore.editQuote(route.params.quoteId, formData);
       isLoading.value.submit = false;
       errorMessage.value = movieStore.getErrors;
-      router.back();
+
+      router.push({name:'news-feed'})
+
     });
 
     return {
@@ -127,7 +128,7 @@ export default {
       locale,
       updateQuote,
       quote,
-      isLoading
+      isLoading,
     };
   },
 };

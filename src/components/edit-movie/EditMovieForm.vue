@@ -32,7 +32,7 @@
         name="release_year"
         rules="required"
         type="number"
-        :value="movie?.release_year"
+        :value="JSON.stringify(movie?.release_year)"
         @set-input-value="setInputValue"
       ></add-movie-input>
       <add-movie-input

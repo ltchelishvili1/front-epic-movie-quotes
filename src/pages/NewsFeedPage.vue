@@ -10,6 +10,7 @@
       <news-feed-search
         :search-key="searchKey"
         @set-search-key="setSearchKey"
+
       ></news-feed-search>
       <div v-if="posts && posts.length">
         <news-feed-posts :posts="posts"></news-feed-posts>
@@ -245,6 +246,8 @@ export default {
       window.removeEventListener("scroll", handleScroll);
       isEventListenerAdded = false;
     });
+
+
 
     onMounted(() => {
       fetchSearchResult(searchKey.value);

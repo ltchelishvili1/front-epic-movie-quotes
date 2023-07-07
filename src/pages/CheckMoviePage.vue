@@ -41,16 +41,18 @@
                 </div>
               </div>
               <div
-                class="mt-[24px] grid md:grid-cols-3 lg:grid-cols-3 grid-cols-2 text-center items-center gap-[10px] w-[300px] lg:w-[480px] md:w-[480px]"
+                v-if="movie?.genres.length"
+                class="mt-[24px] grid md:grid-cols-3 lg:grid-cols-3 grid-cols-2 text-center items-center gap-[10px]"
               >
-                <div v-for="genre in movie?.genres" :key="genre">
+                <div v-for="genre in sortedGenres(movie?.genres)" :key="genre">
                   <p
-                    class="max-w-[150px] text-center text-white w-[auto] bg-[#6C757D] font-bold p-[5px]"
+                    class="bg-[#6C757D] flex items-center justify-center text-center text-white w-full font-bold min-h-[50px] max-w-[200px]"
                   >
                     {{ genre.name[locale] }}
                   </p>
                 </div>
               </div>
+
               <p class="text-white mt-[26px] font-bold text-[16px]">
                 {{ $t("director") }}:<span class="font-normal ml-[10px]">
                   {{ movie?.director[locale] }}</span
@@ -93,10 +95,10 @@
           </div>
           <div v-if="!movie?.quotes.length">
             <div class="">
-          <icon-not-found></icon-not-found>
-          <icon-eclipse></icon-eclipse>
-          <h1 class="text-white mt-8 italic">{{ $t('data_not_added') }}</h1>
-        </div>
+              <icon-not-found></icon-not-found>
+              <icon-eclipse></icon-eclipse>
+              <h1 class="text-white mt-8 italic">{{ $t("data_not_added") }}</h1>
+            </div>
           </div>
         </div>
       </div>
@@ -127,7 +129,7 @@ export default {
     CheckMovieQuoteCard,
     LoadSpinner,
     IconNotFound,
-    IconEclipse
+    IconEclipse,
   },
   setup() {
     const displayQuote = ref({});
@@ -160,7 +162,10 @@ export default {
     };
 
     const openAddQuoteModal = () => {
-      router.push({ name: "add-quote" });
+      router.push({
+        name: "add-quote",
+        query: { id: movie.value.id },
+      });
     };
 
     const toggleQuoteMenu = (id) => {
@@ -168,6 +173,20 @@ export default {
     };
 
     const checkPermission = computed(() => (id) => getUser.id === parseInt(id));
+    const sortedGenres = computed(
+      () => (genres) =>
+        genres.sort((a, b) => {
+          const genreA = a.name[locale.value].toLowerCase();
+          const genreB = b.name[locale.value].toLowerCase();
+          if (genreA < genreB) {
+            return -1;
+          }
+          if (genreA > genreB) {
+            return 1;
+          }
+          return 0;
+        })
+    );
 
     return {
       movie,
@@ -180,6 +199,7 @@ export default {
       isLoading,
       getUser,
       checkPermission,
+      sortedGenres,
     };
   },
 };

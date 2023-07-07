@@ -40,7 +40,7 @@ export default {
 
     const redirectToEmail = () => {
       let domain;
-      let email = route.params.email;
+      let email = route.query.email;
       if (email) {
         domain = email.split("@")[1];
       } else {

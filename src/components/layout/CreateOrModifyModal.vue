@@ -1,10 +1,11 @@
 <template>
   <div
-    class="fixed top-[30px] left-0 w-[100vw] h-[100vh] bg-transparent z-50"
+    class="fixed top-[30px] -translate-y-[30px] left-0 w-[100vw] h-[100vh] bg-transparent z-50"
+    style="background: rgba(0, 0, 0, 0.38)"
     @click="handleOuterClick"
   >
     <div
-      class=" scrollbar   scrollbar-thumb-gray-100 scrollbar-track-gray-900 px-[32px] rounded-[10px] py-[36px] md:w-[600px] lg:w-[600px] w-full absolute left-[50%] top-[50%] -translate-x-[50%] h-[800px] overflow-y-scroll -translate-y-[50%] h-[1000px] scale-[.9] bg-[#11101A]"
+      class="scrollbar scrollbar-thumb-gray-100 scrollbar-track-gray-900 px-[32px] rounded-[10px] py-[36px] md:w-[1000px] lg:w-[1000px] w-full absolute left-[50%] top-[50%] -translate-x-[50%] h-[800px] overflow-y-scroll -translate-y-[50%] h-[1000px] scale-[.9] bg-[#11101A]"
       @click="handleInnerClick"
     >
       <div class="flex items-center justify-center">
@@ -84,6 +85,10 @@ export default {
       required: false,
       default: "",
     },
+    link: {
+      type: String,
+      default: null,
+    },
   },
 
   setup(props) {
@@ -91,9 +96,14 @@ export default {
     const route = useRoute();
     const authorId = ref(null);
     const userStore = useUserStore();
+
+
     const handleOuterClick = () => {
-      if (props.isQuote) {
-        router.push({ name: "checkmovie", params: { id: route.params.id } });
+      if (
+        router.options.history.state.back.includes("view-quote") ||
+        router.options.history.state.back.includes("add-quote")
+      ) {
+        router.go(-2);
       } else {
         router.back();
       }

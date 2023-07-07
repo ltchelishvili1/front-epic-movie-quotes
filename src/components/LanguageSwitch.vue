@@ -33,7 +33,7 @@ export default {
     };
 
     const displayLocale = computed(
-      () => (locale) => locale === "ka" ? "ქარ" : locale
+      () => (locale) => locale === "ka" ? "ქარ" : 'Eng'
     );
 
     return {

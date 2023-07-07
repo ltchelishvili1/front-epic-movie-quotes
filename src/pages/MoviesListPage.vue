@@ -8,7 +8,10 @@
     ></load-spinner>
 
     <div v-else>
-      <movies-list-nav :length="movies?.length"></movies-list-nav>
+      <movies-list-nav
+        :length="movies?.length"
+        @search-movies="searchMovies"
+      ></movies-list-nav>
       <div
         v-if="movies?.length"
         class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-[50px]"
@@ -33,7 +36,7 @@
 <script>
 import AuthorizedUserLayout from "@/components/layout/AuthorizedUserLayout.vue";
 
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import IconNotFound from "@/components/icons/IconNotFound.vue";
 import IconEclipse from "@/components/icons/IconEclipse.vue";
 import MoviesListNav from "@/components/movies-list/MoviesListNav.vue";
@@ -55,6 +58,7 @@ export default {
     const movieStore = useMovieStore();
     const isLoading = ref(false);
     const userStore = useUserStore();
+    const movies = ref([]);
 
     onMounted(async () => {
       isLoading.value = true;
@@ -62,17 +66,22 @@ export default {
       isLoading.value = false;
     });
 
-    const movies = computed(
-      () =>
+    const searchMovies = (searchVal) => {
+      movies.value =
         movieStore.movies &&
-        movieStore?.movies.filter(
-          (movie) => movie.author_id == userStore.user.id
-        )
-    );
+        movieStore?.movies
+          .filter((movie) => movie.author_id == userStore.user.id)
+          .filter(
+            (movie) =>
+              movie.title.en.includes(searchVal) ||
+              movie.title.ka.includes(searchVal)
+          );
+    };
 
     return {
       movies,
       isLoading,
+      searchMovies,
     };
   },
 };
