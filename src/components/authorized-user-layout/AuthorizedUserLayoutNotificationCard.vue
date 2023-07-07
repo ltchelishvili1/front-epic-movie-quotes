@@ -96,7 +96,6 @@ export default {
           name: "view-quote",
           params: {
             quoteId: notification.quote.quote_id,
-            id: notification.quote.movie_id,
           },
         });
       } catch (error) {
