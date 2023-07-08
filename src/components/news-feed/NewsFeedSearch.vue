@@ -20,7 +20,6 @@
     </div>
     <div v-if="isSearhOpen" class="md:w-[70%] lg:w-[70%] w-[90%]">
       <Field
-        :ruels="[]"
         name="search"
         class="bg-transparent h-[3.1rem] text-white w-full px-[1.25rem]"
         :placeholder="$t('enter') + ' @ ' + $t('to_search_movies') + $t('enter') + ' # ' + $t('to_search_quotes')"
