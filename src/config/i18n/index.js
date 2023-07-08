@@ -235,7 +235,7 @@ const messages = {
     data_not_added: 'ინფორმაცია არ არის დამატებული...',
     not_added_yet: 'ჯერ ფილმი არ დაგიმატებიათ...',
     no_notifications_yet: 'ჯერ არ გაქვთ შეტყობინება...',
-    enter: 'შეიყბანე',
+    enter: 'შეიყვანე',
     to_search_movies: 'ფილმების საძებნელად, ',
     to_search_quotes: 'ფრაზების საძებნელად',
     whoops: 'უფს',
