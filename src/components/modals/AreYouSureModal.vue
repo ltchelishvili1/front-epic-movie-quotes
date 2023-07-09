@@ -1,6 +1,6 @@
 <template>
   <section
-    class="fixed top-0 left-0 w-[100vw] h-[100vh] backdrop-blur-[.2rem] bg-transparent z-50 flex flex-col items-center justify-center"
+    class="absolute bottom-[50%] left-[50%] w-[100vw] h-screen -translate-x-[50%] md:translate-y-[70%]  lg:translate-y-[70%] translate-y-[50%] backdrop-blur-[.2rem] bg-transparent z-50 flex flex-col items-center justify-center"
   >
     <div class="bg-[#22203099] p-12">
       <p class="text-white p-12">{{ $t("are_you_sure_to_make_changes") }}</p>
