@@ -11,7 +11,7 @@
       @cancel="toggleIsSucessfullyUpdated"
     ></successfully-updated-modal>
     <vee-validate-form
-      class="-translate-y-[10rem] flex flex-col items-center justify-center "
+      class="-translate-y-[10rem] flex flex-col items-center justify-center"
       @submit="toggleAreYouSure"
     >
       <div
@@ -22,95 +22,97 @@
           :is-mobile="isMobile"
           @upload-image="uploadImage"
         ></update-profile-input-image>
-        <update-profile-input-wrapper
-          :is-mobile="isMobile"
-          :hide-extra-fields="hideExtraFields"
-          @display-form="displayForm('username')"
-        >
-          <update-profile-display-input
-            :title="$t('username')"
-            name="username"
-            :value="user.getUser.username"
+        <div class="lg:-translate-y-[5rem] md:-translate-y-[5rem] flex flex-col gap-12">
+          <update-profile-input-wrapper
             :is-mobile="isMobile"
-          ></update-profile-display-input>
-          <template #update-input>
-            <update-profile-input
-              v-if="display.username"
-              :title="$t('new_username')"
+            :hide-extra-fields="hideExtraFields"
+            @display-form="displayForm('username')"
+          >
+            <update-profile-display-input
+              :title="$t('username')"
               name="username"
-              :placeholder="$t('name_placeholder')"
-              rules="required|min:3|max:15"
-              :hide="hideExtraFields"
+              :value="user.getUser.username"
               :is-mobile="isMobile"
-              @set-input-value="setInputValue"
-            ></update-profile-input>
-          </template>
-        </update-profile-input-wrapper>
-        <update-profile-input-wrapper
-          :is-mobile="isMobile"
-          :hide-extra-fields="hideExtraFields"
-          :google-id="user.getUser.google_id"
-          @display-form="displayForm('email')"
-        >
-          <update-profile-display-input
-            :title="$t('mail')"
-            name="email"
-            :value="user.getUser.email"
+            ></update-profile-display-input>
+            <template #update-input>
+              <update-profile-input
+                v-if="display.username"
+                :title="$t('new_username')"
+                name="username"
+                :placeholder="$t('name_placeholder')"
+                rules="required|min:3|max:15"
+                :hide="hideExtraFields"
+                :is-mobile="isMobile"
+                @set-input-value="setInputValue"
+              ></update-profile-input>
+            </template>
+          </update-profile-input-wrapper>
+          <update-profile-input-wrapper
             :is-mobile="isMobile"
-          ></update-profile-display-input>
-          <template #update-input>
-            <p class="text-white">{{}}</p>
-            <update-profile-input
-              v-if="display.email"
-              :title="$t('new_email')"
+            :hide-extra-fields="hideExtraFields"
+            :google-id="user.getUser.google_id"
+            @display-form="displayForm('email')"
+          >
+            <update-profile-display-input
+              :title="$t('mail')"
               name="email"
-              :placeholder="$t('email_placeholder')"
-              rules="required|email"
-              :hide="hideExtraFields"
+              :value="user.getUser.email"
               :is-mobile="isMobile"
-              @set-input-value="setInputValue"
-            ></update-profile-input>
-          </template>
-        </update-profile-input-wrapper>
+            ></update-profile-display-input>
+            <template #update-input>
+              <p class="text-white">{{}}</p>
+              <update-profile-input
+                v-if="display.email"
+                :title="$t('new_email')"
+                name="email"
+                :placeholder="$t('email_placeholder')"
+                rules="required|email"
+                :hide="hideExtraFields"
+                :is-mobile="isMobile"
+                @set-input-value="setInputValue"
+              ></update-profile-input>
+            </template>
+          </update-profile-input-wrapper>
 
-        <update-profile-input-wrapper
-          :is-mobile="isMobile"
-          :hide-extra-fields="hideExtraFields"
-          :google-id="user.getUser.google_id"
-          @display-form="displayForm('password')"
-        >
-          <update-profile-display-input
-            :title="$t('password')"
-            name="password"
-            value="Password"
-            type="password"
+          <update-profile-input-wrapper
             :is-mobile="isMobile"
-          ></update-profile-display-input>
-          <template #update-input>
-            <update-profile-input
-              v-if="display.password"
-              :title="$t('new_password')"
+            :hide-extra-fields="hideExtraFields"
+            :google-id="user.getUser.google_id"
+            @display-form="displayForm('password')"
+          >
+            <update-profile-display-input
+              :title="$t('password')"
               name="password"
+              value="Password"
               type="password"
-              :placeholder="$t('password_placeholder')"
-              rules="required|min:8|max:15"
-              :hide="hideExtraFields"
               :is-mobile="isMobile"
-              @set-input-value="setInputValue"
-            ></update-profile-input>
-            <update-profile-input
-              v-if="display.password"
-              :title="$t('confirm_password')"
-              name="confirm_password"
-              type="password"
-              :placeholder="$t('password_placeholder')"
-              :rules="passwordConfirmationRules(formData.get('password'))"
-              :hide="hideExtraFields"
-              :is-mobile="isMobile"
-              @set-input-value="setInputValue"
-            ></update-profile-input>
-          </template>
-        </update-profile-input-wrapper>
+            ></update-profile-display-input>
+            <template #update-input>
+              <update-profile-input
+                v-if="display.password"
+                :title="$t('new_password')"
+                name="password"
+                type="password"
+                :placeholder="$t('password_placeholder')"
+                rules="required|min:8|max:15"
+                :hide="hideExtraFields"
+                :is-mobile="isMobile"
+                @set-input-value="setInputValue"
+              ></update-profile-input>
+              <update-profile-input
+                v-if="display.password"
+                :title="$t('confirm_password')"
+                name="confirm_password"
+                type="password"
+                :placeholder="$t('password_placeholder')"
+                :rules="passwordConfirmationRules(formData.get('password'))"
+                :hide="hideExtraFields"
+                :is-mobile="isMobile"
+                @set-input-value="setInputValue"
+              ></update-profile-input>
+            </template>
+          </update-profile-input-wrapper>
+        </div>
       </div>
 
       <p v-if="errors" class="ml-[19rem] text-red-500 ml-4">{{ errors }}</p>
@@ -255,7 +257,7 @@ export default {
         } finally {
           router.push({
             name: "edit-email-request-send",
-            query: { email: formData.value.get('email') },
+            query: { email: formData.value.get("email") },
           });
           formData.value.delete("email");
         }
