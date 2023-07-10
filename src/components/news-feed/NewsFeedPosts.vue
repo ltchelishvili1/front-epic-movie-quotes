@@ -222,6 +222,7 @@ export default {
       } finally {
         comment.value = "";
         isLoading.value.comment = false;
+        displayComments.value[quote_id + "comments"] = false;
       }
     };
 
