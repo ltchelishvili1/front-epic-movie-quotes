@@ -66,7 +66,7 @@
       >
         <span v-if="!isLoading.lOut">{{ $t("log_out") }}</span>
 
-        <load-spinner v-else classes="h-[1,9rem] w-[1.9rem]"></load-spinner>
+        <load-spinner v-else classes="h-[1.9rem] w-[1.9rem]"></load-spinner>
       </base-button>
     </div>
   </nav>
@@ -145,7 +145,6 @@ export default {
       try {
         emit("set-is-loading", "lOut", true);
         await axios.get("logout");
-        emit("set-is-loading", "lOut", false);
         userStore.setAuth(false);
         router.push({ name: "main" });
       } catch (error) {

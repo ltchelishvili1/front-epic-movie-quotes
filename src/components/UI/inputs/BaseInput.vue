@@ -22,11 +22,11 @@
 
         <icon-input-valid
           v-if="inputIsValid"
-          class="absolute left-[28.125] mt-[0.625rem]"
+          class="absolute left-[28.125rem] mt-[0.625rem]"
         ></icon-input-valid>
         <icon-input-invalid
           v-else-if="inputIsInvalid"
-          class="absolute left-[28.125] mt-[0.625rem]"
+          class="absolute left-[28.125rem] mt-[0.625rem]"
         ></icon-input-invalid>
       </div>
       <div class="mt-[0.375rem]">

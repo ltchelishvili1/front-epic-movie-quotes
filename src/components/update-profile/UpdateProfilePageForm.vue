@@ -7,9 +7,11 @@
       @update-profile="updateProfile"
     ></are-you-sure-modal>
     <successfully-updated-modal
-      v-if="isSuccesfullyUpdated"
+      v-else-if="isSuccesfullyUpdated"
       @cancel="toggleIsSucessfullyUpdated"
     ></successfully-updated-modal>
+    <div v-else>
+
     <vee-validate-form
       class="-translate-y-[10rem] flex flex-col items-center justify-center"
       @submit="toggleAreYouSure"
@@ -144,6 +146,7 @@
         </base-button>
       </div>
     </vee-validate-form>
+    </div>
   </section>
 </template>
 

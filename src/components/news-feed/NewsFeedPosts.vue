@@ -53,12 +53,12 @@
 
           <div v-if="post?.comments && post?.comments.length" class="relative">
             <div
-              v-for="(com, index) in post?.comments"
+              v-for="(com, index) in sortedComments(post?.comments)"
               :key="com.id"
               class="mb-4"
             >
               <div
-                v-if="index <= 1 || displayComments"
+                v-if="index <= 1 || displayComments[post.id + 'comments']"
                 class="flex items-center"
               >
                 <img
@@ -84,9 +84,13 @@
             <button
               v-if="post?.comments?.length > 2"
               class="text-[.75rem] absolute right-[0rem] -translate-x-[100%]"
-              @click="toggleComments"
+              @click="toggleComments(post?.id)"
             >
-              {{ !displayComments ? $t("show_more") : $t("show_less") }}
+              {{
+                !displayComments[post.id + "comments"]
+                  ? $t("show_more")
+                  : $t("show_less")
+              }}
             </button>
           </div>
 
@@ -102,6 +106,7 @@
             >
               <Field
                 id="comment"
+                v-model="comment"
                 as="textarea"
                 rules="required"
                 name="comment"
@@ -109,8 +114,6 @@
                 style="background-color: #22203099"
                 class="w-full text-white bg-transparent flex p-4 h-[5rem] rounded-lg mt-[.5rem] z-[10]"
                 :placeholder="$t('write_a_comment')"
-                :value="comment"
-                @input="setComment"
               />
               <button
                 :disabled="!meta.valid"
@@ -120,7 +123,10 @@
                 <span v-if="!isLoading.comment">
                   {{ $t("send") }}
                 </span>
-                <load-spinner v-else classes="h-[1.6rem] w-[1.6rem]"></load-spinner>
+                <load-spinner
+                  v-else
+                  classes="h-[1.6rem] w-[1.6rem]"
+                ></load-spinner>
               </button>
             </vee-validate-form>
           </div>
@@ -155,7 +161,7 @@ export default {
     },
   },
   setup() {
-    const displayComments = ref(false);
+    const displayComments = ref({});
     const comment = ref("");
     const userStore = useUserStore();
     const locale = getLocale();
@@ -188,7 +194,6 @@ export default {
             quote_id,
             quote_user_id,
           });
-
           const index = likes.findIndex((like) => like.id === likeId);
           if (index !== -1) {
             likes.splice(index, 1);
@@ -215,19 +220,19 @@ export default {
       } catch (error) {
         //
       } finally {
-        displayComments.value = true;
         comment.value = "";
         isLoading.value.comment = false;
       }
     };
 
-    const toggleComments = () => {
-      displayComments.value = !displayComments.value;
+    const toggleComments = (id) => {
+      displayComments.value[id + "comments"] =
+        !displayComments.value[id + "comments"];
     };
 
-    const setComment = (e) => {
-      comment.value = e.target.value;
-    };
+    const sortedComments = computed(() => (comments) => {
+      return comments.sort((a, b) => b.id - a.id);
+    });
 
     return {
       handleLikePost,
@@ -238,8 +243,8 @@ export default {
       comment,
       userStore,
       locale,
-      setComment,
       isLoading,
+      sortedComments,
     };
   },
 };
