@@ -1,7 +1,8 @@
 <template>
   <select
     v-model="$i18n.locale"
-    class="mt-[1.25rem] hidden lg:block md:block flex items-center justify-center p-[0.3125rem] mr-[2.5rem] h-[2.375rem] bg-transparent text-white"
+    class="mt-[1.25rem]  lg:block md:block flex items-center justify-center p-[0.3125rem] mr-[2.5rem] h-[2.375rem] bg-transparent text-white"
+    :class="classes ? classes : 'hidden'"
     @change="changeLanguage"
   >
     <option
@@ -21,6 +22,12 @@ import { computed } from "vue";
 import axios from "@/config/axios/index";
 
 export default {
+  props: {
+    classes: {
+      type: String,
+      default: "",
+    },
+  },
   setup() {
     const changeLanguage = (event) => {
       setLocale(event.target.value);

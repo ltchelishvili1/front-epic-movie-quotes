@@ -66,7 +66,7 @@ export default {
     },
   },
   emits: {
-    "upload-image": (val) => typeof val instanceof File,
+    "upload-image": (file) => typeof file === "object" && file instanceof File,
   },
 
   setup(props, { emit }) {
