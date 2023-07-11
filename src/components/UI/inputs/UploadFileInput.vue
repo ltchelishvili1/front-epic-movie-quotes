@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center  border border-[#6C757D] px-4 py-[0.625rem]"
+    class="flex items-center border border-[#6C757D] px-4 py-[0.625rem]"
     :class="image ? 'justify-between' : 'justify-start'"
     @drop.prevent="uploadImage($event.dataTransfer.files[0])"
     @dragover.prevent
@@ -8,6 +8,7 @@
     <Field
       v-if="!readOnly"
       id="image"
+      v-model="imgFile"
       name="image"
       type="file"
       :rules="rules"
@@ -70,8 +71,10 @@ export default {
 
   setup(props, { emit }) {
     const img = ref(props.image);
+    const imgFile = ref(null);
     const uploadImage = (file) => {
       emit("upload-image", file);
+      imgFile.value = file;
       const reader = new FileReader();
 
       reader.onload = () => {
@@ -88,12 +91,13 @@ export default {
       temp.click();
     };
 
-    const displayImage = computed(() => (img.value ? img.value : ""));
+    const displayImage = computed(() => (img.value ? img.value : null));
 
     return {
       uploadImage,
       displayImage,
       openFileInput,
+      imgFile,
     };
   },
 };

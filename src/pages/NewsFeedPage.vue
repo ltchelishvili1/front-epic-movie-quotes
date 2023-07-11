@@ -10,7 +10,6 @@
       <news-feed-search
         :search-key="searchKey"
         @set-search-key="setSearchKey"
-
       ></news-feed-search>
       <div v-if="posts && posts.length">
         <news-feed-posts :posts="posts"></news-feed-posts>
@@ -30,14 +29,13 @@
       </div>
       <div
         v-else
-        class=" absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]"
+        class="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%]"
       >
         <div class="flex flex-col items-center justify-center">
           <icon-not-found></icon-not-found>
           <icon-eclipse></icon-eclipse>
-          <h1 class="text-white mt-8 italic">{{ $t('data_not_added') }}</h1>
+          <h1 class="text-white mt-8 italic">{{ $t("data_not_added") }}</h1>
         </div>
-
       </div>
     </div>
     <load-spinner
@@ -124,6 +122,24 @@ export default {
       searchKey.value = localStorage.getItem("searchKey");
     }
 
+    const filterResponseData = (response) => {
+      if (response.data.posts) {
+        posts.value = response.data.posts;
+        movies.value = null;
+        quotes.value = null;
+      }
+      if (response.data.movies) {
+        movies.value = response.data.movies;
+        posts.value = null;
+        quotes.value = null;
+      }
+      if (response.data.quotes) {
+        quotes.value = response.data.quotes;
+        posts.value = null;
+        movies.value = null;
+      }
+    };
+
     const fetchSearchResult = async (search, page = 1) => {
       isLoading.value.searchResult = true;
       try {
@@ -135,21 +151,8 @@ export default {
             },
           }
         );
-        if (response.data.posts) {
-          posts.value = response.data.posts;
-          movies.value = null;
-          quotes.value = null;
-        }
-        if (response.data.movies) {
-          movies.value = response.data.movies;
-          posts.value = null;
-          quotes.value = null;
-        }
-        if (response.data.quotes) {
-          quotes.value = response.data.quotes;
-          posts.value = null;
-          movies.value = null;
-        }
+
+        filterResponseData(response);
       } catch (error) {
         //
       } finally {
@@ -179,17 +182,46 @@ export default {
       localStorage.setItem("searchKey", newValue);
     });
 
+    const filterDataForScroll = (response) => {
+      if (response.data.posts && response.data.posts.length) {
+        response.data.posts.forEach((post) => {
+          posts.value.push(post);
+        });
+
+        page.value.posts++;
+      } else if (response.data.movies && response.data.movies.length) {
+        response.data.movies.forEach((movie) => {
+          movies.value.push(movie);
+        });
+
+        page.value.movies++;
+      } else if (response.data.quotes && response.data.quotes.length) {
+        response.data.quotes.forEach((movie) => {
+          quotes.value.push(movie);
+        });
+
+        page.value.quotes++;
+      } else {
+        window.removeEventListener("scroll", handleScroll);
+        isEventListenerAdded = false;
+        return;
+      }
+    };
+
+    const setPaginationPage = () => {
+      return searchKey.value.trim()[0] === "@"
+        ? page.value.movies
+        : searchKey.value.trim()[0] === "#"
+        ? page.value.quotes
+        : page.value.posts;
+    };
+
     const handleScroll = async () => {
       if (
         window.scrollY + window.innerHeight + 1 >=
         document.body.scrollHeight
       ) {
-        const paginationPage =
-          searchKey.value.trim()[0] === "@"
-            ? page.value.movies
-            : searchKey.value.trim()[0] === "#"
-            ? page.value.quotes
-            : page.value.posts;
+        const paginationPage = setPaginationPage();
 
         isLoading.value.pagination = true;
         try {
@@ -204,29 +236,7 @@ export default {
             }
           );
 
-          if (response.data.posts && response.data.posts.length) {
-            response.data.posts.forEach((post) => {
-              posts.value.push(post);
-            });
-
-            page.value.posts++;
-          } else if (response.data.movies && response.data.movies.length) {
-            response.data.movies.forEach((movie) => {
-              movies.value.push(movie);
-            });
-
-            page.value.movies++;
-          } else if (response.data.quotes && response.data.quotes.length) {
-            response.data.quotes.forEach((movie) => {
-              quotes.value.push(movie);
-            });
-
-            page.value.quotes++;
-          } else {
-            window.removeEventListener("scroll", handleScroll);
-            isEventListenerAdded = false;
-            return;
-          }
+          filterDataForScroll(response);
         } catch (error) {
           //
         } finally {
@@ -246,8 +256,6 @@ export default {
       window.removeEventListener("scroll", handleScroll);
       isEventListenerAdded = false;
     });
-
-
 
     onMounted(() => {
       fetchSearchResult(searchKey.value);
