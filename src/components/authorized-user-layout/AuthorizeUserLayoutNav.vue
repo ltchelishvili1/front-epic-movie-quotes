@@ -44,30 +44,29 @@
         class="absolute top-[5rem] md:w-[50%] lg:w-[50%] w-full right-[5%] left-[0rem] rounded-lg md:left-auto lg:left-auto z-[100] bg-[#11101A] opacity-100"
       >
         <div v-if="notifications.length">
-            <authorized-user-layout-notification-card
-          :is-loading="isLoading"
-          :notifications="notifications"
-        ></authorized-user-layout-notification-card>
+          <authorized-user-layout-notification-card
+            :is-loading="isLoading"
+            :notifications="notifications"
+          ></authorized-user-layout-notification-card>
         </div>
         <div v-else>
-            <div class="flex flex-col items-center justify-center p-20">
-          <icon-not-found></icon-not-found>
-          <icon-eclipse></icon-eclipse>
-          <h1 class="text-white mt-8 italic">{{ $t('no_notifications_yet') }}</h1>
-        </div>
+          <div class="flex flex-col items-center justify-center p-20">
+            <icon-not-found></icon-not-found>
+            <icon-eclipse></icon-eclipse>
+            <h1 class="text-white mt-8 italic">
+              {{ $t("no_notifications_yet") }}
+            </h1>
+          </div>
         </div>
       </div>
 
-      <language-switch class="mb-[1.25rem]"></language-switch>
-      <base-button
-        button-class="google"
-        class="mb-[1.1rem] hidden md:block lg:block"
-        @click="logOutUser"
-      >
-        <span v-if="!isLoading.lOut">{{ $t("log_out") }}</span>
-
-        <load-spinner v-else classes="h-[1.9rem] w-[1.9rem]"></load-spinner>
-      </base-button>
+      <language-switch
+        :classes="'block absolute md:static lg:static mb-[1.25rem] right-[6rem]'"
+      ></language-switch>
+      <log-out-user
+        :is-loading="isLoading"
+        @set-is-loading="setIsLoading"
+      ></log-out-user>
     </div>
   </nav>
 </template>
@@ -83,10 +82,8 @@ import IconNotification from "@/components/icons/IconNotification.vue";
 import AuthorizedUserLayoutNotificationCard from "@/components/authorized-user-layout/AuthorizedUserLayoutNotificationCard.vue";
 import LanguageSwitch from "@/components/LanguageSwitch.vue";
 import LoadSpinner from "@/components/LoadSpinner.vue";
-import BaseButton from "@/components/UI/inputs/BaseButton.vue";
 import { useRouter } from "vue-router";
-import axios from "@/config/axios/index";
-import { useUserStore } from "@/stores/user/index";
+import LogOutUser from "@/components/LogOutUser.vue";
 
 export default {
   components: {
@@ -96,9 +93,9 @@ export default {
     AuthorizedUserLayoutNotificationCard,
     LanguageSwitch,
     LoadSpinner,
-    BaseButton,
     IconEclipse,
-    IconNotFound
+    IconNotFound,
+    LogOutUser,
   },
   props: {
     displayNewNotificationsLength: {
@@ -117,12 +114,11 @@ export default {
   emits: {
     "toggle-navbar": null,
     "set-is-loading": (type, bool) =>
-      typeof type === "string" && typeof bool == Boolean,
+      typeof type === "string" && typeof bool === "boolean",
   },
   setup(_, { emit }) {
     const router = useRouter();
     const isNotificationsOpen = ref(false);
-    const userStore = useUserStore();
     const toggleNavbar = () => {
       emit("toggle-navbar");
     };
@@ -140,16 +136,8 @@ export default {
       isNotificationsOpen.value = !isNotificationsOpen.value;
     };
 
-    const logOutUser = async () => {
-      localStorage.clear()
-      try {
-        emit("set-is-loading", "lOut", true);
-        await axios.get("logout");
-        userStore.setAuth(false);
-        router.push({ name: "main" });
-      } catch (error) {
-        throw new Error(error);
-      }
+    const setIsLoading = (type, bool) => {
+      emit("set-is-loading", type, bool);
     };
 
     return {
@@ -157,7 +145,7 @@ export default {
       openSearch,
       openNotifications,
       isNotificationsOpen,
-      logOutUser,
+      setIsLoading,
     };
   },
 };

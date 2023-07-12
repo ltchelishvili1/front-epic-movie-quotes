@@ -35,7 +35,14 @@
         class="text-white text-2xl ml-[2rem]"
         >{{ $t("list_of_movies") }}</router-link
       >
+
     </div>
+
+    <div class="flex iems-center mt-[2.5rem]">
+      <log-out-user mobile :is-loading="isLoading" @set-is-loading="setIsLoading"></log-out-user>
+    
+    </div>
+
   </div>
 </template>
 
@@ -44,6 +51,8 @@ import { displayImage } from "@/config/helpers";
 import IconNewsFeed from "@/components/icons/IconNewsFeed.vue";
 import IconListOfMovies from "@/components/icons/IconListOfMovies.vue";
 import { useUserStore } from "@/stores/user/index";
+import LogOutUser from '@/components/LogOutUser.vue';
+
 
 import { computed } from "vue";
 import { useRoute } from "vue-router";
@@ -52,14 +61,23 @@ export default {
   components: {
     IconNewsFeed,
     IconListOfMovies,
+    LogOutUser
   },
   props: {
     displayScreenNavbar: {
       type: Boolean,
       default: false,
     },
+    isLoading: {
+      type: Object,
+      default: () => {},
+    },
   },
-  setup() {
+  emits: {
+    "set-is-loading": (type, bool) =>
+      typeof type === "string" && typeof bool == Boolean,
+  },
+  setup(_,{emit}) {
     const route = useRoute();
     const userStore = useUserStore();
     const displayUsername = computed(() => userStore.getUser?.username);
@@ -68,10 +86,17 @@ export default {
       () => (name) => route.fullPath.includes(name) ? "#E31221" : "white"
     );
 
+
+    const setIsLoading = (type, bool) => {
+      emit("set-is-loading", type, bool);
+    }
+
+
     return {
       displayImage,
       username: displayUsername,
       displayIconBackground,
+      setIsLoading
     };
   },
 };

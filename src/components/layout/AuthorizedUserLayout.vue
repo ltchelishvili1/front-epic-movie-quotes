@@ -12,6 +12,8 @@
       <div class="flex">
         <authorized-user-layout-side-bar
           :display-screen-navbar="displayScreenNavbar"
+          :is-loading="isLoading"
+          @set-is-loading="setIsLoading"
         ></authorized-user-layout-side-bar>
         <div
           class="flex grow flex-col md:mx-[10%] lg:mx-[10%] mt-[1.9rem]"

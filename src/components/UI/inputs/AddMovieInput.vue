@@ -17,7 +17,7 @@
         />
         <p
           v-if="value && !isQuote"
-          class="absolute text-white w-[12.5rem] p-4 mt-[.5rem]"
+          class="absolute text-white w-[12.5rem] p-4 mt-[.5rem] opacity-50"
         >
           {{ prefix }}
         </p>
