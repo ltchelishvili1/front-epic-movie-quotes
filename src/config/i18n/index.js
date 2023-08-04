@@ -123,7 +123,11 @@ const messages = {
     request_another_link: 'Request another link',
     press_enter: 'Press enter',
     mark_as_all_read: 'Mark as all read',
-    notificaions: 'Notifications'
+    notificaions: 'Notifications',
+    likes_received: 'Likes Received',
+    comments_received: 'Comments Received',
+    movies: 'Movies',
+    quotes: 'Quotes'
 
 
   },
@@ -247,7 +251,11 @@ const messages = {
     request_another_link: 'ლინკის მიღება',
     press_enter: 'დააჭირე ენტერს ',
      mark_as_all_read: 'ყველას წაკითხულად მონიშვნა',
-    notificaions: 'შეტყობინებები'
+    notificaions: 'შეტყობინებები',
+    likes_received: 'მიღებული ლაიქები',
+    comments_received: 'მიღებული კომენტარები',
+    movies: 'ფილმები',
+    quotes: 'ფრაზები'
 
   },
 };

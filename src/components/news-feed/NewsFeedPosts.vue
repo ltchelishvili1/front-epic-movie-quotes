@@ -7,10 +7,15 @@
     >
       <div class="flex items-center">
         <img
-          class="mr-[1.25rem] w-[3.75rem] h-[3.75rem] rounded-full border-2 border-solid border-[#E31221]"
+          class="mr-[1.25rem] w-[3.75rem] h-[3.75rem] rounded-full border-2 border-solid border-[#E31221] cursor-pointer"
           :src="post?.user?.thumbnail"
+          @click="navigateToUserProfile(post?.user?.id)"
         />
-        <p class="text-white ml-4 text-[1.25rem]">{{ post?.user?.username }}</p>
+        <a
+          class="text-white ml-4 text-[1.25rem] cursor-pointer"
+          @click="navigateToUserProfile(post?.user?.id)"
+          >{{ post?.user?.username }}</a
+        >
       </div>
       <div>
         <p class="text-white py-4">
@@ -62,11 +67,15 @@
                 class="flex items-center"
               >
                 <img
-                  class="w-[3.25rem] h-[3.25rem] rounded-full lg:mx-6 md:mx-6 mx-2"
+                  class="w-[3.25rem] h-[3.25rem] rounded-full lg:mx-6 md:mx-6 mx-2 cursor-pointer"
                   :src="com?.user?.thumbnail"
+                  @click="navigateToUserProfile(com?.user?.id)"
                 />
                 <div class="w-[80%] mt-[2.3rem] ml-[1.25rem]">
-                  <p class="text-white text-[1.25rem]">
+                  <p
+                    class="text-white text-[1.25rem] cursor-pointer"
+                    @click="navigateToUserProfile(com?.user?.id)"
+                  >
                     {{ com?.user?.username }}
                   </p>
                   <p
@@ -145,6 +154,7 @@ import IconLikes from "@/components/icons/IconLikes.vue";
 import IconComments from "@/components/icons/IconComments.vue";
 import { getLocale } from "@/config/helpers/index";
 import LoadSpinner from "@/components/LoadSpinner.vue";
+import { useRouter } from "vue-router";
 
 export default {
   components: {
@@ -163,6 +173,7 @@ export default {
   setup() {
     const displayComments = ref({});
     const comment = ref("");
+    const router = useRouter();
     const userStore = useUserStore();
     const locale = getLocale();
     const isLoading = ref({
@@ -235,6 +246,10 @@ export default {
       return comments.sort((a, b) => b.id - a.id);
     });
 
+    const navigateToUserProfile = (userId) => {
+      router.push({ name: "view-profile", params: { userId } });
+    };
+
     return {
       handleLikePost,
       hasUserLikedPost,
@@ -246,6 +261,7 @@ export default {
       locale,
       isLoading,
       sortedComments,
+      navigateToUserProfile,
     };
   },
 };
