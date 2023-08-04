@@ -121,7 +121,9 @@ const messages = {
     link_expired: 'Link Expired',
     link_has_expired: 'Login link has expired, because you haven’t used it',
     request_another_link: 'Request another link',
-    press_enter: 'Press enter'
+    press_enter: 'Press enter',
+    mark_as_all_read: 'Mark as all read',
+    notificaions: 'Notifications'
 
 
   },
@@ -243,7 +245,9 @@ const messages = {
     link_expired: 'ლინკი ვადაგასულია',
     link_has_expired: 'გამოუყენებლობისგან ლინკი ვადაგასულია',
     request_another_link: 'ლინკის მიღება',
-    press_enter: 'დააჭირე ენტერს '
+    press_enter: 'დააჭირე ენტერს ',
+     mark_as_all_read: 'ყველას წაკითხულად მონიშვნა',
+    notificaions: 'შეტყობინებები'
 
   },
 };
