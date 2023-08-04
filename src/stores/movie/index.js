@@ -11,7 +11,7 @@ export const useMovieStore = defineStore({
     quote: null,
     posts: null,
     errors: null,
-    searchResult: null
+    searchResult: null,
   }),
   actions: {
     async fetchMovie(id) {
@@ -23,9 +23,12 @@ export const useMovieStore = defineStore({
       }
     },
     async fetchMovies() {
+      const userStore = useUserStore();
       try {
         const response = await axios.get("movies");
-        this.movies = response.data.movies;
+        this.movies = response.data.movies.filter(
+          (movie) => movie.author_id === userStore.getUser.id
+        );
         if (response.status !== 200) {
           throw new Error("Request failed with status " + response.status);
         }
@@ -58,7 +61,9 @@ export const useMovieStore = defineStore({
           .filter((movie) => movie.author_id == 1)
           .filter(
             (movie) =>
-              movie.title.en.includes(searchVal) ||
+              movie.title.en
+                .toLocaleLowerCase()
+                .includes(searchVal.toLocaleLowerCase()) ||
               movie.title.ka.includes(searchVal)
           );
     },
