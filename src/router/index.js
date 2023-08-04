@@ -20,6 +20,7 @@ import EditQuoteModal from "@/components/modals/EditQuoteModal.vue";
 import ViewQuoteModal from "@/components/modals/ViewQuoteModal.vue";
 import NotAuthorizedPage from "@/pages/errors/NotAuthorizedPage.vue";
 import NotFoundPage from "@/pages/errors/NotFoundPage.vue";
+import ViewProfilePage from '@/pages/ViewProfilePage.vue'
 
 import {
   authenticateUser,
@@ -116,6 +117,12 @@ const router = createRouter({
       ],
     },
     {
+      path: "/view-profile/:userId",
+      name: "view-profile",
+      component: ViewProfilePage,
+      beforeEnter: authenticateUser,
+    },
+    {
       path: "/not-authorized",
       name: "not-authorized",
       component: NotAuthorizedPage,
@@ -146,12 +153,6 @@ const router = createRouter({
           component: EditMovieModal,
           beforeEnter: authenticateUser,
         },
-        // {
-        //   path: "add-quote",
-        //   name: "add-quote",
-        //   component: AddQuoteModal,
-        //   beforeEnter: authenticateUser,
-        // }
       ],
     },
 

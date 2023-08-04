@@ -18,7 +18,7 @@ export const handleGoogleAuth = async () => {
 export const authUser = async (userStore) => {
   if (userStore.authenticated === null) {
     try {
-      const response = await axios.get("user");
+      const response = await axios.get("auth-user");
       userStore.authenticated = true;
       userStore.setUser(response.data.user);
     } catch (err) {
